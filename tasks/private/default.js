@@ -24,7 +24,6 @@ module.exports = function defaultTasks(gulp) {
       "coverage_stats",
       "docs",
       "metadata",
-      "package",
       cb);
   });
 };

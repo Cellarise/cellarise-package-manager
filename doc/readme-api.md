@@ -121,6 +121,9 @@
 <dt><a href="#module_tasks/postBuild">tasks/postBuild</a></dt>
 <dd><p>A module to add gulp tasks which runs post build verification tests</p>
 </dd>
+<dt><a href="#module_tasks/publishTasks">tasks/publishTasks</a></dt>
+<dd><p>A module to add a gulp task which executes publish tasks.</p>
+</dd>
 <dt><a href="#module_tasks/scaffoldTasks">tasks/scaffoldTasks</a></dt>
 <dd><p>A module to add gulp tasks which currently update development dependencies but in future could provide further
 scaffolding.</p>
@@ -660,7 +663,6 @@ Execute update task on all projects matching specified criteria.
 Auto update runs a simple workflow for all projects in JIRA matching a specified criteria.
 
 Projects in JIRA are expected to conform to a naming convention which consists of a git repository namespace and repository name: /
-
 
 ```
 
@@ -2070,6 +2072,34 @@ A module to add gulp tasks which runs post build verification tests
 | context.package | <code>Object</code> | The package.json for the module |
 | context.argv | <code>Array</code> | The arguments past to the gulp task |
 | context.logger | <code>bunyan</code> | A logger matching the bunyan API |
+
+
+-
+
+<a name="module_tasks/publishTasks"></a>
+### tasks/publishTasks
+A module to add a gulp task which executes publish tasks.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| gulp | <code>Gulp</code> | The gulp module |
+
+
+-
+
+<a name="module_tasks/publishTasks..all"></a>
+#### `tasks/publishTasks~all` : <code>Gulp</code>
+A gulp build task to run all build tasks for a module.
+The following tasks are executed in sequence:
+['code_analysis', 'test_cover', 'coverage_stats', 'license', 'docs', 'metadata', 'package']
+The sequence works by piping each task to the next.
+
+**Kind**: inner property of <code>[tasks/publishTasks](#module_tasks/publishTasks)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| cb | <code>function</code> | callback |
 
 
 -

@@ -25,9 +25,8 @@ module.exports = function scaffoldTasks(gulp, context) {
       path.join(__dirname, "../..") + "/.editorconfig",
       path.join(__dirname, "../..") + "/.eslintignore",
       path.join(__dirname, "../..") + "/.eslintrc",
-      //path.join(__dirname, "../..") + "/.gitignore",
       path.join(__dirname, "../..") + "/.npmignore",
-      path.join(__dirname, "../..") + "/.travis.yml",
+      path.join(__dirname, "../templates") + "/.travis.yml",
       path.join(__dirname, "../..") + "/gulpfile.js",
       path.join(__dirname, "../..") + "/Test/.eslintrc",
       path.join(__dirname, "../..") + "/Test/test.js",
@@ -38,6 +37,9 @@ module.exports = function scaffoldTasks(gulp, context) {
       "!" + path.join(__dirname, "../..") + "/tasks/private",
       "!" + path.join(__dirname, "../..") + "/tasks/templates"
     ];
+    if (!pkg.config.hasOwnProperty('private')) {
+      source.pop(path.join(__dirname, "../templates") + "/.gitignore");
+    }
     source = _.map(source, function normaliseSlashes(dir) {
       return dir.replace(/\\/g, "/");
     });

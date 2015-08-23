@@ -15,6 +15,13 @@
 <tr>
             <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10419&amp;avatarType=issuetype"/></td>
             <td style="width:80px;text-align:left;">Non-functional</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-88</td>
+            <td><p>Package: Update dependencies</p><p></p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10419&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Non-functional</td>
             <td style="width:80px;text-align:left;">MDBLDGEN-87</td>
             <td><p>Package: Update dependencies</p><p></p></td>
           </tr>
@@ -26,7 +33,7 @@
             <td><p>Package: Update development dependencies</p><p></p></td>
           </tr>
         
-    
+
 <tr>
         <td colspan=4><strong>Version: 0.4.0 - released 2015-05-21</strong></td>
       </tr>
@@ -187,7 +194,7 @@ So that I can efficiently perform blackbox and UAT testing and provide UAT docum
             <td><p>Package: Update package dependencies</p><p></p></td>
           </tr>
         
-    
+
 <tr>
         <td colspan=4><strong>Version: 0.3.0 - released 2014-11-16</strong></td>
       </tr>
@@ -350,7 +357,7 @@ I can execute git fetch --all and git reset --hard in sequence
 So that I can force Overwrite of Untracked Working Tree Files</p></td>
           </tr>
         
-    
+
 <tr>
         <td colspan=4><strong>Version: 0.2.0 - released 2014-10-06</strong></td>
       </tr>
@@ -392,14 +399,5 @@ So that I can efficiently maintain my test features</p></td>
             <td><p>Node: Update node, python and visual studio on CI server</p><p></p></td>
           </tr>
         
-<tr>
-            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10411&amp;avatarType=issuetype"/></td>
-            <td style="width:80px;text-align:left;">Feature</td>
-            <td style="width:80px;text-align:left;">MDBLDGEN-39</td>
-            <td><p>Scripts: Add Git scripts</p><p>As a developer
-I can execute Git scripts through the SH shell
-So that I can perform Git operations from my IDE and Bamboo</p></td>
-          </tr>
-        
-    
+
 </table>

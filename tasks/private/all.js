@@ -19,6 +19,7 @@ module.exports = function allTasks(gulp) {
   gulp.task("all", function all(cb) {
     runSequence(
       "code_analysis",
+      "step_sync",
       "test_cover",
       "coverage_stats",
       "docs",
@@ -37,6 +38,7 @@ module.exports = function allTasks(gulp) {
   gulp.task("all_product", function allProduct(cb) {
     runSequence(
       "code_analysis",
+      "step_sync",
       "webpackTest",
       "test_cover",
       "coverage_stats",
