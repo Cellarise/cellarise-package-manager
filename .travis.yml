@@ -1,10 +1,6 @@
 language: node_js
-before_install:
-  - sudo pip install Django
 node_js:
   - "0.12"
-python:
-  - "2.7"
 before_script:
   - npm install -g codeclimate-test-reporter
 after_script:

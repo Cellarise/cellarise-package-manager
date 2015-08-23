@@ -10,9 +10,17 @@ module.exports = (function testSuite() {
     /*Scenario: Package build files for deployment */
     .define("Then the expected build package is produced", function test(done) {
       assert.equal(
-        fs.readFileSync(path.join(process.cwd(), "Test_Resources", "README.md")).toString(),
-        fs.readFileSync(path.join(process.cwd(), this.world.dir, "Build", "README.md")).toString());
-
+        fs.readFileSync(path.join(this.world.dir, "README.md")).toString(),
+        fs.readFileSync(path.join(this.world.dir, "Build", "README.md")).toString());
+      assert.equal(
+        fs.readFileSync(path.join(this.world.dir, "lib/index.js")).toString(),
+        fs.readFileSync(path.join(this.world.dir, "Build", "lib/index.js")).toString());
+      assert.equal(
+        fs.readFileSync(path.join(this.world.dir, "tasks/default.js")).toString(),
+        fs.readFileSync(path.join(this.world.dir, "Build", "tasks/default.js")).toString());
+      assert.equal(
+        fs.readFileSync(path.join(this.world.dir, "Test/test.js")).toString(),
+        fs.readFileSync(path.join(this.world.dir, "Build", "Test/test.js")).toString());
       done();
     });
 })();
