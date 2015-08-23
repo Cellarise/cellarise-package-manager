@@ -1,7 +1,6 @@
-IF EXIST ./Release/.git GOTO GITEXISTS
+IF EXIST ./.git GOTO GITEXISTS
 git clone "%bamboo_planRepository_repositoryUrl%" Release
 :GITEXISTS
-cd Release
 git checkout master
 git checkout -b "release/%bamboo_jira_version%"
 git tag -a "v%bamboo_jira_version%" -m "Release v%bamboo_jira_version%"

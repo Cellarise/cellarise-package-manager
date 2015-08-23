@@ -1,4 +1,3 @@
-cd Build
 git rm . -r --cached
 git add .
 git status
