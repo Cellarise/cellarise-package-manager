@@ -25,7 +25,7 @@ module.exports = function scaffoldTasks(gulp, context) {
       path.join(__dirname, "../..") + "/.editorconfig",
       path.join(__dirname, "../..") + "/.eslintignore",
       path.join(__dirname, "../..") + "/.eslintrc",
-      path.join(__dirname, "../..") + "/.gitignore",
+      //path.join(__dirname, "../..") + "/.gitignore",
       path.join(__dirname, "../..") + "/.npmignore",
       path.join(__dirname, "../..") + "/.travis.yml",
       path.join(__dirname, "../..") + "/gulpfile.js",
