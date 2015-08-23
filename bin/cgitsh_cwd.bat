@@ -1,0 +1,1 @@
+sh -l -c 'cd %2; export CHERE_INVOKING=1; exec sh --login - "%~dp0git\%1.sh" "%3"'

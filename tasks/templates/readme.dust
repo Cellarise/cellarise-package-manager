@@ -1,0 +1,24 @@
+# {name}
+[![view on npm](http://img.shields.io/npm/v/{name}.svg?style=flat)](https://www.npmjs.org/package/{name})
+[![npm module downloads per month](http://img.shields.io/npm/dm/{name}.svg?style=flat)](https://www.npmjs.org/package/{name})
+[![Dependency status](https://david-dm.org/Cellarise/{name}.svg?style=flat)](https://david-dm.org/Cellarise/{name})
+[![Build Status](https://travis-ci.org/Cellarise/gulp-async-func-runner.svg?branch=master)](https://travis-ci.org/Cellarise/{name})
+{#config.codeClimate}[![Code Climate](https://codeclimate.com/repos/{config.codeClimate.repos}/badges/{config.codeClimate.badges}/gpa.svg)](https://codeclimate.com/repos/{config.codeClimate.repos}/feed)
+[![Test Coverage](https://codeclimate.com/repos/{config.codeClimate.repos}/badges/{config.codeClimate.badges}/coverage.svg)](https://codeclimate.com/repos/{config.codeClimate.repos}/coverage)
+{:else}[![Test Coverage](https://img.shields.io/badge/coverage -{config.coverage.stats.overall.pct}%25_skipped:{config.coverage.stats.skipped.pct}%25-{config.coverage.stats.overall.colour}.svg?style=flat)](https://www.npmjs.org/package/{name})
+{/config.codeClimate}
+
+
+> {description}
+
+
+{>readme-usage/}
+
+
+{>readme-api/}
+
+
+{>readme-changelog/}
+
+
+{>readme-license/}

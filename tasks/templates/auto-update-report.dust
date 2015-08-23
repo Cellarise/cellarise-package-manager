@@ -1,0 +1,58 @@
+<html>
+<body>
+<style>
+  .true, .updateCheckfalse {
+    background-image: url('https://bamboo.cellarise.com/images/iconsv4/icon-build-successful.png')
+  }
+
+  .false, .updateChecktrue {
+    background-image: url('https://bamboo.cellarise.com/images/iconsv4/icon-build-failed.png')
+  }
+
+  span {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-image: url('https://bamboo.cellarise.com/images/iconsv4/icon-build-unknown.png')
+  }
+</style>
+<table style="width:100%;border-spacing:0px;border-collapse:collapse;margin:0px;padding:0px;border-width:0px;">
+  <tr>
+    <th style="width:20px;text-align:center;"></th>
+    <th style="width:80px;text-align:left;">Key</th>
+    <th style="width:120px;text-align:left;">Project</th>
+    <th style="width:80px;text-align:left;">NPM Version</th>
+    <th style="width:80px;text-align:left;">NPM Downloads</th>
+    <th style="width:80px;text-align:left;">Dependency</th>
+    <th style="width:80px;text-align:left;">Up to date</th>
+    <th style="width:80px;text-align:left;">JIRA Issue</th>
+    <th style="width:80px;text-align:left;">Test Build</th>
+    <th style="width:80px;text-align:left;">Release version</th>
+    <th style="width:80px;text-align:left;">Unresolved</th>
+    <th style="width:80px;text-align:left;">Release Build</th>
+  </tr>
+    {#projects}
+      <tr>
+        <td style="width:20px;text-align:center;"><img src='{project.avatarUrls.small|s}'/></td>
+        <td style="width:80px;text-align:left;">{project.key}</td>
+        <td style="width:120px;text-align:left;">{project.name}</td>
+        <td style="width:80px;text-align:left;"><a href="https://www.npmjs.org/package/{project.shortName}"><img
+                src='http://img.shields.io/npm/v/{project.shortName}.svg?style=flat'/></a></td>
+        <td style="width:80px;text-align:left;"><a href="https://www.npmjs.org/package/{project.shortName}"><img
+                src='http://img.shields.io/npm/dm/{project.shortName}.svg?style=flat'/></a></td>
+        <td style="width:80px;text-align:left;"><a href="https://david-dm.org/Cellarise/{project.shortName}"><img
+                src='https://david-dm.org/Cellarise/{project.shortName}.svg?style=flat'/></a></td>
+        <td style="width:80px;text-align:left;"><span class='updateCheck{updateCheck}'></span></td>
+        <td style="width:80px;text-align:left;">{updateSourceJiraIssue.key}</td>
+        <td style="width:80px;text-align:left;"><span
+                class='{bambooTest.successful}'></span>{bambooTest.buildNumber} - {bambooTest.buildState}</td>
+        <td style="width:80px;text-align:left;">{releasedVersion.name}</td>
+        <td style="width:80px;text-align:left;">{releasedVersion.issuesUnresolvedCount}</td>
+        <td style="width:80px;text-align:left;"><span
+                class='{bambooRelease.successful}'></span>{bambooRelease.buildNumber} - {bambooRelease.buildState}
+        </td>
+      </tr>
+    {/projects}
+</table>
+</body>
+</html>

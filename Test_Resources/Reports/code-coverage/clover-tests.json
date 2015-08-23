@@ -1,0 +1,21 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2014-10-10T02:33:23.006Z",
+    "end": "2014-10-10T02:33:23.007Z",
+    "duration": 1
+  },
+  "failures": [],
+  "passes": [
+    {
+      "title": "Coverage: index.js",
+      "fullTitle": "Coverage: C:\\Atlassian\\NPM\\cellarise-package-manager\\Test_Resources\\lib\\index.js",
+      "duration": 0
+    }
+  ],
+  "skipped": []
+}

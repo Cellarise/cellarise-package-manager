@@ -1,0 +1,71 @@
+{
+  "stats": {
+    "suites": 11,
+    "tests": 11,
+    "passes": 11,
+    "pending": 0,
+    "failures": 0,
+    "start": "2015-08-23T03:53:33.346Z",
+    "end": "2015-08-23T03:53:33.346Z",
+    "duration": 0
+  },
+  "failures": [],
+  "passes": [
+    {
+      "title": "index.js",
+      "fullTitle": "C:\\Atlassian\\NPM\\cellarise-package-manager\\TESTCODE\\lib\\index.js",
+      "duration": 0
+    },
+    {
+      "title": "coverageStats.js",
+      "fullTitle": "C:\\Atlassian\\NPM\\cellarise-package-manager\\TESTCODE\\tasks\\lib\\coverageStats.js",
+      "duration": 0
+    },
+    {
+      "title": "codeAnalysis.js",
+      "fullTitle": "C:\\Atlassian\\NPM\\cellarise-package-manager\\TESTCODE\\tasks\\codeAnalysis.js",
+      "duration": 0
+    },
+    {
+      "title": "coverageStats.js",
+      "fullTitle": "C:\\Atlassian\\NPM\\cellarise-package-manager\\TESTCODE\\tasks\\coverageStats.js",
+      "duration": 0
+    },
+    {
+      "title": "default.js",
+      "fullTitle": "C:\\Atlassian\\NPM\\cellarise-package-manager\\TESTCODE\\tasks\\default.js",
+      "duration": 0
+    },
+    {
+      "title": "test.js",
+      "fullTitle": "C:\\Atlassian\\NPM\\cellarise-package-manager\\TESTCODE\\tasks\\test.js",
+      "duration": 0
+    },
+    {
+      "title": "test.js",
+      "fullTitle": "C:\\Atlassian\\NPM\\cellarise-package-manager\\TESTCODE\\Test\\test.js",
+      "duration": 0
+    },
+    {
+      "title": "testUtils.js",
+      "fullTitle": "C:\\Atlassian\\NPM\\cellarise-package-manager\\TESTCODE\\Test\\testUtils.js",
+      "duration": 0
+    },
+    {
+      "title": "Feature2-MDTEST-117-steps.js",
+      "fullTitle": "C:\\Atlassian\\NPM\\cellarise-package-manager\\TESTCODE\\Test\\functional\\Feature2-MDTEST-117-steps.js",
+      "duration": 0
+    },
+    {
+      "title": "Feature3-MDTEST-118-steps.js",
+      "fullTitle": "C:\\Atlassian\\NPM\\cellarise-package-manager\\TESTCODE\\Test\\functional\\Feature3-MDTEST-118-steps.js",
+      "duration": 0
+    },
+    {
+      "title": "Initial setup-MDTEST-1-steps.js",
+      "fullTitle": "C:\\Atlassian\\NPM\\cellarise-package-manager\\TESTCODE\\Test\\functional\\Initial setup-MDTEST-1-steps.js",
+      "duration": 0
+    }
+  ],
+  "skipped": []
+}

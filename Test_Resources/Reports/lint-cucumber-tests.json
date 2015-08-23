@@ -1,0 +1,278 @@
+[
+  {
+    "id": "Eslint-code-analysis-feature",
+    "uri": "features/Eslint-code-analysis.feature",
+    "keyword": "feature",
+    "name": "Eslint code analysis",
+    "line": 1,
+    "description": "As a developer\nI want to ensure Eslint code analysis standards are met\nSo that my code is conformant with technical standards designed to ensure consistency and readability",
+    "elements": [
+      {
+        "id": "index.js",
+        "keyword": "Scenario",
+        "name": "index.js",
+        "line": 3,
+        "description": "c:\\Atlassian\\NPM\\cellarise-package-manager\\TESTCODE\\lib\\index.js",
+        "type": "scenario",
+        "steps": [
+          {
+            "result": {
+              "duration": 0,
+              "status": "passed"
+            },
+            "name": "a Javascript file and the repositories default ESLint configuration file",
+            "keyword": "Given ",
+            "line": 4
+          },
+          {
+            "result": {
+              "duration": 0,
+              "status": "passed"
+            },
+            "name": "analysed using ESLint",
+            "keyword": "When ",
+            "line": 5
+          },
+          {
+            "result": {
+              "duration": 0,
+              "status": "failed",
+              "error_message": "Error (valid-jsdoc): [line:4,col:0] - Missing JSDoc parameter type for 'opts'.\nError (valid-jsdoc): [line:4,col:0] - Missing JSDoc return description.\nWarning (func-names): [line:13,col:17] - Missing function expression name.\nError (eol-last): [line:15,col:1] - Newline required at end of file but not found.\n"
+            },
+            "name": "the file should meet the defined coding standards",
+            "keyword": "Then ",
+            "line": 6
+          }
+        ]
+      },
+      {
+        "id": "default.js",
+        "keyword": "Scenario",
+        "name": "default.js",
+        "line": 3,
+        "description": "c:\\Atlassian\\NPM\\cellarise-package-manager\\TESTCODE\\tasks\\default.js",
+        "type": "scenario",
+        "steps": [
+          {
+            "result": {
+              "duration": 0,
+              "status": "passed"
+            },
+            "name": "a Javascript file and the repositories default ESLint configuration file",
+            "keyword": "Given ",
+            "line": 4
+          },
+          {
+            "result": {
+              "duration": 0,
+              "status": "passed"
+            },
+            "name": "analysed using ESLint",
+            "keyword": "When ",
+            "line": 5
+          },
+          {
+            "result": {
+              "duration": 0,
+              "status": "failed",
+              "error_message": "Error (valid-jsdoc): [line:1,col:0] - JSDoc syntax error.\nError (global-strict): [line:6,col:0] - Use the global form of \"use strict\".\nWarning (func-names): [line:6,col:17] - Missing function expression name.\nWarning (func-names): [line:10,col:25] - Missing function expression name.\n"
+            },
+            "name": "the file should meet the defined coding standards",
+            "keyword": "Then ",
+            "line": 6
+          }
+        ]
+      },
+      {
+        "id": "test.js",
+        "keyword": "Scenario",
+        "name": "test.js",
+        "line": 3,
+        "description": "c:\\Atlassian\\NPM\\cellarise-package-manager\\TESTCODE\\tasks\\test.js",
+        "type": "scenario",
+        "steps": [
+          {
+            "result": {
+              "duration": 0,
+              "status": "passed"
+            },
+            "name": "a Javascript file and the repositories default ESLint configuration file",
+            "keyword": "Given ",
+            "line": 4
+          },
+          {
+            "result": {
+              "duration": 0,
+              "status": "passed"
+            },
+            "name": "analysed using ESLint",
+            "keyword": "When ",
+            "line": 5
+          },
+          {
+            "result": {
+              "duration": 0,
+              "status": "failed",
+              "error_message": "Error (valid-jsdoc): [line:1,col:0] - JSDoc syntax error.\nError (global-strict): [line:5,col:0] - Use the global form of \"use strict\".\nWarning (func-names): [line:5,col:17] - Missing function expression name.\nError (vars-on-top): [line:11,col:4] - All \"var\" declarations must be at the top of the function scope.\nError (vars-on-top): [line:12,col:4] - All \"var\" declarations must be at the top of the function scope.\nError (vars-on-top): [line:13,col:4] - All \"var\" declarations must be at the top of the function scope.\nError (vars-on-top): [line:14,col:4] - All \"var\" declarations must be at the top of the function scope.\nError (func-style): [line:16,col:4] - Expected a function expression.\nError (func-style): [line:22,col:4] - Expected a function expression.\nWarning (func-names): [line:29,col:41] - Missing function expression name.\nError (space-after-keywords): [line:40,col:8] - Keyword \"if\" must be followed by whitespace.\nError (no-console): [line:42,col:12] - Unexpected console statement.\nError (quote-props): [line:47,col:16] - Unquoted property `reporter` found.\nError (quote-props): [line:48,col:16] - Unquoted property `timeout` found.\nError (quote-props): [line:52,col:16] - Unquoted property `reporters` found.\nError (space-in-brackets): [line:52,col:27] - There should be no space after '['\nError (quote-props): [line:53,col:16] - Unquoted property `reportOpts` found.\nError (quote-props): [line:54,col:20] - Unquoted property `dir` found.\nError (quote-props): [line:55,col:20] - Unquoted property `watermarks` found.\nError (valid-jsdoc): [line:60,col:4] - JSDoc syntax error.\nError (max-len): [line:61,col:0] - Line 61 exceeds the maximum line length of 120.\nWarning (func-names): [line:64,col:28] - Missing function expression name.\nError (max-len): [line:72,col:0] - Line 72 exceeds the maximum line length of 120.\nError (valid-jsdoc): [line:78,col:4] - JSDoc syntax error.\nError (max-len): [line:79,col:0] - Line 79 exceeds the maximum line length of 120.\nWarning (func-names): [line:83,col:44] - Missing function expression name.\nError (no-shadow): [line:87,col:12] - path is already declared in the upper scope.\nError (max-len): [line:89,col:0] - Line 89 exceeds the maximum line length of 120.\nError (max-len): [line:90,col:0] - Line 90 exceeds the maximum line length of 120.\nError (valid-jsdoc): [line:94,col:4] - JSDoc syntax error.\nError (max-len): [line:95,col:0] - Line 95 exceeds the maximum line length of 120.\nWarning (func-names): [line:98,col:22] - Missing function expression name.\n"
+            },
+            "name": "the file should meet the defined coding standards",
+            "keyword": "Then ",
+            "line": 6
+          }
+        ]
+      },
+      {
+        "id": "Feature2-MDTEST-117-steps.js",
+        "keyword": "Scenario",
+        "name": "Feature2-MDTEST-117-steps.js",
+        "line": 3,
+        "description": "c:\\Atlassian\\NPM\\cellarise-package-manager\\TESTCODE\\Test\\functional\\Feature2-MDTEST-117-steps.js",
+        "type": "scenario",
+        "steps": [
+          {
+            "result": {
+              "duration": 0,
+              "status": "passed"
+            },
+            "name": "a Javascript file and the repositories default ESLint configuration file",
+            "keyword": "Given ",
+            "line": 4
+          },
+          {
+            "result": {
+              "duration": 0,
+              "status": "passed"
+            },
+            "name": "analysed using ESLint",
+            "keyword": "When ",
+            "line": 5
+          },
+          {
+            "result": {
+              "duration": 0,
+              "status": "failed",
+              "error_message": "Error (global-strict): [line:3,col:0] - Use the global form of \"use strict\".\nWarning (func-names): [line:3,col:18] - Missing function expression name.\nError (no-unused-vars): [line:6,col:8] - assert is defined but never used\nError (eol-last): [line:9,col:1] - Newline required at end of file but not found.\n"
+            },
+            "name": "the file should meet the defined coding standards",
+            "keyword": "Then ",
+            "line": 6
+          }
+        ]
+      },
+      {
+        "id": "Feature3-MDTEST-118-steps.js",
+        "keyword": "Scenario",
+        "name": "Feature3-MDTEST-118-steps.js",
+        "line": 3,
+        "description": "c:\\Atlassian\\NPM\\cellarise-package-manager\\TESTCODE\\Test\\functional\\Feature3-MDTEST-118-steps.js",
+        "type": "scenario",
+        "steps": [
+          {
+            "result": {
+              "duration": 0,
+              "status": "passed"
+            },
+            "name": "a Javascript file and the repositories default ESLint configuration file",
+            "keyword": "Given ",
+            "line": 4
+          },
+          {
+            "result": {
+              "duration": 0,
+              "status": "passed"
+            },
+            "name": "analysed using ESLint",
+            "keyword": "When ",
+            "line": 5
+          },
+          {
+            "result": {
+              "duration": 0,
+              "status": "failed",
+              "error_message": "Error (global-strict): [line:3,col:0] - Use the global form of \"use strict\".\nWarning (func-names): [line:3,col:18] - Missing function expression name.\nError (no-unused-vars): [line:6,col:8] - assert is defined but never used\nError (eol-last): [line:9,col:1] - Newline required at end of file but not found.\n"
+            },
+            "name": "the file should meet the defined coding standards",
+            "keyword": "Then ",
+            "line": 6
+          }
+        ]
+      },
+      {
+        "id": "Initial setup-MDTEST-1-steps.js",
+        "keyword": "Scenario",
+        "name": "Initial setup-MDTEST-1-steps.js",
+        "line": 3,
+        "description": "c:\\Atlassian\\NPM\\cellarise-package-manager\\TESTCODE\\Test\\functional\\Initial setup-MDTEST-1-steps.js",
+        "type": "scenario",
+        "steps": [
+          {
+            "result": {
+              "duration": 0,
+              "status": "passed"
+            },
+            "name": "a Javascript file and the repositories default ESLint configuration file",
+            "keyword": "Given ",
+            "line": 4
+          },
+          {
+            "result": {
+              "duration": 0,
+              "status": "passed"
+            },
+            "name": "analysed using ESLint",
+            "keyword": "When ",
+            "line": 5
+          },
+          {
+            "result": {
+              "duration": 0,
+              "status": "failed",
+              "error_message": "Error (global-strict): [line:4,col:0] - Use the global form of \"use strict\".\nWarning (func-names): [line:4,col:18] - Missing function expression name.\nWarning (func-names): [line:10,col:27] - Missing function expression name.\nWarning (func-names): [line:15,col:26] - Missing function expression name.\nWarning (func-names): [line:19,col:26] - Missing function expression name.\nError (eol-last): [line:23,col:1] - Newline required at end of file but not found.\n"
+            },
+            "name": "the file should meet the defined coding standards",
+            "keyword": "Then ",
+            "line": 6
+          }
+        ]
+      },
+      {
+        "id": "test.js",
+        "keyword": "Scenario",
+        "name": "test.js",
+        "line": 3,
+        "description": "c:\\Atlassian\\NPM\\cellarise-package-manager\\TESTCODE\\Test\\test.js",
+        "type": "scenario",
+        "steps": [
+          {
+            "result": {
+              "duration": 0,
+              "status": "passed"
+            },
+            "name": "a Javascript file and the repositories default ESLint configuration file",
+            "keyword": "Given ",
+            "line": 4
+          },
+          {
+            "result": {
+              "duration": 0,
+              "status": "passed"
+            },
+            "name": "analysed using ESLint",
+            "keyword": "When ",
+            "line": 5
+          },
+          {
+            "result": {
+              "duration": 0,
+              "status": "failed",
+              "error_message": "Error (space-after-keywords): [line:12,col:0] - Keyword \"if\" must be followed by whitespace.\nError (vars-on-top): [line:15,col:0] - All \"var\" declarations must be at the top of the function scope.\nError (space-after-keywords): [line:16,col:0] - Keyword \"if\" must be followed by whitespace.\nWarning (func-names): [line:18,col:29] - Missing function expression name.\nError (vars-on-top): [line:23,col:0] - All \"var\" declarations must be at the top of the function scope.\nError (space-in-brackets): [line:23,col:14] - There should be no space after '{'\nError (quote-props): [line:23,col:16] - Unquoted property `world` found.\nError (space-in-brackets): [line:23,col:26] - There should be no space before '}'\nError (vars-on-top): [line:24,col:0] - All \"var\" declarations must be at the top of the function scope.\nError (func-style): [line:28,col:0] - Expected a function expression.\nError (camelcase): [line:28,col:9] - Identifier 'require_libraries' is not in camel case.\nError (func-style): [line:29,col:4] - Expected a function expression.\nError (camelcase): [line:29,col:13] - Identifier 'require_library' is not in camel case.\nError (no-shadow): [line:29,col:29] - libraries is already declared in the upper scope.\nWarning (func-names): [line:36,col:49] - Missing function expression name.\nError (space-after-keywords): [line:38,col:4] - Keyword \"if\" must be followed by whitespace.\nError (vars-on-top): [line:41,col:8] - All \"var\" declarations must be at the top of the function scope.\nError (vars-on-top): [line:42,col:8] - All \"var\" declarations must be at the top of the function scope.\nWarning (func-names): [line:44,col:26] - Missing function expression name.\nError (camelcase): [line:45,col:16] - Identifier 'loaded_libraries' is not in camel case.\nError (space-after-keywords): [line:48,col:12] - Keyword \"if\" must be followed by whitespace.\nError (no-undefined): [line:48,col:49] - Unexpected use of undefined.\nWarning (func-names): [line:50,col:77] - Missing function expression name.\nError (camelcase): [line:55,col:12] - Identifier 'loaded_libraries' is not in camel case.\nError (vars-on-top): [line:57,col:12] - All \"var\" declarations must be at the top of the function scope.\nError (camelcase): [line:57,col:40] - Identifier 'loaded_libraries' is not in camel case.\nWarning (func-names): [line:58,col:41] - Missing function expression name.\nWarning (func-names): [line:59,col:38] - Missing function expression name.\nError (eol-last): [line:65,col:1] - Newline required at end of file but not found.\n"
+            },
+            "name": "the file should meet the defined coding standards",
+            "keyword": "Then ",
+            "line": 6
+          }
+        ]
+      }
+    ]
+  }
+]

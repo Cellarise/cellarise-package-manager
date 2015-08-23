@@ -1,0 +1,23 @@
+#{~s}Changelog
+
+<table style="width:100%;border-spacing:0px;border-collapse:collapse;margin:0px;padding:0px;border-width:0px;">
+  <tr>
+    <th style="width:20px;text-align:center;"></th>
+    <th style="width:80px;text-align:center;">Type</th>
+    <th style="width:80px;text-align:left;">ID</th>
+    <th style="text-align:left;">Summary</th>
+  </tr>
+    {#changelog.releases}
+      <tr>
+        <td colspan=4><strong>Version:{~s}{version.name}{~s}-{~s}released{~s}{version.releaseDate}</strong></td>
+      </tr>
+        {#issues}
+          <tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="{issuetype.iconUrl}"/></td>
+            <td style="width:80px;text-align:left;">{issuetype.name}</td>
+            <td style="width:80px;text-align:left;">{key}</td>
+            <td><p>{summary}</p><p>{description}</p></td>
+          </tr>
+        {/issues}
+    {/changelog.releases}
+</table>

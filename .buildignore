@@ -1,0 +1,8 @@
+Reports
+Reports/**/*
+Tools
+Tools/**/*
+Temp
+Temp/**/*
+node_modules
+node_modules/**/*

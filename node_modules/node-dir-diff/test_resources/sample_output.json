@@ -1,0 +1,1340 @@
+{
+	"root_dirs":               [
+		"/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1",
+		"/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2",
+		"/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3"
+	],
+	"dirs":                    {
+		"/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2": [
+			"/bar",
+			"/foo",
+			"/bar/clothes",
+			"/bar/underwear"
+		],
+		"/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3": [
+			"/bar",
+			"/foo",
+			"/bar/clothes",
+			"/bar/clothes/gloves"
+		]
+	},
+	"file_status":             [
+		{
+			"dir":       "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1",
+			"deviation": 0,
+			"added":     [],
+			"missing":   []
+		},
+		{
+			"dir":       "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2",
+			"missing":   [
+				"/bar/wilma.txt"
+			],
+			"added":     [
+				"/bar/clothes/white_fir.json"
+			],
+			"deviation": 2
+		},
+		{
+			"dir":       "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3",
+			"missing":   [],
+			"added":     [
+				"/bar/barney.txt"
+			],
+			"deviation": 1
+		}
+	],
+	"dir_status":              [
+		{
+			"dir":       "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1",
+			"deviation": 0,
+			"added":     [],
+			"missing":   []
+		},
+		{
+			"dir":       "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2",
+			"missing":   [
+				"/bar/underwear"
+			],
+			"added":     [],
+			"deviation": 1
+		},
+		{
+			"dir":       "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3",
+			"missing":   [
+				"/bar/clothes/gloves"
+			],
+			"added":     [],
+			"deviation": 1
+		}
+	],
+	"deviation":               6,
+	"deviations":              [
+		{
+			"type":    "unique_file_path",
+			"info":    "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2/bar/clothes/white_fir.json",
+			"variant": "added"
+		},
+		{
+			"type":    "unique_file_path",
+			"info":    "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3/bar/barney.txt",
+			"variant": "added"
+		},
+		{
+			"type":    "unique_file_path",
+			"info":    "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2/bar/wilma.txt",
+			"variant": "missing"
+		},
+		{
+			"type":    "unique_file_path",
+			"info":    "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2/bar/underwear",
+			"variant": "missing"
+		},
+		{
+			"type":    "unique_file_path",
+			"info":    "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3/bar/clothes/gloves",
+			"variant": "missing"
+		},
+		{
+			"type": "file_content",
+			"info": {
+				"subpath":   "/foo/Moe.txt",
+				"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2",
+				"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2/foo/Moe.txt"
+			}
+		}
+	],
+	"common_files":            [
+		"/bar/Fred.txt",
+		"/foo/Barney.txt",
+		"/foo/Moe.txt",
+		"/bar/clothes/blue_fir.json",
+		"/bar/clothes/red_fur.json"
+	],
+	"added":                   [
+		{
+			"type":    "file",
+			"subpath": "/bar/clothes/white_fir.json",
+			"root":    "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2",
+			"path":    "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2/bar/clothes/white_fir.json"
+		},
+		{
+			"type":    "file",
+			"subpath": "/bar/barney.txt",
+			"root":    "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3",
+			"path":    "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3/bar/barney.txt"
+		}
+	],
+	"missing":                 [
+		{
+			"type":    "missing",
+			"subpath": "/bar/wilma.txt",
+			"root":    "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2",
+			"path":    "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2/bar/wilma.txt"
+		},
+		{
+			"type":    "dir",
+			"subpath": "/bar/underwear",
+			"root":    "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2",
+			"path":    "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2/bar/underwear"
+		},
+		{
+			"type":    "dir",
+			"subpath": "/bar/clothes/gloves",
+			"root":    "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3",
+			"path":    "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3/bar/clothes/gloves"
+		}
+	],
+	"common_file_info":        [
+		{
+			"dir":               "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1",
+			"common_file_stats": {
+				"/bar/Fred.txt":              {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13048723,
+					"size":    9,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:12:24.000Z",
+					"mtime":   "2013-04-26T10:23:08.000Z",
+					"ctime":   "2013-04-26T10:23:08.000Z"
+				},
+				"/foo/Barney.txt":            {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13048737,
+					"size":    18,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:12:24.000Z",
+					"mtime":   "2013-04-26T10:23:28.000Z",
+					"ctime":   "2013-04-26T10:23:28.000Z"
+				},
+				"/foo/Moe.txt":               {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13055122,
+					"size":    15,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:12:24.000Z",
+					"mtime":   "2013-04-26T14:59:07.000Z",
+					"ctime":   "2013-04-26T14:59:07.000Z"
+				},
+				"/bar/clothes/blue_fir.json": {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13050115,
+					"size":    39,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:12:24.000Z",
+					"mtime":   "2013-04-26T12:02:44.000Z",
+					"ctime":   "2013-04-26T12:02:44.000Z"
+				},
+				"/bar/clothes/red_fur.json":  {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13050107,
+					"size":    38,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:12:24.000Z",
+					"mtime":   "2013-04-26T12:01:59.000Z",
+					"ctime":   "2013-04-26T12:01:59.000Z"
+				}
+			},
+			"common_files":      [
+				{
+					"subpath":   "/bar/Fred.txt",
+					"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1",
+					"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1/bar/Fred.txt",
+					"stat":      {
+						"dev":     16777217,
+						"mode":    33188,
+						"nlink":   1,
+						"uid":     502,
+						"gid":     20,
+						"rdev":    0,
+						"blksize": 4096,
+						"ino":     13048723,
+						"size":    9,
+						"blocks":  8,
+						"atime":   "2013-04-26T16:12:24.000Z",
+						"mtime":   "2013-04-26T10:23:08.000Z",
+						"ctime":   "2013-04-26T10:23:08.000Z"
+					}
+				},
+				{
+					"subpath":   "/foo/Barney.txt",
+					"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1",
+					"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1/foo/Barney.txt",
+					"stat":      {
+						"dev":     16777217,
+						"mode":    33188,
+						"nlink":   1,
+						"uid":     502,
+						"gid":     20,
+						"rdev":    0,
+						"blksize": 4096,
+						"ino":     13048737,
+						"size":    18,
+						"blocks":  8,
+						"atime":   "2013-04-26T16:12:24.000Z",
+						"mtime":   "2013-04-26T10:23:28.000Z",
+						"ctime":   "2013-04-26T10:23:28.000Z"
+					}
+				},
+				{
+					"subpath":   "/foo/Moe.txt",
+					"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1",
+					"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1/foo/Moe.txt",
+					"stat":      {
+						"dev":     16777217,
+						"mode":    33188,
+						"nlink":   1,
+						"uid":     502,
+						"gid":     20,
+						"rdev":    0,
+						"blksize": 4096,
+						"ino":     13055122,
+						"size":    15,
+						"blocks":  8,
+						"atime":   "2013-04-26T16:12:24.000Z",
+						"mtime":   "2013-04-26T14:59:07.000Z",
+						"ctime":   "2013-04-26T14:59:07.000Z"
+					}
+				},
+				{
+					"subpath":   "/bar/clothes/blue_fir.json",
+					"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1",
+					"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1/bar/clothes/blue_fir.json",
+					"stat":      {
+						"dev":     16777217,
+						"mode":    33188,
+						"nlink":   1,
+						"uid":     502,
+						"gid":     20,
+						"rdev":    0,
+						"blksize": 4096,
+						"ino":     13050115,
+						"size":    39,
+						"blocks":  8,
+						"atime":   "2013-04-26T16:12:24.000Z",
+						"mtime":   "2013-04-26T12:02:44.000Z",
+						"ctime":   "2013-04-26T12:02:44.000Z"
+					}
+				},
+				{
+					"subpath":   "/bar/clothes/red_fur.json",
+					"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1",
+					"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1/bar/clothes/red_fur.json",
+					"stat":      {
+						"dev":     16777217,
+						"mode":    33188,
+						"nlink":   1,
+						"uid":     502,
+						"gid":     20,
+						"rdev":    0,
+						"blksize": 4096,
+						"ino":     13050107,
+						"size":    38,
+						"blocks":  8,
+						"atime":   "2013-04-26T16:12:24.000Z",
+						"mtime":   "2013-04-26T12:01:59.000Z",
+						"ctime":   "2013-04-26T12:01:59.000Z"
+					}
+				}
+			]
+		},
+		{
+			"dir":               "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2",
+			"common_file_stats": {
+				"/bar/Fred.txt":              {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13049724,
+					"size":    9,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:05:20.000Z",
+					"mtime":   "2013-04-26T10:23:08.000Z",
+					"ctime":   "2013-04-26T11:25:16.000Z"
+				},
+				"/foo/Barney.txt":            {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13049728,
+					"size":    18,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:05:20.000Z",
+					"mtime":   "2013-04-26T10:23:28.000Z",
+					"ctime":   "2013-04-26T11:25:16.000Z"
+				},
+				"/foo/Moe.txt":               {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13049727,
+					"size":    15,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:05:20.000Z",
+					"mtime":   "2013-04-26T10:23:39.000Z",
+					"ctime":   "2013-04-26T11:25:16.000Z"
+				},
+				"/bar/clothes/blue_fir.json": {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13050116,
+					"size":    39,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:05:20.000Z",
+					"mtime":   "2013-04-26T12:02:44.000Z",
+					"ctime":   "2013-04-26T12:02:44.000Z"
+				},
+				"/bar/clothes/red_fur.json":  {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13050114,
+					"size":    38,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:05:20.000Z",
+					"mtime":   "2013-04-26T12:01:59.000Z",
+					"ctime":   "2013-04-26T12:02:44.000Z"
+				}
+			},
+			"common_files":      [
+				{
+					"subpath":   "/bar/Fred.txt",
+					"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2",
+					"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2/bar/Fred.txt",
+					"stat":      {
+						"dev":     16777217,
+						"mode":    33188,
+						"nlink":   1,
+						"uid":     502,
+						"gid":     20,
+						"rdev":    0,
+						"blksize": 4096,
+						"ino":     13049724,
+						"size":    9,
+						"blocks":  8,
+						"atime":   "2013-04-26T16:05:20.000Z",
+						"mtime":   "2013-04-26T10:23:08.000Z",
+						"ctime":   "2013-04-26T11:25:16.000Z"
+					}
+				},
+				{
+					"subpath":   "/foo/Barney.txt",
+					"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2",
+					"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2/foo/Barney.txt",
+					"stat":      {
+						"dev":     16777217,
+						"mode":    33188,
+						"nlink":   1,
+						"uid":     502,
+						"gid":     20,
+						"rdev":    0,
+						"blksize": 4096,
+						"ino":     13049728,
+						"size":    18,
+						"blocks":  8,
+						"atime":   "2013-04-26T16:05:20.000Z",
+						"mtime":   "2013-04-26T10:23:28.000Z",
+						"ctime":   "2013-04-26T11:25:16.000Z"
+					}
+				},
+				{
+					"subpath":   "/foo/Moe.txt",
+					"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2",
+					"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2/foo/Moe.txt",
+					"stat":      {
+						"dev":     16777217,
+						"mode":    33188,
+						"nlink":   1,
+						"uid":     502,
+						"gid":     20,
+						"rdev":    0,
+						"blksize": 4096,
+						"ino":     13049727,
+						"size":    15,
+						"blocks":  8,
+						"atime":   "2013-04-26T16:05:20.000Z",
+						"mtime":   "2013-04-26T10:23:39.000Z",
+						"ctime":   "2013-04-26T11:25:16.000Z"
+					}
+				},
+				{
+					"subpath":   "/bar/clothes/blue_fir.json",
+					"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2",
+					"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2/bar/clothes/blue_fir.json",
+					"stat":      {
+						"dev":     16777217,
+						"mode":    33188,
+						"nlink":   1,
+						"uid":     502,
+						"gid":     20,
+						"rdev":    0,
+						"blksize": 4096,
+						"ino":     13050116,
+						"size":    39,
+						"blocks":  8,
+						"atime":   "2013-04-26T16:05:20.000Z",
+						"mtime":   "2013-04-26T12:02:44.000Z",
+						"ctime":   "2013-04-26T12:02:44.000Z"
+					}
+				},
+				{
+					"subpath":   "/bar/clothes/red_fur.json",
+					"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2",
+					"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2/bar/clothes/red_fur.json",
+					"stat":      {
+						"dev":     16777217,
+						"mode":    33188,
+						"nlink":   1,
+						"uid":     502,
+						"gid":     20,
+						"rdev":    0,
+						"blksize": 4096,
+						"ino":     13050114,
+						"size":    38,
+						"blocks":  8,
+						"atime":   "2013-04-26T16:05:20.000Z",
+						"mtime":   "2013-04-26T12:01:59.000Z",
+						"ctime":   "2013-04-26T12:02:44.000Z"
+					}
+				}
+			]
+		},
+		{
+			"dir":               "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3",
+			"common_file_stats": {
+				"/bar/Fred.txt":              {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13055781,
+					"size":    9,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:05:20.000Z",
+					"mtime":   "2013-04-26T10:23:08.000Z",
+					"ctime":   "2013-04-26T15:32:52.000Z"
+				},
+				"/foo/Moe.txt":               {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13055784,
+					"size":    15,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:05:20.000Z",
+					"mtime":   "2013-04-26T14:59:07.000Z",
+					"ctime":   "2013-04-26T15:32:52.000Z"
+				},
+				"/foo/Barney.txt":            {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13055785,
+					"size":    18,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:05:20.000Z",
+					"mtime":   "2013-04-26T10:23:28.000Z",
+					"ctime":   "2013-04-26T15:32:52.000Z"
+				},
+				"/bar/clothes/blue_fir.json": {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13055779,
+					"size":    39,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:05:20.000Z",
+					"mtime":   "2013-04-26T12:02:44.000Z",
+					"ctime":   "2013-04-26T15:32:52.000Z"
+				},
+				"/bar/clothes/red_fur.json":  {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13055778,
+					"size":    38,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:05:20.000Z",
+					"mtime":   "2013-04-26T12:01:59.000Z",
+					"ctime":   "2013-04-26T15:32:52.000Z"
+				}
+			},
+			"common_files":      [
+				{
+					"subpath":   "/bar/Fred.txt",
+					"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3",
+					"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3/bar/Fred.txt",
+					"stat":      {
+						"dev":     16777217,
+						"mode":    33188,
+						"nlink":   1,
+						"uid":     502,
+						"gid":     20,
+						"rdev":    0,
+						"blksize": 4096,
+						"ino":     13055781,
+						"size":    9,
+						"blocks":  8,
+						"atime":   "2013-04-26T16:05:20.000Z",
+						"mtime":   "2013-04-26T10:23:08.000Z",
+						"ctime":   "2013-04-26T15:32:52.000Z"
+					}
+				},
+				{
+					"subpath":   "/foo/Barney.txt",
+					"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3",
+					"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3/foo/Barney.txt",
+					"stat":      {
+						"dev":     16777217,
+						"mode":    33188,
+						"nlink":   1,
+						"uid":     502,
+						"gid":     20,
+						"rdev":    0,
+						"blksize": 4096,
+						"ino":     13055785,
+						"size":    18,
+						"blocks":  8,
+						"atime":   "2013-04-26T16:05:20.000Z",
+						"mtime":   "2013-04-26T10:23:28.000Z",
+						"ctime":   "2013-04-26T15:32:52.000Z"
+					}
+				},
+				{
+					"subpath":   "/foo/Moe.txt",
+					"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3",
+					"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3/foo/Moe.txt",
+					"stat":      {
+						"dev":     16777217,
+						"mode":    33188,
+						"nlink":   1,
+						"uid":     502,
+						"gid":     20,
+						"rdev":    0,
+						"blksize": 4096,
+						"ino":     13055784,
+						"size":    15,
+						"blocks":  8,
+						"atime":   "2013-04-26T16:05:20.000Z",
+						"mtime":   "2013-04-26T14:59:07.000Z",
+						"ctime":   "2013-04-26T15:32:52.000Z"
+					}
+				},
+				{
+					"subpath":   "/bar/clothes/blue_fir.json",
+					"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3",
+					"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3/bar/clothes/blue_fir.json",
+					"stat":      {
+						"dev":     16777217,
+						"mode":    33188,
+						"nlink":   1,
+						"uid":     502,
+						"gid":     20,
+						"rdev":    0,
+						"blksize": 4096,
+						"ino":     13055779,
+						"size":    39,
+						"blocks":  8,
+						"atime":   "2013-04-26T16:05:20.000Z",
+						"mtime":   "2013-04-26T12:02:44.000Z",
+						"ctime":   "2013-04-26T15:32:52.000Z"
+					}
+				},
+				{
+					"subpath":   "/bar/clothes/red_fur.json",
+					"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3",
+					"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3/bar/clothes/red_fur.json",
+					"stat":      {
+						"dev":     16777217,
+						"mode":    33188,
+						"nlink":   1,
+						"uid":     502,
+						"gid":     20,
+						"rdev":    0,
+						"blksize": 4096,
+						"ino":     13055778,
+						"size":    38,
+						"blocks":  8,
+						"atime":   "2013-04-26T16:05:20.000Z",
+						"mtime":   "2013-04-26T12:01:59.000Z",
+						"ctime":   "2013-04-26T15:32:52.000Z"
+					}
+				}
+			]
+		}
+	],
+	"file_size_report":        [
+		{
+			"subpath":   "/bar/Fred.txt",
+			"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1",
+			"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1/bar/Fred.txt",
+			"stat":      {
+				"dev":     16777217,
+				"mode":    33188,
+				"nlink":   1,
+				"uid":     502,
+				"gid":     20,
+				"rdev":    0,
+				"blksize": 4096,
+				"ino":     13048723,
+				"size":    9,
+				"blocks":  8,
+				"atime":   "2013-04-26T16:12:24.000Z",
+				"mtime":   "2013-04-26T10:23:08.000Z",
+				"ctime":   "2013-04-26T10:23:08.000Z"
+			}
+		},
+		{
+			"subpath":   "/foo/Barney.txt",
+			"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1",
+			"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1/foo/Barney.txt",
+			"stat":      {
+				"dev":     16777217,
+				"mode":    33188,
+				"nlink":   1,
+				"uid":     502,
+				"gid":     20,
+				"rdev":    0,
+				"blksize": 4096,
+				"ino":     13048737,
+				"size":    18,
+				"blocks":  8,
+				"atime":   "2013-04-26T16:12:24.000Z",
+				"mtime":   "2013-04-26T10:23:28.000Z",
+				"ctime":   "2013-04-26T10:23:28.000Z"
+			}
+		},
+		{
+			"subpath":   "/foo/Moe.txt",
+			"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1",
+			"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1/foo/Moe.txt",
+			"stat":      {
+				"dev":     16777217,
+				"mode":    33188,
+				"nlink":   1,
+				"uid":     502,
+				"gid":     20,
+				"rdev":    0,
+				"blksize": 4096,
+				"ino":     13055122,
+				"size":    15,
+				"blocks":  8,
+				"atime":   "2013-04-26T16:12:24.000Z",
+				"mtime":   "2013-04-26T14:59:07.000Z",
+				"ctime":   "2013-04-26T14:59:07.000Z"
+			}
+		},
+		{
+			"subpath":   "/bar/clothes/blue_fir.json",
+			"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1",
+			"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1/bar/clothes/blue_fir.json",
+			"stat":      {
+				"dev":     16777217,
+				"mode":    33188,
+				"nlink":   1,
+				"uid":     502,
+				"gid":     20,
+				"rdev":    0,
+				"blksize": 4096,
+				"ino":     13050115,
+				"size":    39,
+				"blocks":  8,
+				"atime":   "2013-04-26T16:12:24.000Z",
+				"mtime":   "2013-04-26T12:02:44.000Z",
+				"ctime":   "2013-04-26T12:02:44.000Z"
+			}
+		},
+		{
+			"subpath":   "/bar/clothes/red_fur.json",
+			"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1",
+			"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1/bar/clothes/red_fur.json",
+			"stat":      {
+				"dev":     16777217,
+				"mode":    33188,
+				"nlink":   1,
+				"uid":     502,
+				"gid":     20,
+				"rdev":    0,
+				"blksize": 4096,
+				"ino":     13050107,
+				"size":    38,
+				"blocks":  8,
+				"atime":   "2013-04-26T16:12:24.000Z",
+				"mtime":   "2013-04-26T12:01:59.000Z",
+				"ctime":   "2013-04-26T12:01:59.000Z"
+			}
+		},
+		{
+			"subpath":   "/bar/Fred.txt",
+			"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2",
+			"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2/bar/Fred.txt",
+			"stat":      {
+				"dev":     16777217,
+				"mode":    33188,
+				"nlink":   1,
+				"uid":     502,
+				"gid":     20,
+				"rdev":    0,
+				"blksize": 4096,
+				"ino":     13049724,
+				"size":    9,
+				"blocks":  8,
+				"atime":   "2013-04-26T16:05:20.000Z",
+				"mtime":   "2013-04-26T10:23:08.000Z",
+				"ctime":   "2013-04-26T11:25:16.000Z"
+			}
+		},
+		{
+			"subpath":   "/foo/Barney.txt",
+			"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2",
+			"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2/foo/Barney.txt",
+			"stat":      {
+				"dev":     16777217,
+				"mode":    33188,
+				"nlink":   1,
+				"uid":     502,
+				"gid":     20,
+				"rdev":    0,
+				"blksize": 4096,
+				"ino":     13049728,
+				"size":    18,
+				"blocks":  8,
+				"atime":   "2013-04-26T16:05:20.000Z",
+				"mtime":   "2013-04-26T10:23:28.000Z",
+				"ctime":   "2013-04-26T11:25:16.000Z"
+			}
+		},
+		{
+			"subpath":   "/foo/Moe.txt",
+			"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2",
+			"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2/foo/Moe.txt",
+			"stat":      {
+				"dev":     16777217,
+				"mode":    33188,
+				"nlink":   1,
+				"uid":     502,
+				"gid":     20,
+				"rdev":    0,
+				"blksize": 4096,
+				"ino":     13049727,
+				"size":    15,
+				"blocks":  8,
+				"atime":   "2013-04-26T16:05:20.000Z",
+				"mtime":   "2013-04-26T10:23:39.000Z",
+				"ctime":   "2013-04-26T11:25:16.000Z"
+			}
+		},
+		{
+			"subpath":   "/bar/clothes/blue_fir.json",
+			"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2",
+			"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2/bar/clothes/blue_fir.json",
+			"stat":      {
+				"dev":     16777217,
+				"mode":    33188,
+				"nlink":   1,
+				"uid":     502,
+				"gid":     20,
+				"rdev":    0,
+				"blksize": 4096,
+				"ino":     13050116,
+				"size":    39,
+				"blocks":  8,
+				"atime":   "2013-04-26T16:05:20.000Z",
+				"mtime":   "2013-04-26T12:02:44.000Z",
+				"ctime":   "2013-04-26T12:02:44.000Z"
+			}
+		},
+		{
+			"subpath":   "/bar/clothes/red_fur.json",
+			"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2",
+			"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2/bar/clothes/red_fur.json",
+			"stat":      {
+				"dev":     16777217,
+				"mode":    33188,
+				"nlink":   1,
+				"uid":     502,
+				"gid":     20,
+				"rdev":    0,
+				"blksize": 4096,
+				"ino":     13050114,
+				"size":    38,
+				"blocks":  8,
+				"atime":   "2013-04-26T16:05:20.000Z",
+				"mtime":   "2013-04-26T12:01:59.000Z",
+				"ctime":   "2013-04-26T12:02:44.000Z"
+			}
+		},
+		{
+			"subpath":   "/bar/Fred.txt",
+			"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3",
+			"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3/bar/Fred.txt",
+			"stat":      {
+				"dev":     16777217,
+				"mode":    33188,
+				"nlink":   1,
+				"uid":     502,
+				"gid":     20,
+				"rdev":    0,
+				"blksize": 4096,
+				"ino":     13055781,
+				"size":    9,
+				"blocks":  8,
+				"atime":   "2013-04-26T16:05:20.000Z",
+				"mtime":   "2013-04-26T10:23:08.000Z",
+				"ctime":   "2013-04-26T15:32:52.000Z"
+			}
+		},
+		{
+			"subpath":   "/foo/Barney.txt",
+			"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3",
+			"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3/foo/Barney.txt",
+			"stat":      {
+				"dev":     16777217,
+				"mode":    33188,
+				"nlink":   1,
+				"uid":     502,
+				"gid":     20,
+				"rdev":    0,
+				"blksize": 4096,
+				"ino":     13055785,
+				"size":    18,
+				"blocks":  8,
+				"atime":   "2013-04-26T16:05:20.000Z",
+				"mtime":   "2013-04-26T10:23:28.000Z",
+				"ctime":   "2013-04-26T15:32:52.000Z"
+			}
+		},
+		{
+			"subpath":   "/foo/Moe.txt",
+			"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3",
+			"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3/foo/Moe.txt",
+			"stat":      {
+				"dev":     16777217,
+				"mode":    33188,
+				"nlink":   1,
+				"uid":     502,
+				"gid":     20,
+				"rdev":    0,
+				"blksize": 4096,
+				"ino":     13055784,
+				"size":    15,
+				"blocks":  8,
+				"atime":   "2013-04-26T16:05:20.000Z",
+				"mtime":   "2013-04-26T14:59:07.000Z",
+				"ctime":   "2013-04-26T15:32:52.000Z"
+			}
+		},
+		{
+			"subpath":   "/bar/clothes/blue_fir.json",
+			"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3",
+			"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3/bar/clothes/blue_fir.json",
+			"stat":      {
+				"dev":     16777217,
+				"mode":    33188,
+				"nlink":   1,
+				"uid":     502,
+				"gid":     20,
+				"rdev":    0,
+				"blksize": 4096,
+				"ino":     13055779,
+				"size":    39,
+				"blocks":  8,
+				"atime":   "2013-04-26T16:05:20.000Z",
+				"mtime":   "2013-04-26T12:02:44.000Z",
+				"ctime":   "2013-04-26T15:32:52.000Z"
+			}
+		},
+		{
+			"subpath":   "/bar/clothes/red_fur.json",
+			"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3",
+			"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3/bar/clothes/red_fur.json",
+			"stat":      {
+				"dev":     16777217,
+				"mode":    33188,
+				"nlink":   1,
+				"uid":     502,
+				"gid":     20,
+				"rdev":    0,
+				"blksize": 4096,
+				"ino":     13055778,
+				"size":    38,
+				"blocks":  8,
+				"atime":   "2013-04-26T16:05:20.000Z",
+				"mtime":   "2013-04-26T12:01:59.000Z",
+				"ctime":   "2013-04-26T15:32:52.000Z"
+			}
+		}
+	],
+	"report_by_path":          {
+		"/bar/Fred.txt":              [
+			{
+				"subpath":   "/bar/Fred.txt",
+				"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1",
+				"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1/bar/Fred.txt",
+				"stat":      {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13048723,
+					"size":    9,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:12:24.000Z",
+					"mtime":   "2013-04-26T10:23:08.000Z",
+					"ctime":   "2013-04-26T10:23:08.000Z"
+				}
+			},
+			{
+				"subpath":   "/bar/Fred.txt",
+				"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2",
+				"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2/bar/Fred.txt",
+				"stat":      {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13049724,
+					"size":    9,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:05:20.000Z",
+					"mtime":   "2013-04-26T10:23:08.000Z",
+					"ctime":   "2013-04-26T11:25:16.000Z"
+				}
+			},
+			{
+				"subpath":   "/bar/Fred.txt",
+				"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3",
+				"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3/bar/Fred.txt",
+				"stat":      {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13055781,
+					"size":    9,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:05:20.000Z",
+					"mtime":   "2013-04-26T10:23:08.000Z",
+					"ctime":   "2013-04-26T15:32:52.000Z"
+				}
+			}
+		],
+		"/foo/Barney.txt":            [
+			{
+				"subpath":   "/foo/Barney.txt",
+				"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1",
+				"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1/foo/Barney.txt",
+				"stat":      {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13048737,
+					"size":    18,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:12:24.000Z",
+					"mtime":   "2013-04-26T10:23:28.000Z",
+					"ctime":   "2013-04-26T10:23:28.000Z"
+				}
+			},
+			{
+				"subpath":   "/foo/Barney.txt",
+				"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2",
+				"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2/foo/Barney.txt",
+				"stat":      {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13049728,
+					"size":    18,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:05:20.000Z",
+					"mtime":   "2013-04-26T10:23:28.000Z",
+					"ctime":   "2013-04-26T11:25:16.000Z"
+				}
+			},
+			{
+				"subpath":   "/foo/Barney.txt",
+				"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3",
+				"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3/foo/Barney.txt",
+				"stat":      {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13055785,
+					"size":    18,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:05:20.000Z",
+					"mtime":   "2013-04-26T10:23:28.000Z",
+					"ctime":   "2013-04-26T15:32:52.000Z"
+				}
+			}
+		],
+		"/foo/Moe.txt":               [
+			{
+				"subpath":   "/foo/Moe.txt",
+				"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1",
+				"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1/foo/Moe.txt",
+				"stat":      {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13055122,
+					"size":    15,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:12:24.000Z",
+					"mtime":   "2013-04-26T14:59:07.000Z",
+					"ctime":   "2013-04-26T14:59:07.000Z"
+				}
+			},
+			{
+				"subpath":   "/foo/Moe.txt",
+				"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2",
+				"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2/foo/Moe.txt",
+				"stat":      {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13049727,
+					"size":    15,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:05:20.000Z",
+					"mtime":   "2013-04-26T10:23:39.000Z",
+					"ctime":   "2013-04-26T11:25:16.000Z"
+				}
+			},
+			{
+				"subpath":   "/foo/Moe.txt",
+				"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3",
+				"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3/foo/Moe.txt",
+				"stat":      {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13055784,
+					"size":    15,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:05:20.000Z",
+					"mtime":   "2013-04-26T14:59:07.000Z",
+					"ctime":   "2013-04-26T15:32:52.000Z"
+				}
+			}
+		],
+		"/bar/clothes/blue_fir.json": [
+			{
+				"subpath":   "/bar/clothes/blue_fir.json",
+				"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1",
+				"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1/bar/clothes/blue_fir.json",
+				"stat":      {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13050115,
+					"size":    39,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:12:24.000Z",
+					"mtime":   "2013-04-26T12:02:44.000Z",
+					"ctime":   "2013-04-26T12:02:44.000Z"
+				}
+			},
+			{
+				"subpath":   "/bar/clothes/blue_fir.json",
+				"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2",
+				"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2/bar/clothes/blue_fir.json",
+				"stat":      {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13050116,
+					"size":    39,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:05:20.000Z",
+					"mtime":   "2013-04-26T12:02:44.000Z",
+					"ctime":   "2013-04-26T12:02:44.000Z"
+				}
+			},
+			{
+				"subpath":   "/bar/clothes/blue_fir.json",
+				"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3",
+				"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3/bar/clothes/blue_fir.json",
+				"stat":      {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13055779,
+					"size":    39,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:05:20.000Z",
+					"mtime":   "2013-04-26T12:02:44.000Z",
+					"ctime":   "2013-04-26T15:32:52.000Z"
+				}
+			}
+		],
+		"/bar/clothes/red_fur.json":  [
+			{
+				"subpath":   "/bar/clothes/red_fur.json",
+				"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1",
+				"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_1/bar/clothes/red_fur.json",
+				"stat":      {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13050107,
+					"size":    38,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:12:24.000Z",
+					"mtime":   "2013-04-26T12:01:59.000Z",
+					"ctime":   "2013-04-26T12:01:59.000Z"
+				}
+			},
+			{
+				"subpath":   "/bar/clothes/red_fur.json",
+				"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2",
+				"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2/bar/clothes/red_fur.json",
+				"stat":      {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13050114,
+					"size":    38,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:05:20.000Z",
+					"mtime":   "2013-04-26T12:01:59.000Z",
+					"ctime":   "2013-04-26T12:02:44.000Z"
+				}
+			},
+			{
+				"subpath":   "/bar/clothes/red_fur.json",
+				"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3",
+				"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_3/bar/clothes/red_fur.json",
+				"stat":      {
+					"dev":     16777217,
+					"mode":    33188,
+					"nlink":   1,
+					"uid":     502,
+					"gid":     20,
+					"rdev":    0,
+					"blksize": 4096,
+					"ino":     13055778,
+					"size":    38,
+					"blocks":  8,
+					"atime":   "2013-04-26T16:05:20.000Z",
+					"mtime":   "2013-04-26T12:01:59.000Z",
+					"ctime":   "2013-04-26T15:32:52.000Z"
+				}
+			}
+		]
+	},
+	"file_size_difference":    [],
+	"file_size_same":          [
+		"/bar/Fred.txt",
+		"/foo/Barney.txt",
+		"/foo/Moe.txt",
+		"/bar/clothes/blue_fir.json",
+		"/bar/clothes/red_fur.json"
+	],
+	"file_content_difference": [
+		{
+			"subpath":   "/foo/Moe.txt",
+			"root_dir":  "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2",
+			"full_path": "/Users/dedelhart/Documents/node/node-dir-diff/test_resources/test_2/foo/Moe.txt",
+			"stat":      {
+				"dev":     16777217,
+				"mode":    33188,
+				"nlink":   1,
+				"uid":     502,
+				"gid":     20,
+				"rdev":    0,
+				"blksize": 4096,
+				"ino":     13049727,
+				"size":    15,
+				"blocks":  8,
+				"atime":   "2013-04-26T16:05:20.000Z",
+				"mtime":   "2013-04-26T10:23:39.000Z",
+				"ctime":   "2013-04-26T11:25:16.000Z"
+			}
+		}
+	]
+}
