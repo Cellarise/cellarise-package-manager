@@ -1,0 +1,48 @@
+{
+  "protocol": "https",
+  "host": "localhost",
+  "port": "443",
+  "SSLPrivateKey": "rsa-key.pem",
+  "SSLCertificate": "rsa-cert.pem",
+  "consumerPrivateKeyFile": "rsa-key.pem",
+  "applications": {
+    "github": {
+      "repositoryUrl": "https://github.com/"
+    },
+    "stash": {
+      "repositoryUrl": ""
+    },
+    "jira": {
+      "protocol": "https",
+      "host": "jira.cellarise.com",
+      "port": "80",
+      "oauth": {
+        "consumer_key": "",
+        "consumer_secret": "",
+        "access_token": "",
+        "access_token_secret": ""
+      },
+      "paths": {
+        "request-token": "/plugins/servlet/oauth/request-token",
+        "access-token": "/plugins/servlet/oauth/access-token",
+        "authorize": "/plugins/servlet/oauth/authorize"
+      }
+    },
+    "bamboo": {
+      "protocol": "https",
+      "host": "bamboo.cellarise.com",
+      "port": "80",
+      "oauth": {
+        "consumer_key": "",
+        "consumer_secret": "",
+        "access_token": "",
+        "access_token_secret": ""
+      },
+      "paths": {
+        "request-token": "/plugins/servlet/oauth/request-token",
+        "access-token": "/plugins/servlet/oauth/access-token",
+        "authorize": "/plugins/servlet/oauth/authorize"
+      }
+    }
+  }
+}
