@@ -33,7 +33,7 @@ module.exports = function autoUpdateDependenciesTasks(gulp, context) {
       "updateSourceType": "Non-functional",
       "bambooBuildTask": "all",
       "releaseVersion": true,
-      "repositoryUrl": require("../../../lib/utils/config")("stash").repositoryUrl
+      "repositoryUrl": require("../../../lib/utils/config")("github").repositoryUrl
     };
     return utilsAutoUpdate.run(opts, gulp, context);
   });
