@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/*eslint no-process-exit:0*/
+// /*eslint no-process-exit:0*/
 "use strict";
 
 var argv = require("minimist")(process.argv.slice(2));

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-"use strict";
+// "use strict";
 var path = require("path");
 var cwd = path.resolve(__dirname, "..");
 process.chdir(cwd);
