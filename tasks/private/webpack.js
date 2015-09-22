@@ -82,7 +82,7 @@ module.exports = function webpackTasks(gulp, context) {
     return gulp.src(directories.client + "/**/*.dust")
       .pipe(new GulpDustCompileRender(templatePkg, {"helper": "dustjs-helpers"}))
       .pipe(rename(function renameExtension(renamePath) {
-        renamePath.extname = ".html";
+        renamePath.extname = ".js";
       }))
       .pipe(gulp.dest(directories.client));
   });
