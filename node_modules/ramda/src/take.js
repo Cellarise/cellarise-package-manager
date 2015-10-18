@@ -8,8 +8,11 @@ var slice = require('./slice');
  * Returns the first `n` elements of the given list, string, or
  * transducer/transformer (or object with a `take` method).
  *
+ * Dispatches to the `take` method of the second argument, if present.
+ *
  * @func
  * @memberOf R
+ * @since v0.1.0
  * @category List
  * @sig Number -> [a] -> [a]
  * @sig Number -> String -> String

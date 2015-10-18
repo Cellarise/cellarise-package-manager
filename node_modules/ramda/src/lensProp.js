@@ -9,8 +9,9 @@ var prop = require('./prop');
  *
  * @func
  * @memberOf R
+ * @since v0.14.0
  * @category Object
- * @typedef Lens s a = Functor f => (a -> f a) -> s -> f s
+ * @typedefn Lens s a = Functor f => (a -> f a) -> s -> f s
  * @sig String -> Lens s a
  * @param {String} k
  * @return {Lens}

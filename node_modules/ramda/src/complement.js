@@ -1,5 +1,5 @@
-var _complement = require('./internal/_complement');
-var _curry1 = require('./internal/_curry1');
+var lift = require('./lift');
+var not = require('./not');
 
 
 /**
@@ -11,8 +11,11 @@ var _curry1 = require('./internal/_curry1');
  *   - applying `g` to zero or more arguments will give __false__ if applying
  *     the same arguments to `f` gives a logical __true__ value.
  *
+ * `R.complement` will work on all other functors as well.
+ *
  * @func
  * @memberOf R
+ * @since v0.12.0
  * @category Logic
  * @sig (*... -> *) -> (*... -> Boolean)
  * @param {Function} f
@@ -20,9 +23,9 @@ var _curry1 = require('./internal/_curry1');
  * @see R.not
  * @example
  *
- *      var isEven = function(n) { return n % 2 === 0; };
+ *      var isEven = n => n % 2 === 0;
  *      var isOdd = R.complement(isEven);
  *      isOdd(21); //=> true
  *      isOdd(42); //=> false
  */
-module.exports = _curry1(_complement);
+module.exports = lift(not);

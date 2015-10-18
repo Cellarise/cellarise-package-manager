@@ -9,8 +9,9 @@ var map = require('./map');
  *
  * @func
  * @memberOf R
+ * @since v0.8.0
  * @category Object
- * @typedef Lens s a = Functor f => (a -> f a) -> s -> f s
+ * @typedefn Lens s a = Functor f => (a -> f a) -> s -> f s
  * @sig (s -> a) -> ((a, s) -> s) -> Lens s a
  * @param {Function} getter
  * @param {Function} setter

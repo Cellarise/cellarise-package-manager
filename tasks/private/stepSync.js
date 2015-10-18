@@ -92,7 +92,6 @@ module.exports = function stepSyncTasks(gulp, context) {
     }
 
     //iterate through test feature scenarios
-
     for (scenarioIdx = 0; scenarioIdx < feature.scenarios.length; scenarioIdx = scenarioIdx + 1) {
       scenario = feature.scenarios[scenarioIdx];
       annotations = scenario.annotations;

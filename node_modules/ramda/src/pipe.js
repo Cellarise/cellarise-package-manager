@@ -1,5 +1,5 @@
+var _arity = require('./internal/_arity');
 var _pipe = require('./internal/_pipe');
-var curryN = require('./curryN');
 var reduce = require('./reduce');
 var tail = require('./tail');
 
@@ -12,8 +12,9 @@ var tail = require('./tail');
  *
  * @func
  * @memberOf R
+ * @since v0.1.0
  * @category Function
- * @sig (((a, b, ..., n) -> o), (o -> p), ..., (x -> y), (y -> z)) -> (a -> b -> ... -> n -> z)
+ * @sig (((a, b, ..., n) -> o), (o -> p), ..., (x -> y), (y -> z)) -> ((a, b, ..., n) -> z)
  * @param {...Function} functions
  * @return {Function}
  * @see R.compose
@@ -27,6 +28,6 @@ module.exports = function pipe() {
   if (arguments.length === 0) {
     throw new Error('pipe requires at least one argument');
   }
-  return curryN(arguments[0].length,
+  return _arity(arguments[0].length,
                 reduce(_pipe, arguments[0], tail(arguments)));
 };

@@ -8,8 +8,9 @@ var reverse = require('./reverse');
  *
  * @func
  * @memberOf R
+ * @since v0.1.0
  * @category Function
- * @sig ((y -> z), (x -> y), ..., (o -> p), ((a, b, ..., n) -> o)) -> (a -> b -> ... -> n -> z)
+ * @sig ((y -> z), (x -> y), ..., (o -> p), ((a, b, ..., n) -> o)) -> ((a, b, ..., n) -> z)
  * @param {...Function} functions
  * @return {Function}
  * @see R.pipe

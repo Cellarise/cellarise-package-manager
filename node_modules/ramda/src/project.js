@@ -9,6 +9,7 @@ var useWith = require('./useWith');
  *
  * @func
  * @memberOf R
+ * @since v0.1.0
  * @category Object
  * @category Relation
  * @sig [k] -> [{k: v}] -> [{k: v}]
@@ -22,4 +23,4 @@ var useWith = require('./useWith');
  *      var kids = [abby, fred];
  *      R.project(['name', 'grade'], kids); //=> [{name: 'Abby', grade: 2}, {name: 'Fred', grade: 7}]
  */
-module.exports = useWith(_map, pickAll, identity); // passing `identity` gives correct arity
+module.exports = useWith(_map, [pickAll, identity]); // passing `identity` gives correct arity
