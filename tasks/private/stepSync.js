@@ -88,9 +88,11 @@ module.exports = function stepSyncTasks(gulp, context) {
     try {
       feature = parser.parse(fs.readFileSync(process.cwd() + path.sep + featurePath).toString());
     } catch (err) { /* eslint no-empty:0 */
+      logger.error(featurePath + " - " + err);
     }
 
     //iterate through test feature scenarios
+
     for (scenarioIdx = 0; scenarioIdx < feature.scenarios.length; scenarioIdx = scenarioIdx + 1) {
       scenario = feature.scenarios[scenarioIdx];
       annotations = scenario.annotations;
@@ -232,7 +234,7 @@ module.exports = function stepSyncTasks(gulp, context) {
           logger.error("No projectCode in package.json");
         }
 
-        jira.rest({"query": jiraQuery + queryFields}, callback);
+        jira.rest({"query": jiraQuery + queryFields + "&maxResults=10000"}, callback);
       },
       function synchroniseWithJira(data, callback) {
         //create new feature files or update JIRA with changes in existing feature files
