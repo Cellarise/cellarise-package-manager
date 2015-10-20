@@ -664,6 +664,7 @@ Auto update runs a simple workflow for all projects in JIRA matching a specified
 
 Projects in JIRA are expected to conform to a naming convention which consists of a git repository namespace and repository name: /
 
+
 ```
 
 -
@@ -1453,7 +1454,10 @@ The sequence works by piping each task to the next.
 
 <a name="module_tasks/defaultTasks..default"></a>
 #### `tasks/defaultTasks~default` : <code>Gulp</code>
-The default private gulp build task to execute all tasks. The following tasks are executed in sequence:["code_analysis", "step_sync", "test_cover", "coverage_stats", "license", "docs", "metadata", "package"]This default task if present will override the default gulp task.The sequence works by piping each task to the next.
+The default private gulp build task to execute all tasks. The following tasks are executed in sequence:
+["code_analysis", "step_sync", "test_cover", "coverage_stats", "license", "docs", "metadata", "package"]
+This default task if present will override the default gulp task.
+The sequence works by piping each task to the next.
 
 **Kind**: inner property of <code>[tasks/defaultTasks](#module_tasks/defaultTasks)</code>  
 
@@ -1870,7 +1874,10 @@ The sequence works by piping each task to the next.
 
 <a name="module_tasks/defaultTasks..default"></a>
 #### `tasks/defaultTasks~default` : <code>Gulp</code>
-The default private gulp build task to execute all tasks. The following tasks are executed in sequence:["code_analysis", "step_sync", "test_cover", "coverage_stats", "license", "docs", "metadata", "package"]This default task if present will override the default gulp task.The sequence works by piping each task to the next.
+The default private gulp build task to execute all tasks. The following tasks are executed in sequence:
+["code_analysis", "step_sync", "test_cover", "coverage_stats", "license", "docs", "metadata", "package"]
+This default task if present will override the default gulp task.
+The sequence works by piping each task to the next.
 
 **Kind**: inner property of <code>[tasks/defaultTasks](#module_tasks/defaultTasks)</code>  
 
@@ -2174,7 +2181,8 @@ A module to add gulp tasks which synchronise test steps from feature files with 
 
 <a name="module_tasks/stepSyncTasks..step_sync"></a>
 #### `tasks/stepSyncTasks~step_sync` : <code>Gulp</code>
-A gulp build task to download new test features from JIRA and upload changes to existingfeature files back to JIRA.
+A gulp build task to download new test features from JIRA and upload changes to existing
+feature files back to JIRA.
 
 **Kind**: inner property of <code>[tasks/stepSyncTasks](#module_tasks/stepSyncTasks)</code>  
 
