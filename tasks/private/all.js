@@ -61,6 +61,22 @@ module.exports = function allTasks(gulp) {
     runSequence(
       "webpack",
       "test",
+      "webpackCompileTemplates",
+      cb);
+  });
+
+  /**
+   * A gulp build task to run webpack and test_cover tasks
+   * The following tasks are executed in sequence:
+   * [ 'webpack', 'test']
+   * The sequence works by piping each task to the next.
+   * @member {Gulp} all_product
+   * @param {Function} cb - callback
+   */
+  gulp.task("tcw", function allProduct(cb) {
+    runSequence(
+      "test_cover",
+      "webpackCompileTemplates",
       cb);
   });
 };
