@@ -1,17 +1,21 @@
 /**
  * @fileoverview Rule to flag missing semicolons.
  * @author Nicholas C. Zakas
+ * @copyright 2013 Nicholas C. Zakas. All rights reserved.
+ * See LICENSE file in root directory for full license.
  */
 "use strict";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
+
 module.exports = function(context) {
 
     var OPT_OUT_PATTERN = /[\[\(\/\+\-]/; // One of [(/+-
 
-    var always = context.options[0] !== "never";
+    var always = context.options[0] !== "never",
+        sourceCode = context.getSourceCode();
 
     //--------------------------------------------------------------------------
     // Helpers
@@ -23,8 +27,32 @@ module.exports = function(context) {
      * @returns {void}
      */
     function report(node) {
-        var message = always ? "Missing semicolon." : "Extra semicolon.";
-        context.report(node, context.getLastToken(node).loc.end, message);
+        var message,
+            fix,
+            lastToken = sourceCode.getLastToken(node),
+            loc = lastToken.loc;
+
+        if (always) {
+            message = "Missing semicolon.";
+            loc = loc.end;
+            fix = function(fixer) {
+                return fixer.insertTextAfter(lastToken, ";");
+            };
+        } else {
+            message = "Extra semicolon.";
+            loc = loc.start;
+            fix = function(fixer) {
+                return fixer.remove(lastToken);
+            };
+        }
+
+        context.report({
+            node: node,
+            loc: loc,
+            message: message,
+            fix: fix
+        });
+
     }
 
     /**
@@ -110,6 +138,7 @@ module.exports = function(context) {
         "ExpressionStatement": checkForSemicolon,
         "ReturnStatement": checkForSemicolon,
         "ThrowStatement": checkForSemicolon,
+        "DoWhileStatement": checkForSemicolon,
         "DebuggerStatement": checkForSemicolon,
         "BreakStatement": checkForSemicolon,
         "ContinueStatement": checkForSemicolon,

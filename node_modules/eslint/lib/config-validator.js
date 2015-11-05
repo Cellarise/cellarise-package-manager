@@ -6,7 +6,12 @@
 
 "use strict";
 
+//------------------------------------------------------------------------------
+// Requirements
+//------------------------------------------------------------------------------
+
 var rules = require("./rules"),
+    environments = require("../conf/environments"),
     schemaValidator = require("is-my-json-valid");
 
 var validators = {
@@ -80,12 +85,49 @@ function validateRuleOptions(id, options, source) {
             "\tConfiguration for rule \"", id, "\" is invalid:\n"
         ];
         validateRule.errors.forEach(function(error) {
-            message.push(
-                "\tValue \"", error.value, "\" ", error.message, ".\n"
-            );
+            if (error.field === "data[\"0\"]") {  // better error for severity
+                message.push(
+                    "\tSeverity should be one of the following: 0 = off, 1 = warning, 2 = error (you passed \"", error.value, "\").\n");
+            } else {
+                message.push(
+                    "\tValue \"", error.value, "\" ", error.message, ".\n"
+                );
+            }
         });
 
         throw new Error(message.join(""));
+    }
+}
+
+/**
+ * Validates an environment object
+ * @param {object} environment The environment config object to validate.
+ * @param {string} source The location to report with any errors.
+ * @returns {void}
+ */
+function validateEnvironment(environment, source) {
+
+    // not having an environment is ok
+    if (!environment) {
+        return;
+    }
+
+    if (Array.isArray(environment)) {
+        throw new Error("Environment must not be an array");
+    }
+
+    if (typeof environment === "object") {
+        Object.keys(environment).forEach(function(env) {
+            if (!environments[env]) {
+                var message = [
+                    source, ":\n",
+                    "\tEnvironment key \"", env, "\" is unknown\n"
+                ];
+                throw new Error(message.join(""));
+            }
+        });
+    } else {
+        throw new Error("Environment must be an object");
     }
 }
 
@@ -96,11 +138,14 @@ function validateRuleOptions(id, options, source) {
  * @returns {void}
  */
 function validate(config, source) {
+
     if (typeof config.rules === "object") {
         Object.keys(config.rules).forEach(function(id) {
             validateRuleOptions(id, config.rules[id], source);
         });
     }
+
+    validateEnvironment(config.env, source);
 }
 
 module.exports = {

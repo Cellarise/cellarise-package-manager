@@ -19,6 +19,7 @@ module.exports = function(context) {
 
     var options = context.options[0] || {},
         prefer = options.prefer || {},
+        sourceCode = context.getSourceCode(),
 
         // these both default to true, so you have to explicitly make them false
         requireReturn = options.requireReturn !== false,
@@ -33,6 +34,16 @@ module.exports = function(context) {
     var fns = [];
 
     /**
+     * Check if node type is a Class
+     * @param {ASTNode} node node to check.
+     * @returns {boolean} True is its a class
+     * @private
+     */
+    function isTypeClass(node) {
+        return node.type === "ClassExpression" || node.type === "ClassDeclaration";
+    }
+
+    /**
      * When parsing a new function, store it in our function stack.
      * @param {ASTNode} node A function node to check.
      * @returns {void}
@@ -40,7 +51,8 @@ module.exports = function(context) {
      */
     function startFunction(node) {
         fns.push({
-            returnPresent: (node.type === "ArrowFunctionExpression" && node.body.type !== "BlockStatement")
+            returnPresent: (node.type === "ArrowFunctionExpression" && node.body.type !== "BlockStatement") ||
+                isTypeClass(node)
         });
     }
 
@@ -59,16 +71,27 @@ module.exports = function(context) {
     }
 
     /**
+     * Check if return tag type is void or undefined
+     * @param {Object} tag JSDoc tag
+     * @returns {boolean} True if its of type void or undefined
+     * @private
+     */
+    function isValidReturnType(tag) {
+        return tag.type.name === "void" || tag.type.type === "UndefinedLiteral";
+    }
+
+    /**
      * Validate the JSDoc node and output warnings if anything is wrong.
      * @param {ASTNode} node The AST node to check.
      * @returns {void}
      * @private
      */
     function checkJSDoc(node) {
-        var jsdocNode = context.getJSDocComment(node),
+        var jsdocNode = sourceCode.getJSDocComment(node),
             functionData = fns.pop(),
             hasReturns = false,
             hasConstructor = false,
+            isOverride = false,
             params = Object.create(null),
             jsdoc;
 
@@ -97,6 +120,8 @@ module.exports = function(context) {
                 switch (tag.title) {
 
                     case "param":
+                    case "arg":
+                    case "argument":
                         if (!tag.type) {
                             context.report(jsdocNode, "Missing JSDoc parameter type for '{{name}}'.", { name: tag.name });
                         }
@@ -123,7 +148,7 @@ module.exports = function(context) {
                                 context.report(jsdocNode, "Missing JSDoc return type.");
                             }
 
-                            if (tag.type.name !== "void" && !tag.description && requireReturnDescription) {
+                            if (!isValidReturnType(tag) && !tag.description && requireReturnDescription) {
                                 context.report(jsdocNode, "Missing JSDoc return description.");
                             }
                         }
@@ -135,43 +160,58 @@ module.exports = function(context) {
                         hasConstructor = true;
                         break;
 
+                    case "override":
+                    case "inheritdoc":
+                        isOverride = true;
+                        break;
+
                     // no default
                 }
 
                 // check tag preferences
-                if (prefer.hasOwnProperty(tag.title)) {
+                if (prefer.hasOwnProperty(tag.title) && tag.title !== prefer[tag.title]) {
                     context.report(jsdocNode, "Use @{{name}} instead.", { name: prefer[tag.title] });
                 }
 
             });
 
             // check for functions missing @returns
-            if (!hasReturns && !hasConstructor && node.parent.kind !== "get") {
+            if (!isOverride && !hasReturns && !hasConstructor && node.parent.kind !== "get" && !isTypeClass(node)) {
                 if (requireReturn || functionData.returnPresent) {
-                    context.report(jsdocNode, "Missing JSDoc @returns for function.");
+                    context.report(jsdocNode, "Missing JSDoc @" + (prefer.returns || "returns") + " for function.");
                 }
             }
 
             // check the parameters
             var jsdocParams = Object.keys(params);
 
-            node.params.forEach(function(param, i) {
-                var name = param.name;
+            if (node.params) {
+                node.params.forEach(function(param, i) {
+                    var name = param.name;
 
-                // TODO(nzakas): Figure out logical things to do with destructured, default, rest params
-                if (param.type === "Identifier") {
-                    if (jsdocParams[i] && (name !== jsdocParams[i])) {
-                        context.report(jsdocNode, "Expected JSDoc for '{{name}}' but found '{{jsdocName}}'.", {
-                            name: name,
-                            jsdocName: jsdocParams[i]
-                        });
-                    } else if (!params[name]) {
-                        context.report(jsdocNode, "Missing JSDoc for parameter '{{name}}'.", {
-                            name: name
-                        });
+                    // TODO(nzakas): Figure out logical things to do with destructured, default, rest params
+                    if (param.type === "Identifier") {
+                        if (jsdocParams[i] && (name !== jsdocParams[i])) {
+                            context.report(jsdocNode, "Expected JSDoc for '{{name}}' but found '{{jsdocName}}'.", {
+                                name: name,
+                                jsdocName: jsdocParams[i]
+                            });
+                        } else if (!params[name] && !isOverride) {
+                            context.report(jsdocNode, "Missing JSDoc for parameter '{{name}}'.", {
+                                name: name
+                            });
+                        }
                     }
+                });
+            }
+
+            if (options.matchDescription) {
+                var regex = new RegExp(options.matchDescription);
+
+                if (!regex.test(jsdoc.description)) {
+                    context.report(jsdocNode, "JSDoc description does not satisfy the regex pattern.");
                 }
-            });
+            }
 
         }
 
@@ -185,9 +225,13 @@ module.exports = function(context) {
         "ArrowFunctionExpression": startFunction,
         "FunctionExpression": startFunction,
         "FunctionDeclaration": startFunction,
+        "ClassExpression": startFunction,
+        "ClassDeclaration": startFunction,
         "ArrowFunctionExpression:exit": checkJSDoc,
         "FunctionExpression:exit": checkJSDoc,
         "FunctionDeclaration:exit": checkJSDoc,
+        "ClassExpression:exit": checkJSDoc,
+        "ClassDeclaration:exit": checkJSDoc,
         "ReturnStatement": addReturn
     };
 
@@ -211,6 +255,9 @@ module.exports.schema = [
             },
             "requireReturnDescription": {
                 "type": "boolean"
+            },
+            "matchDescription": {
+                "type": "string"
             }
         },
         "additionalProperties": false

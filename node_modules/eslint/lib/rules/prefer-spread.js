@@ -6,6 +6,8 @@
 
 "use strict";
 
+var astUtils = require("../ast-utils");
+
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
@@ -23,19 +25,6 @@ function isVariadicApplyCalling(node) {
         node.callee.computed === false &&
         node.arguments.length === 2 &&
         node.arguments[1].type !== "ArrayExpression"
-    );
-}
-
-/**
- * Checks whether or not a node is `null` or `undefined`.
- * @param {ASTNode} node - A node to check.
- * @returns {boolean} Whether or not the node is a `null` or `undefined`.
- */
-function isNullOrUndefined(node) {
-    return (
-        (node.type === "Literal" && node.value === null) ||
-        (node.type === "Identifier" && node.name === "undefined") ||
-        (node.type === "UnaryExpression" && node.operator === "void")
     );
 }
 
@@ -72,8 +61,8 @@ function equalTokens(left, right, context) {
  * @returns {boolean} Whether or not `thisArg` is not changed by `.apply()`.
  */
 function isValidThisArg(expectedThis, thisArg, context) {
-    if (expectedThis == null) {
-        return isNullOrUndefined(thisArg);
+    if (!expectedThis) {
+        return astUtils.isNullOrUndefined(thisArg);
     }
     return equalTokens(expectedThis, thisArg, context);
 }

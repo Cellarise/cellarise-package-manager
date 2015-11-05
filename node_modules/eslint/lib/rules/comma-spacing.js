@@ -5,11 +5,15 @@
  */
 "use strict";
 
+var astUtils = require("../ast-utils");
+
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
 module.exports = function(context) {
+
+    var sourceCode = context.getSourceCode();
 
     var options = {
         before: context.options[0] ? !!context.options[0].before : false,
@@ -24,43 +28,8 @@ module.exports = function(context) {
     var lastCommentIndex = 0;
     var allComments;
 
-    /**
-     * Determines the length of comment between 2 tokens
-     * @param {Object} left - The left token object.
-     * @param {Object} right - The right token object.
-     * @returns {number} Length of comment in between tokens
-     */
-    function getCommentLengthBetweenTokens(left, right) {
-        return allComments.reduce(function(val, comment) {
-            if (left.range[1] <= comment.range[0] && comment.range[1] <= right.range[0]) {
-                val = val + comment.range[1] - comment.range[0];
-            }
-            return val;
-        }, 0);
-    }
-
-    /**
-     * Determines whether two adjacent tokens have whitespace between them.
-     * @param {Object} left - The left token object.
-     * @param {Object} right - The right token object.
-     * @returns {boolean} Whether or not there is space between the tokens.
-     */
-    function isSpaced(left, right) {
-        var punctuationLength = context.getTokensBetween(left, right).length; // the length of any parenthesis
-        var commentLenth = getCommentLengthBetweenTokens(left, right);
-        return (left.range[1] + punctuationLength + commentLenth) < right.range[0];
-    }
-
-    /**
-     * Checks whether two tokens are on the same line.
-     * @param {ASTNode} left The leftmost token.
-     * @param {ASTNode} right The rightmost token.
-     * @returns {boolean} True if the tokens are on the same line, false if not.
-     * @private
-     */
-    function isSameLine(left, right) {
-        return left.loc.end.line === right.loc.start.line;
-    }
+    // list of comma tokens to ignore for the check of leading whitespace
+    var commaTokensToIgnore = [];
 
     /**
      * Determines if a given token is a comma operator.
@@ -70,42 +39,6 @@ module.exports = function(context) {
      */
     function isComma(token) {
         return !!token && (token.type === "Punctuator") && (token.value === ",");
-    }
-
-    /**
-     * Reports a spacing error with an appropriate message.
-     * @param {ASTNode} node The binary expression node to report.
-     * @param {string} dir Is the error "before" or "after" the comma?
-     * @returns {void}
-     * @private
-     */
-    function report(node, dir) {
-        context.report(node, options[dir] ?
-            "A space is required " + dir + " ','." :
-            "There should be no space " + dir + " ','.");
-    }
-
-    /**
-     * Validates the spacing around a comma token.
-     * @param {Object} tokens - The tokens to be validated.
-     * @param {Token} tokens.comma The token representing the comma.
-     * @param {Token} [tokens.left] The last token before the comma.
-     * @param {Token} [tokens.right] The first token after the comma.
-     * @param {Token|ASTNode} reportItem The item to use when reporting an error.
-     * @returns {void}
-     * @private
-     */
-    function validateCommaItemSpacing(tokens, reportItem) {
-        if (tokens.left && isSameLine(tokens.left, tokens.comma) &&
-                (options.before !== isSpaced(tokens.left, tokens.comma))
-        ) {
-            report(reportItem, "before");
-        }
-        if (tokens.right && isSameLine(tokens.comma, tokens.right) &&
-                (options.after !== isSpaced(tokens.comma, tokens.right))
-        ) {
-            report(reportItem, "after");
-        }
     }
 
     /**
@@ -121,6 +54,7 @@ module.exports = function(context) {
     function isIndexInComment(index, comments) {
 
         var comment;
+        lastCommentIndex = 0;
 
         while (lastCommentIndex < comments.length) {
 
@@ -139,12 +73,108 @@ module.exports = function(context) {
         return false;
     }
 
+
+    /**
+     * Reports a spacing error with an appropriate message.
+     * @param {ASTNode} node The binary expression node to report.
+     * @param {string} dir Is the error "before" or "after" the comma?
+     * @param {ASTNode} otherNode The node at the left or right of `node`
+     * @returns {void}
+     * @private
+     */
+    function report(node, dir, otherNode) {
+        context.report({
+            node: node,
+            fix: function(fixer) {
+                if (options[dir]) {
+                    if (dir === "before") {
+                        return fixer.insertTextBefore(node, " ");
+                    } else {
+                        return fixer.insertTextAfter(node, " ");
+                    }
+                } else {
+                    /*
+                     * Comments handling
+                     */
+                    var start, end;
+                    var newText = "";
+
+                    if (dir === "before") {
+                        start = otherNode.range[1];
+                        end = node.range[0];
+                    } else {
+                        start = node.range[1];
+                        end = otherNode.range[0];
+                    }
+
+                    for (var i = start; i < end; i++) {
+                        if (isIndexInComment(i, allComments)) {
+                            newText += context.getSource()[i];
+                        }
+                    }
+                    return fixer.replaceTextRange([start, end], newText);
+                }
+            },
+            message: options[dir] ?
+              "A space is required " + dir + " ','." :
+              "There should be no space " + dir + " ','."
+        });
+    }
+
+    /**
+     * Validates the spacing around a comma token.
+     * @param {Object} tokens - The tokens to be validated.
+     * @param {Token} tokens.comma The token representing the comma.
+     * @param {Token} [tokens.left] The last token before the comma.
+     * @param {Token} [tokens.right] The first token after the comma.
+     * @param {Token|ASTNode} reportItem The item to use when reporting an error.
+     * @returns {void}
+     * @private
+     */
+    function validateCommaItemSpacing(tokens, reportItem) {
+        if (tokens.left && astUtils.isTokenOnSameLine(tokens.left, tokens.comma) &&
+                (options.before !== sourceCode.isSpaceBetweenTokens(tokens.left, tokens.comma))
+        ) {
+            report(reportItem, "before", tokens.left);
+        }
+        if (tokens.right && astUtils.isTokenOnSameLine(tokens.comma, tokens.right) &&
+                (options.after !== sourceCode.isSpaceBetweenTokens(tokens.comma, tokens.right))
+        ) {
+            report(reportItem, "after", tokens.right);
+        }
+    }
+
+    /**
+     * Adds null elements of the given ArrayExpression or ArrayPattern node to the ignore list.
+     * @param {ASTNode} node An ArrayExpression or ArrayPattern node.
+     * @returns {void}
+     */
+    function addNullElementsToIgnoreList(node) {
+        var previousToken = context.getFirstToken(node);
+
+        node.elements.forEach(function(element) {
+            var token;
+
+            if (element === null) {
+                token = context.getTokenAfter(previousToken);
+
+                if (isComma(token)) {
+                    commaTokensToIgnore.push(token);
+                }
+            } else {
+                token = context.getTokenAfter(element);
+            }
+
+            previousToken = token;
+        });
+    }
+
     //--------------------------------------------------------------------------
     // Public
     //--------------------------------------------------------------------------
 
     return {
-        "Program": function() {
+        "Program:exit": function() {
 
             var source = context.getSource(),
                 pattern = /,/g,
@@ -164,13 +194,16 @@ module.exports = function(context) {
                         nextToken = context.getTokenAfter(commaToken);
                         validateCommaItemSpacing({
                             comma: commaToken,
-                            left: isComma(previousToken) ? null : previousToken,
+                            left: isComma(previousToken) || commaTokensToIgnore.indexOf(commaToken) > -1 ? null : previousToken,
                             right: isComma(nextToken) ? null : nextToken
                         }, commaToken);
                     }
                 }
             }
-        }
+        },
+        "ArrayExpression": addNullElementsToIgnoreList,
+        "ArrayPattern": addNullElementsToIgnoreList
+
     };
 
 };
