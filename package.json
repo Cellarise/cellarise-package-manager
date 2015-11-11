@@ -106,7 +106,7 @@
     "imports-loader": "^0.6.3",
     "script-loader": "^0.6.1",
     "istanbul-instrumenter-loader": "^0.1.2",
-    "babel-istanbul-instrumenter-loader": "^2.0.1",
+    "babel-istanbul-instrumenter-loader": "^1.0.1",
     "babel-istanbul": "^0.5.5",
     "webpack": "^1.12.4",
     "webpack-dev-server": "^1.12.1",
