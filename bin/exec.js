@@ -90,7 +90,7 @@ module.exports = function exec(logger) {
          * @param {Function} cb - callback function with signature: function(err, data)
          */
         "commitGit": function commitGit(commit, cwd, cb) {
-            this.execCommand("cgitsh Auto-Git-commit \"" + commit + "\"", cwd, null, function commitGitCallback(err, stdout) {
+            this.execCommand("cgitsh Auto-Git-commit '" + commit + "'", cwd, null, function commitGitCallback(err, stdout) {
                 //err = null; //do not pass through any error
                 cb(err, stdout);
             });
