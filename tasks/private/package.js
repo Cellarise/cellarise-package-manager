@@ -57,7 +57,7 @@ module.exports = function packageTasks(gulp, context) {
         "!Temp/**/*"
       ]);
     }
-    return gulp.src(sourcePaths, {"nonegate": false})
+    return gulp.src(sourcePaths)
       .pipe(gulp.dest(directories.build))
       .on("end", function onEnd() {
         //move files which need to exist in a Build folder within the Build package
