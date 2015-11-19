@@ -49,4 +49,37 @@ module.exports = function docsChangelogTasks(gulp, context) {
       }))
       .pipe(gulp.dest(directories.doc));
   });
+
+  /**
+   * A gulp build task to compile and render the package changelog in markdown (no HTML).
+   * The changelog data is automatically sourced from Jira if the oauth config.json file exists and
+   * package.json file contains property `config.projectCode`.
+   * The result is saved to `doc/readme-changelog.md`.
+   * @member {Gulp} docs_changelog
+   * @return {through2} stream
+   */
+  gulp.task("docs_changelogMD", function docsChangelogTask() {
+    //var cwd = context.cwd;
+    var pkg = context.package;
+    var directories = pkg.directories;
+
+    return gulp.src(path.join(__dirname, "../templates") + "/readme-changelogMD.dust")
+      .pipe(new AsyncPipe({
+          "oneTimeRun": true,
+          "passThrough": true
+        },
+        function getChangelog(opts, chunk, cb) {
+          jiraUtils.getChangelog(pkg.config.projectCode, cb);
+        },
+        function getChangelogCallback(error, data) {
+          if (!error) {
+            pkg.changelog = data;
+          }
+        }))
+      .pipe(new GulpDustCompileRender(pkg))
+      .pipe(rename(function renameExtension(renamePath) {
+        renamePath.extname = ".md";
+      }))
+      .pipe(gulp.dest(directories.doc));
+  });
 };

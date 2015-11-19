@@ -1,0 +1,10 @@
+{#changelog.releases}
+
+## Version:{~s}{version.name}{~s}-{~s}released{~s}{version.releaseDate}
+
+Icon | Type | ID | Summary
+--- | --- | --- | ---
+{#issues}<img src="{issuetype.iconUrl}"/> | {issuetype.name} | {key} | {summary}
+{/issues}
+
+{/changelog.releases}

@@ -77,8 +77,12 @@
     "selenium": "./bin/selenium.bat"
   },
   "dependencies": {
+    "babel-plugin-transform-react-display-name": "^6.1.18",
     "chalk": "^1.0.0",
     "chokidar": "^1.0.5",
+    "esdoc": "^0.4.3",
+    "esdoc-es7-plugin": "0.0.3",
+    "esdoc-importpath-plugin": "0.0.1",
     "minimist": "^1.1.1",
     "pretty-hrtime": "^1.0.0",
     "ramda": "^0.18.0"

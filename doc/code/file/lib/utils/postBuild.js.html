@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">lib/utils/postBuild.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <a data-ice="repoURL" href="https://github.com/Cellarise/cellarise-package-manager.git" class="repo-url-github">Repository</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  </ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">lib/utils/postBuild.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&quot;use strict&quot;;
+
+/**
+ * Post build utilities
+ * @exports utils/postBuild
+ * @param {bunyan} logger - A logger matching the bunyan API
+ * @returns {Object} Post build utility functions
+ */
+module.exports = function postBuildUtils(logger) {
+  var vasync = require(&quot;vasync&quot;);
+  var path = require(&quot;path&quot;);
+  var fs = require(&quot;fs&quot;);
+  var results = [];
+
+  var exports = {
+    /**
+     * Check whether a file or directory path exists and if not record an error message in the provided results object.
+     * @param {String} testPath - the path to test from the current working directory
+     * @param {String} cwd - the current working directory
+     * @param {Object} result - the result object to record an error message if file or directory path does not exist
+     * @returns {Boolean} true if the file or directory path exists
+     */
+    &quot;pathExists&quot;: function pathExists(testPath, cwd, result) {
+      var message = &quot;Build directory/file &quot; + testPath + &quot; does not exist. &quot;;
+      if (!fs.existsSync(path.join(cwd, &quot;Build&quot;, testPath))) {
+        logger.error(message);
+        result.errorMessages.push(message);
+        return false;
+      }
+      return true;
+    },
+    /**
+     * Check whether a file or directory path exists and if so record an error message in the provided results object.
+     * @param {String} testPath - the path to test from the current working directory
+     * @param {String} cwd - the current working directory
+     * @param {Object} result - the result object to record an error message if file or directory path exists
+     * @returns {Boolean} true if the file or directory path does not exist
+     */
+    &quot;pathNotExists&quot;: function pathNotExists(testPath, cwd, result) {
+      var message = &quot;Build directory/file &quot; + testPath + &quot; exists. &quot;;
+      if (fs.existsSync(path.join(cwd, &quot;Build&quot;, testPath))) {
+        logger.error(message);
+        result.errorMessages.push(message);
+        return false;
+      }
+      return true;
+    },
+    /**
+     * Post build checks including:
+     * Check that build directory exists and contains expected contents
+     * @param {Object} directories - the directories listed in package.json
+     * @param {String} cwd - the current working directory
+     * @param {Function} cb - callback
+     */
+    &quot;checks&quot;: function checks(directories, cwd, cb){
+      var self = this;
+      vasync.parallel({
+        &quot;funcs&quot;: [
+          function checkBuildDirectory(callback) {
+            var result = {
+              &quot;testName&quot;: &quot;Check that build directory exists and contains expected contents&quot;,
+              &quot;errorMessages&quot;: []
+            };
+            if (self.pathExists(&quot;&quot;, cwd, result)){
+              self.pathNotExists(directories.reports, cwd, result);
+              self.pathExists(&quot;.gitignore&quot;, cwd, result);
+              self.pathExists(&quot;.eslintrc&quot;, cwd, result);
+              self.pathExists(&quot;.eslintignore&quot;, cwd, result);
+              self.pathExists(&quot;.npmignore&quot;, cwd, result);
+            }
+            results.push(result);
+            callback();
+          },
+          function checkPackageJSON(callback) {
+            var buildPackageJSON;
+            var result = {
+              &quot;testName&quot;: &quot;Check build package.json exists and contains expected properties&quot;,
+              &quot;errorMessages&quot;: []
+            };
+            if (self.pathExists(&quot;package.json&quot;, cwd, result)){
+              buildPackageJSON = require(path.join(cwd, &quot;Build/package.json&quot;));
+              if (buildPackageJSON.config.build === &quot;n/a&quot;){
+                result.errorMessages.push(&quot;Build number not set. &quot;);
+              }
+            }
+            results.push(result);
+            callback();
+          }
+        ]
+      }, function postBuildParallelCallback(err) {
+        require(&quot;../reports/postBuildMocha&quot;)(
+          &quot;Post build&quot;,
+          results,
+          path.join(cwd, directories.reports, &quot;postBuild-mocha-tests.json&quot;));
+        require(&quot;../reports/postBuildCucumber&quot;)(
+          &quot;Post build&quot;,
+          results,
+          path.join(cwd, directories.reports, &quot;cucumber-tests.json&quot;));
+        cb(err);
+      });
+    }
+  };
+
+  return exports;
+};
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.3)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

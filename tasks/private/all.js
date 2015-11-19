@@ -41,7 +41,6 @@ module.exports = function allTasks(gulp) {
       "webpackTest",
       "test_cover",
       "coverage_stats",
-      "docs",
       "metadata",
       "webpackPkg",
       "package",

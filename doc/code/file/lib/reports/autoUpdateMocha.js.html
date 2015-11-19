@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">lib/reports/autoUpdateMocha.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <a data-ice="repoURL" href="https://github.com/Cellarise/cellarise-package-manager.git" class="repo-url-github">Repository</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  </ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">lib/reports/autoUpdateMocha.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&quot;use strict&quot;;
+
+/**
+ * Auto update mocha report
+ * @exports reports/autoUpdateMocha
+ * @returns {Object} Auto update mocha report functions
+ */
+module.exports = function autoUpdateMocha() {
+  var base = require(&quot;./baseMocha&quot;)();
+  var exports = {
+    /**
+     * Prepare the report header
+     * @param {String} [start=new global.Date()] - start time and date
+     * @param {String} [end=new global.Date()] - end time and date (will be overwritten by write report function)
+     * @returns {Object} the report header
+     */
+    &quot;prepare&quot;: base.prepare,
+    /**
+     * Write a new test
+     * @param {Object} workflowHistory - the workflow history returned from an auto update
+     * @param {Object} rpt - the report object to write or add the test result to
+     */
+    &quot;write&quot;: function writeReport(workflowHistory, rpt) {
+      var projectDefinition;
+      var pass = true;
+
+      if (workflowHistory.bambooTest &amp;&amp; !workflowHistory.bambooTest.successful) {
+        pass = false;
+      }
+      if (workflowHistory.bambooRelease &amp;&amp; !workflowHistory.bambooRelease.successful) {
+        pass = false;
+      }
+      //workflow history properties may be incomplete in the event of an error during auto update
+      workflowHistory.project = workflowHistory.project ? workflowHistory.project : {};
+      workflowHistory.updateCheck = workflowHistory.updateCheck ? workflowHistory.updateCheck : {};
+      workflowHistory.updateCheckText = workflowHistory.updateCheckText ? workflowHistory.updateCheckText : {};
+      workflowHistory.updateSourceJiraIssue = workflowHistory.updateSourceJiraIssue ?
+          workflowHistory.updateSourceJiraIssue : {};
+      workflowHistory.bambooTest = workflowHistory.bambooTest ? workflowHistory.bambooTest : {};
+      workflowHistory.bambooRelease = workflowHistory.bambooRelease ? workflowHistory.bambooRelease : {};
+      workflowHistory.transitionedIssue = workflowHistory.transitionedIssue ? workflowHistory.transitionedIssue : {};
+      workflowHistory.releasedVersion = workflowHistory.releasedVersion ? workflowHistory.releasedVersion : {};
+
+      projectDefinition = workflowHistory.project.key + &quot;-&quot; + workflowHistory.project.name;
+
+      if (pass) {
+        base.write(projectDefinition, true, {
+          &quot;title&quot;: projectDefinition,
+          &quot;fullTitle&quot;: projectDefinition,
+          &quot;duration&quot;: 0
+        }, rpt);
+      } else {
+        base.write(projectDefinition, false, {
+          &quot;title&quot;: projectDefinition,
+          &quot;fullTitle&quot;: projectDefinition,
+          &quot;duration&quot;: 0,
+          &quot;error&quot;: projectDefinition + &quot;: \n&quot; +
+            &quot;Update required=&quot; + workflowHistory.updateCheck + &quot;\n&quot; +
+            &quot;Jira issue=&quot; + workflowHistory.updateSourceJiraIssue.key + &quot;\n&quot; +
+            &quot;Test Build=&quot; + workflowHistory.bambooTest.buildNumber + &quot; - &quot; +
+            workflowHistory.bambooTest.buildState + &quot;\n&quot; +
+            &quot;Release version=&quot; + workflowHistory.releasedVersion.name + &quot;\n&quot; +
+            &quot;Unresolved issues=&quot; + workflowHistory.releasedVersion.issuesUnresolvedCount + &quot;\n&quot; +
+            &quot;Release Build=&quot; + workflowHistory.bambooRelease.buildNumber + &quot; - &quot; +
+            workflowHistory.bambooRelease.buildState + &quot;\n&quot;
+        }, rpt);
+      }
+      //no return - rpt past by reference
+    },
+    /**
+     * Synchronously write a test report to a file location
+     * @param {String} reportPath - the file path including filename
+     * @param {Object} report - the report object containing report header and results
+     */
+    &quot;writeToFileSync&quot;: base.writeToFileSync
+  };
+
+  return exports;
+};
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.3)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

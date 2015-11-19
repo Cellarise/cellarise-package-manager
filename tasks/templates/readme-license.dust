@@ -1,8 +1,7 @@
-# License
+## Copyright
+{license}. All rights not explicitly granted in the license are reserved.
 
-{~lb}license{~rb}. All rights not explicitly granted in the license are reserved.
-
-Copyright (c) 2015 {~lb}author{~rb}
+Copyright (c) 2015 {author}
 
 ## Dependencies
 {#licenses}[{name}]({repository}) - {.license}, {/licenses}

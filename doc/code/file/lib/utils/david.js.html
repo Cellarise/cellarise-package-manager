@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">lib/utils/david.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <a data-ice="repoURL" href="https://github.com/Cellarise/cellarise-package-manager.git" class="repo-url-github">Repository</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  </ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">lib/utils/david.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&quot;use strict&quot;;
+
+/**
+ * David build utilities
+ * @exports utils/david
+ * @param {bunyan} logger - A logger matching the bunyan API
+ * @returns {Object} David build utility functions
+ */
+module.exports = function davidUtils(logger) {
+  var david = require(&quot;david&quot;);
+  var fs = require(&quot;fs&quot;);
+  var vasync = require(&quot;vasync&quot;);
+  var _ = require(&quot;underscore&quot;);
+
+  var exports = {
+
+    /**
+     * Generate a dependency report in the mocha output format.
+     * @param {Object} manifest - Parsed package.json file contents
+     * @param {Object} [opts] Options
+     * @param {Object} [opts.reportType=&quot;mocha&quot;] - The report output format.  Choose from mocha or cucumber.
+     * @param {Object} [opts.reportPath] - The output path for the report
+     * @param {Boolean} [opts.stable=false] - Consider only stable packages
+     * @param {Function} cb Function that receives the results
+     */
+    &quot;dependencyReport&quot;: function dependencyReport(manifest, opts, cb) {
+      var self = this;
+      var checks = [];
+      var reportWriter;
+      var report;
+      opts = _.defaults(opts, {
+        &quot;stable&quot;: false,
+        &quot;reportType&quot;: &quot;mocha&quot;,
+        &quot;dev&quot;: false,
+        &quot;optional&quot;: false
+      });
+      //capitalise first character of reportType for require()
+      opts.reportType = opts.reportType.charAt(0).toUpperCase() + opts.reportType.slice(1);
+      reportWriter = require(&quot;../reports/david&quot; + opts.reportType)();
+      report = reportWriter.prepare();
+
+      //add dependency checks
+      checks.push(
+        function production(arg, callback) {
+          logger.info(&quot;Checking production dependencies&quot;);
+          opts.suite = &quot;Production dependencies&quot;;
+          opts.dev = false;
+          opts.optional = false;
+          self.recordDependencies(manifest, opts, report, reportWriter, callback);
+        });
+      if (opts.dev) {
+        checks.push(
+          function dependencies(arg, callback) {
+            logger.info(&quot;Checking development dependencies&quot;);
+            opts.suite = &quot;Development dependencies&quot;;
+            opts.dev = true;
+            opts.optional = false;
+            self.recordDependencies(manifest, opts, report, reportWriter, callback);
+          });
+      }
+      if (opts.optional) {
+        checks.push(
+          function optionalDependencies(arg, callback) {
+            logger.info(&quot;Checking optional dependencies&quot;);
+            opts.suite = &quot;Optional dependencies&quot;;
+            opts.dev = false;
+            opts.optional = true;
+            self.recordDependencies(manifest, opts, report, reportWriter, callback);
+          });
+      }
+
+      vasync.pipeline({&quot;funcs&quot;: checks}, function dependencyCheckCallback(err) {
+        if (!err) {
+          reportWriter.writeToFileSync(opts.reportPath, report);
+        }
+        cb(err);
+      });
+    },
+
+    /**
+     * Record the result of dependency checks against all provided dependencies of a particular type
+     * in the report object. The david.isUpdated() function.
+     * @param {Object} manifest Parsed package.json file contents
+     * @param {Object} [opts] Options
+     * @param {String} [opts.suite]  - the dependency type string description
+     * @param {Boolean} [opts.stable] Consider only stable packages
+     * @param {Boolean} [opts.dev] Consider devDependencies
+     * @param {Boolean} [opts.optional] Consider optionalDependencies
+     * @param {Boolean} [opts.peer] Consider peerDependencies
+     * @param {Boolean} [opts.loose] Use loose option when querying semver
+     * @param {Object} [opts.npm] npm configuration options
+     * @param {Boolean} [opts.warn.E404] Collect 404s but don&apos;t abort
+     * @param {Object} rpt - report object to record results to
+     * @param {Object} reportWriter Provides write method to write the result of each package dependency
+     * check to the rpt object
+     * @param {Function} cb Function that receives the results
+     */
+    &quot;recordDependencies&quot;: function recordDependencies(manifest, opts, rpt, reportWriter, cb) {
+      david.getDependencies(manifest, opts, function getDependenciesCallback(err, pkgs) {
+        Object.keys(pkgs).forEach(function eachPackage(pkg) {
+          reportWriter.write(opts, pkgs, pkg, rpt);
+        });
+        cb(err, rpt);
+      });
+    },
+
+    /**
+     * Add updated dependencies to package.json
+     * @param {Object} pathToManifest path to the package.json file
+     * @param {Object} [opts] Options
+     * @param {Boolean} [opts.stable] Consider only stable packages
+     * @param {Boolean} [opts.dev] Provided dependencies are dev dependencies
+     * @param {Boolean} [opts.optional] Provided dependencies are optional dependencies
+     * @param {Boolean} [opts.peer] Consider peerDependencies
+     * @param {Boolean} [opts.loose] Use loose option when querying semver
+     * @param {Object} [opts.npm] npm configuration options
+     * @param {Boolean} [opts.warn.E404] Collect 404s but don&quot;t abort
+     * @param {Function} cb Callback
+     */
+    &quot;addUpdatedDeps&quot;: function addUpdatedDeps(pathToManifest, opts, cb) {
+      var manifest = JSON.parse(fs.readFileSync(pathToManifest));
+      var type = &quot;dependencies&quot;;
+      if (opts.dev) {
+        type = &quot;devDependencies&quot;;
+      } else if (opts.optional) {
+        type = &quot;optionalDependencies&quot;;
+      }
+      david.getUpdatedDependencies(manifest, opts, function getUpdatedDependenciesCallback(er, pkgs) {
+        manifest[type] = manifest[type] || {};
+        Object.keys(pkgs).forEach(function eachPackage(pkg) {
+          if (pkgs[pkg].required !== &quot;^&quot; + pkgs[pkg].stable) {
+            manifest[type][pkg] = &quot;^&quot; + pkgs[pkg].stable;
+            logger.info(&quot;Updated: &quot; + pkg + &quot; to &quot; + pkgs[pkg].stable);
+          }
+        });
+        fs.writeFileSync(pathToManifest, JSON.stringify(manifest, null, 2));
+        cb();
+      });
+    }
+  };
+
+  return exports;
+};
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.3)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>
