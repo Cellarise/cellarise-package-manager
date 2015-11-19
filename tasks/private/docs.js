@@ -55,7 +55,7 @@ module.exports = function docsTasks(gulp, context) {
    * @member {Gulp} docs
    * @return {through2} stream
    */
-  gulp.task("docs_product", ["docs_license", "docs_changelogMD"], function docsTask() {
+  gulp.task("docs_product", ["docs_licenseP", "docs_changelogMD"], function docsTask() {
     var cwd = context.cwd;
     var pkg = context.package;
     var directories = pkg.directories;
