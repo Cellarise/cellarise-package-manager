@@ -12,8 +12,9 @@ module.exports = function (gulp, context) {
     var glob = require('glob');
     var path = require('path');
     var _ = require('underscore');
+    var babel = require("babel-core/register");
 
-    function handleError(err) {
+  function handleError(err) {
         gutil.log(err.toString());
         this.emit('end'); //jshint ignore:line
     }
@@ -44,6 +45,9 @@ module.exports = function (gulp, context) {
 
         return gulp.src(directories.test + '/test.js')
             .pipe(mocha({
+                "compilers": {
+                  "js": babel
+                },
                 reporter: reporter,
                 timeout: 500000
             }))

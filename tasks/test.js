@@ -17,6 +17,7 @@ module.exports = function testTasks(gulp, context) {
   var glob = require("glob");
   var path = require("path");
   var R = require("ramda");
+  var babel = require("babel-core/register");
   var logger = context.logger;
   var COVERAGE_VAR = "__cpmCoverage__";
 
@@ -56,6 +57,9 @@ module.exports = function testTasks(gulp, context) {
 
     return gulp.src(path.resolve(process.cwd(), directories.test + "/test.js"), {"read": false})
       .pipe(mocha({
+        "compilers": {
+          "js": babel
+        },
         "reporter": reporter,
         "timeout": 600000
       }))
