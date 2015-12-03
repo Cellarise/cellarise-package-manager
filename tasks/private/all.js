@@ -47,6 +47,47 @@ module.exports = function allTasks(gulp) {
       cb);
   });
 
+
+  /**
+   * A gulp build task to run selenium and test tasks
+   * The following tasks are executed in sequence:
+   * [ 'webpack', 'test']
+   * The sequence works by piping each task to the next.
+   * @member {Gulp} all_product
+   * @param {Function} cb - callback
+   */
+  gulp.task("selenium_test", function seleniumTest(cb) {
+    runSequence(
+      "start-selenium",
+      "webpackCompileTemplatesTestMode",
+      "test_cover",
+      "webpackCompileTemplates",
+      "kill-selenium",
+      cb);
+  });
+
+
+  /**
+   * A gulp build task to run selenium, loopback and test tasks
+   * The following tasks are executed in sequence:
+   * [ 'webpack', 'test']
+   * The sequence works by piping each task to the next.
+   * @member {Gulp} all_product
+   * @param {Function} cb - callback
+   */
+  gulp.task("selenium_loopback_test", function seleniumTest(cb) {
+    runSequence(
+      "start-selenium",
+      "start-loopback",
+      "webpackTest",
+      "test",
+      "webpackCompileTemplates",
+      "kill-loopback",
+      "kill-selenium",
+      cb);
+  });
+
+
   /**
    * A gulp build task to run webpack and test tasks
    * The following tasks are executed in sequence:

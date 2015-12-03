@@ -17,6 +17,7 @@ module.exports = function webpackTasks(gulp, context) {
   var GulpDustCompileRender = require("gulp-dust-compile-render");
   var rename = require("gulp-rename");
   var fs = require("fs");
+  var R = require('ramda');
 
   var webpackRunner = function webpackRunner(configPath) {
     var pkg = context.package;
@@ -34,6 +35,26 @@ module.exports = function webpackTasks(gulp, context) {
        })*/))
       .pipe(gulp.dest(dest));
   };
+  var webpackCompileTemplatesTaskGeneric = function webpackCompileTemplatesTaskGeneric(testMode) {
+    //read Build/package.json is exists (i.e. created by metadata) or read /package.json
+    var pkg = context.package;
+    var cwd = context.cwd;
+    var directories = pkg.directories;
+    var templatePkg;
+    var buildPackagePath = path.join(cwd, directories.build + "/package.json");
+    var localPackagePath = path.join(cwd, "package.json");
+    if (fs.existsSync(buildPackagePath)) {
+      templatePkg = require(buildPackagePath);
+    } else {
+      templatePkg = require(localPackagePath);
+    }
+    return gulp.src(directories.client + "/**/*.dust")
+      .pipe(new GulpDustCompileRender(R.assoc("testMode", testMode, templatePkg), {"helper": "dustjs-helpers"}))
+      .pipe(rename(function renameExtension(renamePath) {
+        renamePath.extname = ".js";
+      }))
+      .pipe(gulp.dest(directories.client));
+  };
   /**
    * A gulp build task to run the webpack module bundler for development.
    * @member {Gulp} webpack
@@ -47,7 +68,7 @@ module.exports = function webpackTasks(gulp, context) {
    * @member {Gulp} webpack
    * @return {through2} stream
    */
-  gulp.task("webpackTest", ["webpackCompileTemplates"], function webpackTask() {
+  gulp.task("webpackTest", ["webpackCompileTemplatesTestMode"], function webpackTask() {
     return webpackRunner("/config/webpack.config.test.js");
   });
   /**
@@ -67,24 +88,18 @@ module.exports = function webpackTasks(gulp, context) {
    * @return {through2} stream
    */
   gulp.task("webpackCompileTemplates", function webpackCompileTemplatesTask() {
-    //read Build/package.json is exists (i.e. created by metadata) or read /package.json
-    var pkg = context.package;
-    var cwd = context.cwd;
-    var directories = pkg.directories;
-    var templatePkg;
-    var buildPackagePath = path.join(cwd, directories.build + "/package.json");
-    var localPackagePath = path.join(cwd, "package.json");
-    if (fs.existsSync(buildPackagePath)) {
-      templatePkg = require(buildPackagePath);
-    } else {
-      templatePkg = require(localPackagePath);
-    }
-    return gulp.src(directories.client + "/**/*.dust")
-      .pipe(new GulpDustCompileRender(templatePkg, {"helper": "dustjs-helpers"}))
-      .pipe(rename(function renameExtension(renamePath) {
-        renamePath.extname = ".js";
-      }))
-      .pipe(gulp.dest(directories.client));
+    return webpackCompileTemplatesTaskGeneric(false);
+  });
+  /**
+   * A gulp build task to compile dust templates in directories.client with test flag set to true.
+   * The dust templates will be provided one of the following package.json as context:
+   *  Build/package.json
+   *  package.json
+   * @member {Gulp} webpackCompileTemplates
+   * @return {through2} stream
+   */
+  gulp.task("webpackCompileTemplatesTestMode", function webpackCompileTemplatesTestModeTask() {
+    return webpackCompileTemplatesTaskGeneric(true);
   });
   /**
    * A gulp build task to run the webpack dev server
