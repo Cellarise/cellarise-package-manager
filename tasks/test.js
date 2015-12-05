@@ -124,7 +124,7 @@ module.exports = function testTasks(gulp, context) {
     var cwd = context.cwd;
     var pkg = context.package;
     var directories = pkg.directories;
-    var MOCHA_FILE_NAME = 'unit-mocha-tests-' +  (process.env.SELENIUM_PORT ? process.env.SELENIUM_PORT : "");
+    var MOCHA_FILE_NAME = 'unit-mocha-tests' +  (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : "");
 
     //results file path for mocha-bamboo-reporter-bgo
     process.env.MOCHA_FILE = path.join(cwd, directories.reports, MOCHA_FILE_NAME + ".json");
