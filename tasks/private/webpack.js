@@ -95,7 +95,7 @@ module.exports = function webpackTasks(gulp, context) {
    * The dust templates will be provided one of the following package.json as context:
    *  Build/package.json
    *  package.json
-   * @member {Gulp} webpackCompileTemplates
+   * @member {Gulp} webpackCompileTemplatesTestMode
    * @return {through2} stream
    */
   gulp.task("webpackCompileTemplatesTestMode", function webpackCompileTemplatesTestModeTask() {
@@ -116,17 +116,17 @@ module.exports = function webpackTasks(gulp, context) {
     var webpackConfig = require(path.join(cwd, directories.client + "/config/webpack.config.dev.js"));
     webpackConfig.resolveLoader = {"modulesDirectories": [NODE_MODULES_DIR]};
     webpackConfig.entry.main = [
-      NODE_MODULES_DIR + '/webpack-dev-server/client?http://localhost:3001',
+      NODE_MODULES_DIR + '/webpack-dev-server/client?http://localhost:2999',
       NODE_MODULES_DIR + '/webpack/hot/only-dev-server',
       webpackConfig.entry.main
     ];
 
-    return webpackDevServer(webpackConfig).listen(3001, "localhost", function server(err) {
+    return webpackDevServer(webpackConfig).listen(2999, "localhost", function server(err) {
       if (err) {
         logger.error("[webpack-dev-server]" + err);
       }
       // Server listening
-      logger.info("[webpack-dev-server] http://localhost:3001/webpack-dev-server/index.html");
+      logger.info("[webpack-dev-server] http://localhost:2999/webpack-dev-server/index.html");
 
       // keep the server alive or continue?
       // callback();

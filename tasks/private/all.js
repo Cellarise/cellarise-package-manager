@@ -77,16 +77,15 @@ module.exports = function allTasks(gulp) {
    */
   gulp.task("selenium_loopback_test", function seleniumTest(cb) {
     runSequence(
-      "start-selenium",
       "start-loopback",
+      "start-selenium",
       "webpackTest",
-      "test",
+      "test_cover",
       "webpackCompileTemplates",
-      "kill-loopback",
       "kill-selenium",
+      "kill-loopback",
       cb);
   });
-
 
   /**
    * A gulp build task to run webpack and test tasks
@@ -99,7 +98,7 @@ module.exports = function allTasks(gulp) {
   gulp.task("webpack_test", function allProduct(cb) {
     runSequence(
       "webpackTest",
-      "test",
+      "test_cover",
       "webpackCompileTemplates",
       cb);
   });
@@ -112,10 +111,9 @@ module.exports = function allTasks(gulp) {
    * @member {Gulp} all_product
    * @param {Function} cb - callback
    */
-  gulp.task("tcw", function allProduct(cb) {
+  gulp.task("quick_test", function allProduct(cb) {
     runSequence(
-      "code_analysis",
-      "webpackTest",
+      "webpackCompileTemplatesTestMode",
       "test_cover",
       "webpackCompileTemplates",
       cb);

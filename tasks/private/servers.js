@@ -34,7 +34,11 @@ module.exports = function serversTasks(gulp, context) {
       });
     serverPid = server.pid;
     server.unref();
-    fs.writeFile(path.join(cwd, "Temp", 'selenium.json'), JSON.stringify({"pid": serverPid}), 'utf8', cb);
+    fs.writeFile(
+      path.join(cwd, "Temp", 'selenium-' + SELENIUM_PORT + '.json'),
+      JSON.stringify({"pid": serverPid}), 'utf8',
+      cb
+    );
   });
 
   /**
@@ -79,7 +83,8 @@ module.exports = function serversTasks(gulp, context) {
    * @alias tasks:killSelenium
    */
   gulp.task('kill-selenium', function killSelenium(cb) {
-    fs.readFile(path.join(cwd, "Temp", 'selenium.json'), 'utf8', function cbRF(err, data) {
+    var SELENIUM_PORT = process.env.SELENIUM_PORT || '4444';
+    fs.readFile(path.join(cwd, "Temp", 'selenium-' + SELENIUM_PORT + '.json'), 'utf8', function cbRF(err, data) {
       if (err || !data) {
         return cb(err);
       }

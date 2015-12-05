@@ -38,6 +38,7 @@ module.exports = function testTasks(gulp, context) {
     var directories = pkg.directories;
     var sourceGlobStr = directories.lib + "/**/*.js";
     var scriptPath;
+    var outputDir = cwd + "/" + directories.reports + "/code-coverage";
     //require all library scripts to ensure istanbul picks up
     R.forEach(function eachSourceGlobStrFN(value) {
       scriptPath = path.resolve(process.cwd(), value);
@@ -65,10 +66,11 @@ module.exports = function testTasks(gulp, context) {
       }))
       .on("error", handleError)
       .pipe(istanbul.writeReports({
+        "dir": outputDir,
         "coverageVariable": COVERAGE_VAR,
         "reporters": ["html", "lcov", require("istanbul-reporter-clover-limits"), "json-summary"],
         "reportOpts": {
-          "dir": cwd + "/" + directories.reports + "/code-coverage",
+          "dir": outputDir,
           "watermarks": pkg.config.coverage.watermarks
         }
       }))
@@ -122,9 +124,10 @@ module.exports = function testTasks(gulp, context) {
     var cwd = context.cwd;
     var pkg = context.package;
     var directories = pkg.directories;
+    var MOCHA_FILE_NAME = 'unit-mocha-tests-' +  (process.env.SELENIUM_PORT ? process.env.SELENIUM_PORT : "");
 
     //results file path for mocha-bamboo-reporter-bgo
-    process.env.MOCHA_FILE = path.join(cwd, directories.reports, "unit-mocha-tests.json");
+    process.env.MOCHA_FILE = path.join(cwd, directories.reports, MOCHA_FILE_NAME + ".json");
     //make sure the Reports directory exists - required for mocha-bamboo-reporter-bgo
     mkdirp.sync(path.join(cwd, directories.reports));
     if (process.env.CI) {
