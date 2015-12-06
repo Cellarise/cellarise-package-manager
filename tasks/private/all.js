@@ -60,7 +60,7 @@ module.exports = function allTasks(gulp) {
     runSequence(
       "start-selenium",
       "webpackCompileTemplatesTestMode",
-      "test_cover",
+      "test_cover_save_cov",
       "webpackCompileTemplates",
       "kill-selenium",
       cb);
@@ -80,7 +80,7 @@ module.exports = function allTasks(gulp) {
       "start-loopback",
       "start-selenium",
       "webpackTest",
-      "test_cover",
+      "test_cover_save_cov",
       "webpackCompileTemplates",
       "kill-selenium",
       "kill-loopback",
@@ -98,7 +98,7 @@ module.exports = function allTasks(gulp) {
   gulp.task("webpack_test", function allProduct(cb) {
     runSequence(
       "webpackTest",
-      "test_cover",
+      "test_cover_save_cov",
       "webpackCompileTemplates",
       cb);
   });
@@ -114,7 +114,7 @@ module.exports = function allTasks(gulp) {
   gulp.task("quick_test", function allProduct(cb) {
     runSequence(
       "webpackCompileTemplatesTestMode",
-      "test_cover",
+      "test_cover_save_cov",
       "webpackCompileTemplates",
       cb);
   });

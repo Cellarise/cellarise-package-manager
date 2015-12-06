@@ -14,13 +14,13 @@ module.exports = function serversTasks(gulp, context) {
   var childProcess = require('child_process');
   var fs = require('fs');
   var path = require('path');
+  var mkdirp = require("mkdirp");
 
   /**
    * A gulp build task to start Selenium
    * @alias tasks:startSelenium
    */
   gulp.task('start-selenium', function startSelenium(cb) {
-    var mkdirp = require("mkdirp");
     var SELENIUM_PORT = process.env.SELENIUM_PORT || '4444';
     var out, err, server, serverPid;
     mkdirp.sync("Temp");
@@ -46,7 +46,6 @@ module.exports = function serversTasks(gulp, context) {
    * @alias tasks:startLoopback
    */
   gulp.task('start-loopback', function startLoopback(cb) {
-    var mkdirp = require("mkdirp");
     var out, err, server, serverPid;
     mkdirp.sync("Temp");
     out = fs.openSync('./Temp/loopback.log', 'a');

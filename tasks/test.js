@@ -16,6 +16,7 @@ module.exports = function testTasks(gulp, context) {
   var gutil = require("gulp-util");
   var glob = require("glob");
   var path = require("path");
+  var fs = require("fs");
   var R = require("ramda");
   var babel = require("babel-core/register");
   var logger = context.logger;
@@ -38,7 +39,12 @@ module.exports = function testTasks(gulp, context) {
     var directories = pkg.directories;
     var sourceGlobStr = directories.lib + "/**/*.js";
     var scriptPath;
-    var outputDir = cwd + "/" + directories.reports + "/code-coverage";
+    var outputDir = path.join(cwd, directories.reports, "code-coverage"
+      +  (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : ""));
+
+    //make sure Temp folder exists before test
+    mkdirp.sync(path.join(cwd, "Temp"));
+
     //require all library scripts to ensure istanbul picks up
     R.forEach(function eachSourceGlobStrFN(value) {
       scriptPath = path.resolve(process.cwd(), value);
@@ -134,6 +140,27 @@ module.exports = function testTasks(gulp, context) {
       return test("spec");
     }
     return test("mocha-bamboo-reporter-bgo");
+  });
+
+  /**
+   * A gulp build task to run test steps and calculate test coverage.
+   * Test steps results will be output using mocha-bamboo-reporter-bgo reporter.
+   * This task executes the Instrument task as a prerequisite.
+   * @member {Gulp} test_cover
+   * @return {through2} stream
+   */
+  gulp.task("test_cover_save_cov", ["test_cover"], function testCoverTask(cb) {
+    var cwd = context.cwd;
+    var pkg = context.package;
+    var directories = pkg.directories;
+    var outputDir = path.join(cwd, directories.reports, "code-coverage");
+    //make sure outputDir exists and save the raw coverage file for future use
+    mkdirp.sync(outputDir);
+    fs.writeFile(
+      path.join(outputDir, 'coverage' + (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : "") + '.json'),
+      JSON.stringify(global[COVERAGE_VAR]), 'utf8',
+      cb
+    );
   });
 
   /**
