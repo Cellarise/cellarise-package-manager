@@ -36,7 +36,7 @@ module.exports = function serversTasks(gulp, context) {
     server.unref();
     fs.writeFile(
       path.join(cwd, "Temp", 'selenium-' + SELENIUM_PORT + '.json'),
-      JSON.stringify({"pid": serverPid}), 'utf8',
+      JSON.stringify({"pid": serverPid, "cwd": cwd}), 'utf8',
       cb
     );
   });
@@ -61,7 +61,7 @@ module.exports = function serversTasks(gulp, context) {
     });
     serverPid = server.pid;
     server.unref();
-    fs.writeFile(path.join(cwd, "Temp", 'loopback.json'), JSON.stringify({"pid": serverPid}), 'utf8', cb);
+    fs.writeFile(path.join(cwd, "Temp", 'loopback.json'), JSON.stringify({"pid": serverPid, "cwd": cwd}), 'utf8', cb);
   });
 
   /**
