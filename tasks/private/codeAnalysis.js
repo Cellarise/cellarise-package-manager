@@ -53,7 +53,7 @@ module.exports = function codeAnalysisTasks(gulp, context) {
    * A gulp build task to kill Loopback in test mode
    * @alias tasks:killLoopback
    */
-  gulp.task('code_analysis_and_wait', ["code_analysis"], function codeAnalysisWaitTask(cb) {
-    setTimeout(cb, 2500);
+  gulp.task('wait',  function waitTask(cb) {
+    setTimeout(cb, 5000);
   });
 };
