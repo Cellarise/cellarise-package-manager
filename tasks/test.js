@@ -64,7 +64,7 @@ module.exports = function testTasks(gulp, context) {
 
   var handleError = function handleError(err) {
     logger.error(err.toString());
-    if (process.env.CI || process.env.bamboo_working_directory) {
+    if (process.env.CI) {
       throw new gutil.PluginError({
         "plugin": "Gulp Mocha",
         "message": err.toString()
@@ -108,6 +108,7 @@ module.exports = function testTasks(gulp, context) {
         "compilers": {
           "js": babel
         },
+        "bail": process.env.hasOwnProperty("bamboo_working_directory"),
         "reporter": reporter,
         "timeout": 600000
       }))
