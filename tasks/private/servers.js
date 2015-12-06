@@ -73,7 +73,9 @@ module.exports = function serversTasks(gulp, context) {
       if (err || !data) {
         return cb(err);
       }
-      childProcess.exec('taskkill /pid ' + JSON.parse(data).pid + ' /T /F', cb);
+      childProcess.exec('taskkill /pid ' + JSON.parse(data).pid + ' /T /F', function cb1() {
+        cb(); //do not throw error if fail
+      });
     });
   });
 
@@ -87,7 +89,9 @@ module.exports = function serversTasks(gulp, context) {
       if (err || !data) {
         return cb(err);
       }
-      childProcess.exec('taskkill /pid ' + JSON.parse(data).pid + ' /T /F', cb);
+      childProcess.exec('taskkill /pid ' + JSON.parse(data).pid + ' /T /F', function cb1() {
+        cb(); //do not throw error if fail
+      });
     });
   });
 

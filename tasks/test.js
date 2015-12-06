@@ -22,6 +22,46 @@ module.exports = function testTasks(gulp, context) {
   var logger = context.logger;
   var COVERAGE_VAR = "__cpmCoverage__";
 
+
+  var mergeFileCoverage = function mergeFileCoverage(first, second) {
+    var ret = JSON.parse(JSON.stringify(first)), i;
+    delete ret.l; //remove derived info
+    Object.keys(second.s).forEach(function (k) {
+      ret.s[k] += second.s[k];
+    });
+    Object.keys(second.f).forEach(function (k) {
+      ret.f[k] += second.f[k];
+    });
+    Object.keys(second.b).forEach(function (k) {
+      var retArray = ret.b[k],
+        secondArray = second.b[k];
+      for (i = 0; i < retArray.length; i += 1) {
+        retArray[i] += secondArray[i];
+      }
+    });
+    return ret;
+  };
+  var processCoverage = function processCoverage(coverageData) {
+    if (!global.__cpmCoverage__) {
+      global.__cpmCoverage__ = {};
+    }
+    R.mapObjIndexed(
+      function mapMergedCov(fileCov, filePath) {
+        if (global.__cpmCoverage__.hasOwnProperty(filePath)
+          && !coverageData.hasOwnProperty(filePath)) {
+          //nothing
+        } else if (!global.__cpmCoverage__.hasOwnProperty(filePath)
+          && coverageData.hasOwnProperty(filePath)) {
+          global.__cpmCoverage__[filePath] = coverageData[filePath];
+        } else {
+          global.__cpmCoverage__[filePath] =
+            mergeFileCoverage(global.__cpmCoverage__[filePath], coverageData[filePath]);
+        }
+      },
+      R.merge(coverageData, global.__cpmCoverage__)
+    );
+  };
+
   var handleError = function handleError(err) {
     logger.error(err.toString());
     if (process.env.CI) {
@@ -32,6 +72,7 @@ module.exports = function testTasks(gulp, context) {
     }
     this.emit("end"); //jshint ignore:line
   };
+
 
   var test = function test(reporter) {
     var cwd = context.cwd;
@@ -173,4 +214,62 @@ module.exports = function testTasks(gulp, context) {
     return test("spec");
   });
 
+
+  /**
+   * A gulp build task to write coverage.
+   * @member {Gulp} write_coverage
+   * @return {through2} stream
+   */
+  gulp.task("write_coverage", function testWriteCoverage() {
+    var cwd = context.cwd;
+    var pkg = context.package;
+    var directories = pkg.directories;
+    var outputDir = path.join(cwd, directories.reports, "code-coverage");
+    var coverageFileNames = [
+      'coverage-4441.json',
+      'coverage-4442.json',
+      'coverage-4443.json',
+      'coverage-4444.json',
+      'coverage-4445.json',
+      'coverage-4446.json',
+      'coverage-4447.json',
+      'coverage-4448.json',
+      'coverage-4449.json',
+      'coverage-4450.json'
+    ];
+    var fileContents;
+    //read all coverage files and add to global[COVERAGE_VAR]
+    R.forEach(
+      function forEachFile(fileName) {
+        try {
+          fileContents = fs.readFileSync(path.join(outputDir, fileName));
+          processCoverage(JSON.parse(fileContents));
+        } catch (err) {
+          return false;
+        }
+      },
+      coverageFileNames
+    );
+    return gulp.src(outputDir, {"read": false})
+      .pipe(istanbul.writeReports({
+        "dir": outputDir,
+        "coverageVariable": COVERAGE_VAR,
+        "reporters": ["html", "lcov", require("istanbul-reporter-clover-limits"), "json-summary"],
+        "reportOpts": {
+          "dir": outputDir,
+          "watermarks": pkg.config.coverage.watermarks
+        }
+      }))
+      .pipe(istanbul.enforceThresholds({
+        "coverageVariable": COVERAGE_VAR,
+        "thresholds": {
+          "each": {
+            "statements": pkg.config.coverage.watermarks.statements[0],
+            "branches": pkg.config.coverage.watermarks.branches[0],
+            "lines": pkg.config.coverage.watermarks.lines[0],
+            "functions": pkg.config.coverage.watermarks.functions[0]
+          }
+        }
+      }));
+  });
 };
