@@ -47,6 +47,22 @@ module.exports = function allTasks(gulp) {
       cb);
   });
 
+  /**
+   * A gulp build task to run all package tasks for a product.
+   * The following tasks are executed in sequence:
+   * ['coverage_stats', 'license', 'docs', 'metadata', 'webpack', 'package']
+   * The sequence works by piping each task to the next.
+   * @member {Gulp} all_product
+   * @param {Function} cb - callback
+   */
+  gulp.task("package_product", function allProduct(cb) {
+    runSequence(
+      "coverage_stats",
+      "metadata",
+      "webpackPkg",
+      "package",
+      cb);
+  });
 
   /**
    * A gulp build task to run selenium and test tasks
