@@ -47,4 +47,13 @@ module.exports = function codeAnalysisTasks(gulp, context) {
       .pipe(eslint.format(require("../../lib/reports/eslintMocha"), eslintMochaOut))
       .pipe(eslint.format(require("../../lib/reports/eslintCucumber"), eslintCucumberOut));
   });
+
+
+  /**
+   * A gulp build task to kill Loopback in test mode
+   * @alias tasks:killLoopback
+   */
+  gulp.task('code_analysis_and_wait', ["code_analysis"], function codeAnalysisWaitTask(cb) {
+    setTimeout(cb, 2500);
+  });
 };
