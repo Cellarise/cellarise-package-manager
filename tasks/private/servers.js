@@ -71,7 +71,7 @@ module.exports = function serversTasks(gulp, context) {
   gulp.task('kill-loopback', function killLoopback(cb) {
     fs.readFile(path.join(cwd, 'loopback.json'), 'utf8', function cbRF(err, data) {
       if (err || !data) {
-        return cb(err);
+        return cb(); //do not throw error if fail
       }
       childProcess.exec('taskkill /pid ' + JSON.parse(data).pid + ' /T /F', function cb1() {
         cb(); //do not throw error if fail
@@ -87,7 +87,7 @@ module.exports = function serversTasks(gulp, context) {
     var SELENIUM_PORT = process.env.SELENIUM_PORT || '4444';
     fs.readFile(path.join(cwd, "Temp", 'selenium-' + SELENIUM_PORT + '.json'), 'utf8', function cbRF(err, data) {
       if (err || !data) {
-        return cb(err);
+        return cb(); //do not throw error if fail
       }
       childProcess.exec('taskkill /pid ' + JSON.parse(data).pid + ' /T /F', function cb1() {
         cb(); //do not throw error if fail
