@@ -9,8 +9,85 @@
   </tr>
     
 <tr>
-        <td colspan=4><strong>Version: 0.5.0 - released 2015-08-23</strong></td>
+        <td colspan=4><strong>Version: 0.5.0 - released 2015-12-07</strong></td>
       </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10403&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Bug</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-101</td>
+            <td><p>Patch react-hot-loader to ignore auto binding on stateless react components</p><p></p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10411&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Feature</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-100</td>
+            <td><p>Add esdoc documentation generator</p><p></p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10403&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Bug</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-99</td>
+            <td><p>Fix automatic git commit message passing</p><p></p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10419&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Non-functional</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-98</td>
+            <td><p>Package: Update dependencies</p><p></p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10411&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Feature</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-97</td>
+            <td><p>Package: Update jsdoc-to-markdown package</p><p></p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10412&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Minor</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-94</td>
+            <td><p>Step sync task: Update max result limit from 50 to 10000</p><p></p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10412&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Minor</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-93</td>
+            <td><p>Webpack task: Change webpackCompileTemplates task to output .js files</p><p>Move from output of .html files to .js files.  Now all dust files are templates for js files not html files.</p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10419&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Non-functional</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-92</td>
+            <td><p>Package: Update dependencies</p><p></p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10419&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Non-functional</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-91</td>
+            <td><p>Scaffold task: Update templates</p><p></p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10419&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Non-functional</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-90</td>
+            <td><p>Build tasks: Add command to run full npm install</p><p></p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10419&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Non-functional</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-89</td>
+            <td><p>Package: Migrate to Github</p><p></p></td>
+          </tr>
         
 <tr>
             <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10419&amp;avatarType=issuetype"/></td>
@@ -33,7 +110,7 @@
             <td><p>Package: Update development dependencies</p><p></p></td>
           </tr>
         
-
+    
 <tr>
         <td colspan=4><strong>Version: 0.4.0 - released 2015-05-21</strong></td>
       </tr>
@@ -87,13 +164,6 @@ So that I can efficiently perform blackbox and UAT testing and provide UAT docum
             <td style="width:80px;text-align:left;">Minor</td>
             <td style="width:80px;text-align:left;">MDBLDGEN-80</td>
             <td><p>Webpack task: Add tasks for dev, test, and production webpack configs</p><p></p></td>
-          </tr>
-        
-<tr>
-            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10411&amp;avatarType=issuetype"/></td>
-            <td style="width:80px;text-align:left;">Feature</td>
-            <td style="width:80px;text-align:left;">MDBLDGEN-78</td>
-            <td><p>Package: Update underscore.js</p><p></p></td>
           </tr>
         
 <tr>
@@ -194,7 +264,7 @@ So that I can efficiently perform blackbox and UAT testing and provide UAT docum
             <td><p>Package: Update package dependencies</p><p></p></td>
           </tr>
         
-
+    
 <tr>
         <td colspan=4><strong>Version: 0.3.0 - released 2014-11-16</strong></td>
       </tr>
@@ -357,7 +427,7 @@ I can execute git fetch --all and git reset --hard in sequence
 So that I can force Overwrite of Untracked Working Tree Files</p></td>
           </tr>
         
-
+    
 <tr>
         <td colspan=4><strong>Version: 0.2.0 - released 2014-10-06</strong></td>
       </tr>
@@ -399,5 +469,163 @@ So that I can efficiently maintain my test features</p></td>
             <td><p>Node: Update node, python and visual studio on CI server</p><p></p></td>
           </tr>
         
-
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10411&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Feature</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-39</td>
+            <td><p>Scripts: Add Git scripts</p><p>As a developer
+I can execute Git scripts through the SH shell
+So that I can perform Git operations from my IDE and Bamboo</p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10411&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Feature</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-18</td>
+            <td><p>Steps task: Automate synchronisation of BDD test scripts from JIRA.</p><p>As a developer
+I can automatically update JIRA from my test feature script or download from JIRA my test feature script
+So that I can create test features quickly and make frequent changes to my test feature and keep JIRA up to date with minimal time and effort</p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10411&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Feature</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-21</td>
+            <td><p>Docs task: Generate Readme file from doc templates</p><p>As a developer
+I can generate a readme file which includes manually entered usage instructions and automatically generated license, JSDoc API, changelog, and contains npm version, dependency status, test-coverage stats, and Github issue badges
+So that I can efficiently produce a readme that contains all the information required by users</p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10411&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Feature</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-19</td>
+            <td><p>Script cgulp: Execute gulp using globally installed tasks and node_modules packages.</p><p></p></td>
+          </tr>
+        
+    
+<tr>
+        <td colspan=4><strong>Version: 0.1.0 - released 2014-09-29</strong></td>
+      </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10411&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Feature</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-68</td>
+            <td><p>Package task: Add task to create a build package using a buildignore file</p><p>As a developer
+I can automatically generated my build package for deployment
+So that I can efficiently package only those files required for deployment</p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10411&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Feature</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-7</td>
+            <td><p>Dependency task: Add David dependency check task</p><p>As a developer
+I can automatically check the status of my dependencies as part of my build process
+So that I can efficiently check dependency status and ensure the currency of my dependencies</p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10411&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Feature</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-17</td>
+            <td><p>Docs-changelog task: Add a gulp task to generate a change log from JIRA fix versions.</p><p>As a developer
+I can automatically synchronise the change log for my project from JIRA with my repository
+So that I can efficiently maintain and provide viewers of my repository an upto date change log</p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10411&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Feature</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-16</td>
+            <td><p>Oauth script: Add oauth-rest-atlassian package and script runner.</p><p></p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10411&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Feature</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-14</td>
+            <td><p>Test task: Add test task to run tests and save output reports</p><p>As a developer
+I can run my BDD style tests in my IDE and get test results and coverage reports
+So that I can efficiently develop using the BDD style</p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10403&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Bug</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-15</td>
+            <td><p>Test task: Fix istanbul code coverage not reading all library scripts.</p><p></p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10411&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Feature</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-8</td>
+            <td><p>Scaffold task: Add function to copy standard templates and files into a package</p><p>As a developer
+I can automatically copy standard templates and files into a new package or update an existing package
+So that I can efficiently maintain consistent with the standard package structure and leverage the features of the package manager</p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10403&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Bug</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-13</td>
+            <td><p>Code-analysis task: Fix incorrectly formatted cucumber report output.</p><p></p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10403&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Bug</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-12</td>
+            <td><p>Test task: Fix istanbul tap function not picking up all scripts past through gulp pipe.</p><p></p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10411&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Feature</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-11</td>
+            <td><p>Code-analysis task: Update task to generate both mocha and cucumber report outputs.</p><p></p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10411&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Feature</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-10</td>
+            <td><p>Package task: Add task to create a build package including only the content required for deployment</p><p>As a developer
+I can automatically generated my build package for deployment
+So that I can efficiently package only those files required for deployment</p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10403&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Bug</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-9</td>
+            <td><p>Doc task: Fix indented output from jsdoc-to-markdown which is incompatible with markdown.</p><p></p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10419&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Non-functional</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-6</td>
+            <td><p>Package: Update dependencies.</p><p></p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10411&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Feature</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-2</td>
+            <td><p>Package: Develop Cellarise Package Manager</p><p>As a developer
+I can manage one Cellarise build package and publish updates to other projects
+So that the build package is managed centrally and projects can choose when to update.</p></td>
+          </tr>
+        
+<tr>
+            <td style="width:20px;padding:0;margin:0;text-align:center;"><img src="https://jira.cellarise.com:80/secure/viewavatar?size=xsmall&amp;avatarId=10403&amp;avatarType=issuetype"/></td>
+            <td style="width:80px;text-align:left;">Bug</td>
+            <td style="width:80px;text-align:left;">MDBLDGEN-5</td>
+            <td><p>Build task: TypeError: Cannot read property &#39;build&#39; of undefined</p><p></p></td>
+          </tr>
+        
+    
 </table>

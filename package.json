@@ -12,7 +12,7 @@
     "private": true,
     "projectCode": "MDBLDGEN",
     "build": "23",
-    "buildTimestamp": "2015-08-23T11:18:53.529Z",
+    "buildTimestamp": "2015-12-06T14:00:08.818Z",
     "adminEmail": "mail@cellarise.com",
     "coverage": {
       "codeClimate": true,

@@ -64,7 +64,7 @@ module.exports = function testTasks(gulp, context) {
 
   var handleError = function handleError(err) {
     logger.error(err.toString());
-    if (process.env.CI) {
+    if (process.env.CI || process.env.bamboo_working_directory) {
       throw new gutil.PluginError({
         "plugin": "Gulp Mocha",
         "message": err.toString()
