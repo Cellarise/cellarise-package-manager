@@ -191,15 +191,27 @@ module.exports = function testTasks(gulp, context) {
    * @return {through2} stream
    */
   gulp.task("test_cover_save_cov", ["test_cover"], function testCoverTask(cb) {
+    var lowerCaseFirstLetter = function lowerCaseFirstLetter(str) {
+      return str.slice(0, 1).toLowerCase() + str.slice(1);
+    };
     var cwd = context.cwd;
+    var cwdForwardSlash = lowerCaseFirstLetter(cwd).replace("/", "\\");
     var pkg = context.package;
     var directories = pkg.directories;
     var outputDir = path.join(cwd, directories.reports, "code-coverage");
+    var localPathCoverage = R.pipe(
+      R.toPairs,
+      R.map(function mapObjPair(objPair) {
+        var filePath = lowerCaseFirstLetter(objPair[0]);
+        return [filePath.replace(cwdForwardSlash, ""), objPair[1]];
+      }),
+      R.fromPairs
+    )(global[COVERAGE_VAR]);
     //make sure outputDir exists and save the raw coverage file for future use
     mkdirp.sync(outputDir);
     fs.writeFile(
       path.join(outputDir, 'coverage' + (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : "") + '.json'),
-      JSON.stringify(global[COVERAGE_VAR]), 'utf8',
+      JSON.stringify(localPathCoverage), 'utf8',
       cb
     );
   });
