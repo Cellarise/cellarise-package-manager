@@ -61,7 +61,7 @@ module.exports = function serversTasks(gulp, context) {
     });
     serverPid = server.pid;
     server.unref();
-    fs.writeFile(path.join(cwd, "Temp", 'loopback.json'), JSON.stringify({"pid": serverPid, "cwd": cwd}), 'utf8', cb);
+    fs.writeFile(path.join(cwd, 'loopback.json'), JSON.stringify({"pid": serverPid, "cwd": cwd}), 'utf8', cb);
   });
 
   /**
@@ -69,7 +69,7 @@ module.exports = function serversTasks(gulp, context) {
    * @alias tasks:killLoopback
    */
   gulp.task('kill-loopback', function killLoopback(cb) {
-    fs.readFile(path.join(cwd, "Temp", 'loopback.json'), 'utf8', function cbRF(err, data) {
+    fs.readFile(path.join(cwd, 'loopback.json'), 'utf8', function cbRF(err, data) {
       if (err || !data) {
         return cb(err);
       }
