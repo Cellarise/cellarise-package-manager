@@ -15,6 +15,7 @@ module.exports = function serversTasks(gulp, context) {
   var fs = require('fs');
   var path = require('path');
   var mkdirp = require("mkdirp");
+  var R = require('ramda');
 
   /**
    * A gulp build task to start Selenium
@@ -30,7 +31,8 @@ module.exports = function serversTasks(gulp, context) {
       path.join(__dirname, "../../bin", 'selenium.bat'),
       [SELENIUM_PORT], {
         'stdio': ['ignore', out, err],
-        'detached': true
+        'detached': true,
+        'env': process.env
       });
     serverPid = server.pid;
     server.unref();
@@ -53,11 +55,11 @@ module.exports = function serversTasks(gulp, context) {
     server = childProcess.spawn('node', ['server/server.js'], {
       'stdio': ['ignore', out, err],
       'detached': true,
-      'env': {
+      'env': R.merge({
         'PORT': process.env.PORT || 3002,
         'NODE_ENV': 'development',
         'CELLARISE_COVERAGE': 'true'
-      }
+      }, process.env)
     });
     serverPid = server.pid;
     server.unref();
