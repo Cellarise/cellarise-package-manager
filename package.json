@@ -81,7 +81,8 @@
     "chokidar": "^1.0.5",
     "minimist": "^1.1.1",
     "pretty-hrtime": "^1.0.0",
-    "ramda": "^0.18.0"
+    "ramda": "^0.18.0",
+    "webdriverio": "^3.3.0"
   },
   "optionalDependencies": {
     "esdoc": "^0.4.3",
