@@ -74,14 +74,14 @@ module.exports = function testTasks(gulp, context) {
   };
 
 
-  var test = function test(reporter) {
+  var test = function test(reporter, outputCoverageReports) {
     var cwd = context.cwd;
     var pkg = context.package;
     var directories = pkg.directories;
     var sourceGlobStr = directories.lib + "/**/*.js";
     var scriptPath;
     var outputDir = path.join(cwd, directories.reports, "code-coverage"
-      +  (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : ""));
+      + (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : ""));
 
     //make sure Temp folder exists before test
     mkdirp.sync(path.join(cwd, "Temp"));
@@ -103,6 +103,38 @@ module.exports = function testTasks(gulp, context) {
       logger.info("Set process.env.YADDA_FEATURE_GLOB=" + process.env.YADDA_FEATURE_GLOB);
     }
 
+    if (outputCoverageReports) {
+      return gulp.src(path.resolve(process.cwd(), directories.test + "/test.js"), {"read": false})
+        .pipe(mocha({
+          "compilers": {
+            "js": babel
+          },
+          "bail": process.env.hasOwnProperty("bamboo_working_directory"),
+          "reporter": reporter,
+          "timeout": 600000
+        }))
+        .on("error", handleError)
+        .pipe(istanbul.writeReports({
+          "dir": outputDir,
+          "coverageVariable": COVERAGE_VAR,
+          "reporters": ["html", "lcov", require("istanbul-reporter-clover-limits"), "json-summary"],
+          "reportOpts": {
+            "dir": outputDir,
+            "watermarks": pkg.config.coverage.watermarks
+          }
+        }))
+        .pipe(istanbul.enforceThresholds({
+          "coverageVariable": COVERAGE_VAR,
+          "thresholds": {
+            "each": {
+              "statements": pkg.config.coverage.watermarks.statements[0],
+              "branches": pkg.config.coverage.watermarks.branches[0],
+              "lines": pkg.config.coverage.watermarks.lines[0],
+              "functions": pkg.config.coverage.watermarks.functions[0]
+            }
+          }
+        }));
+    }
     return gulp.src(path.resolve(process.cwd(), directories.test + "/test.js"), {"read": false})
       .pipe(mocha({
         "compilers": {
@@ -112,27 +144,7 @@ module.exports = function testTasks(gulp, context) {
         "reporter": reporter,
         "timeout": 600000
       }))
-      .on("error", handleError)
-      .pipe(istanbul.writeReports({
-        "dir": outputDir,
-        "coverageVariable": COVERAGE_VAR,
-        "reporters": ["html", "lcov", require("istanbul-reporter-clover-limits"), "json-summary"],
-        "reportOpts": {
-          "dir": outputDir,
-          "watermarks": pkg.config.coverage.watermarks
-        }
-      }))
-      .pipe(istanbul.enforceThresholds({
-        "coverageVariable": COVERAGE_VAR,
-        "thresholds": {
-          "each": {
-            "statements": pkg.config.coverage.watermarks.statements[0],
-            "branches": pkg.config.coverage.watermarks.branches[0],
-            "lines": pkg.config.coverage.watermarks.lines[0],
-            "functions": pkg.config.coverage.watermarks.functions[0]
-          }
-        }
-      }));
+      .on("error", handleError);
   };
 
   /**
@@ -158,7 +170,7 @@ module.exports = function testTasks(gulp, context) {
         "includeUntested": true
       }))
       .pipe(istanbul.hookRequire()); // Force `require` to return covered files
-        // Covering files - note: finish event called when finished (not end event)
+    // Covering files - note: finish event called when finished (not end event)
   });
 
   /**
@@ -172,26 +184,51 @@ module.exports = function testTasks(gulp, context) {
     var cwd = context.cwd;
     var pkg = context.package;
     var directories = pkg.directories;
-    var MOCHA_FILE_NAME = 'unit-mocha-tests' +  (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : "");
+    var MOCHA_FILE_NAME = 'unit-mocha-tests' + (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : "");
 
     //results file path for mocha-bamboo-reporter-bgo
     process.env.MOCHA_FILE = path.join(cwd, directories.reports, MOCHA_FILE_NAME + ".json");
     //make sure the Reports directory exists - required for mocha-bamboo-reporter-bgo
     mkdirp.sync(path.join(cwd, directories.reports));
     if (process.env.CI) {
-      return test("spec");
+      return test("spec", true);
     }
-    return test("mocha-bamboo-reporter-bgo");
+    return test("mocha-bamboo-reporter-bgo", true);
   });
 
   /**
-   * A gulp build task to run test steps and calculate test coverage.
+   * A gulp build task to run test steps and calculate test coverage (but not output test coverage to prevent
+   * gulp-istanbul issues with webdriverIO).
    * Test steps results will be output using mocha-bamboo-reporter-bgo reporter.
    * This task executes the Instrument task as a prerequisite.
    * @member {Gulp} test_cover
    * @return {through2} stream
    */
-  gulp.task("test_cover_save_cov", ["test_cover"], function testCoverTask(cb) {
+  gulp.task("test_cover_no_cov_report", ["instrument"], function testCoverNoCovReportTask() {
+    var cwd = context.cwd;
+    var pkg = context.package;
+    var directories = pkg.directories;
+    var MOCHA_FILE_NAME = 'unit-mocha-tests' + (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : "");
+
+    //results file path for mocha-bamboo-reporter-bgo
+    process.env.MOCHA_FILE = path.join(cwd, directories.reports, MOCHA_FILE_NAME + ".json");
+    //make sure the Reports directory exists - required for mocha-bamboo-reporter-bgo
+    mkdirp.sync(path.join(cwd, directories.reports));
+    if (process.env.CI) {
+      return test("spec", false);
+    }
+    return test("mocha-bamboo-reporter-bgo", false);
+  });
+
+  /**
+   * A gulp build task to run test steps and calculate test coverage (but not output test coverage to prevent
+   * gulp-istanbul issues with webdriverIO).
+   * Test steps results will be output using mocha-bamboo-reporter-bgo reporter.
+   * This task executes the Instrument task as a prerequisite.
+   * @member {Gulp} test_cover
+   * @return {through2} stream
+   */
+  gulp.task("test_cover_save_cov", ["test_cover_no_cov_report"], function testCoverTask(cb) {
     var lowerCaseFirstLetter = function lowerCaseFirstLetter(str) {
       return str.slice(0, 1).toLowerCase() + str.slice(1);
     };
@@ -224,7 +261,7 @@ module.exports = function testTasks(gulp, context) {
    * @return {through2} stream
    */
   gulp.task("test", function testTask() {
-    return test("spec");
+    return test("spec", true);
   });
 
 
