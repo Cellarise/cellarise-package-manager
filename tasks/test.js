@@ -140,11 +140,17 @@ module.exports = function testTasks(gulp, context) {
         "compilers": {
           "js": babel
         },
-        "bail": process.env.hasOwnProperty("bamboo_working_directory"),
+        "bail": true,
         "reporter": reporter,
         "timeout": 600000
       }))
-      .on("error", handleError);
+      .on("error", function onError(err) {
+        logger.error(err.toString());
+        throw new gutil.PluginError({
+          "plugin": "Gulp Mocha",
+          "message": err.toString()
+        });
+      });
   };
 
   /**
