@@ -12,17 +12,19 @@
 module.exports = function testTasks(gulp, context) {
   var mocha = require("gulp-mocha");
   var mkdirp = require("mkdirp");
-  var istanbul = require("gulp-istanbul");
   var gutil = require("gulp-util");
   var glob = require("glob");
   var path = require("path");
   var fs = require("fs");
   var R = require("ramda");
+  var istanbul = require("gulp-istanbul");
   var babel = require("babel-core/register");
   var logger = context.logger;
   var COVERAGE_VAR = "__cpmCoverage__";
 
-
+  var lowerCaseFirstLetter = function lowerCaseFirstLetter(str) {
+    return str.slice(0, 1).toLowerCase() + str.slice(1);
+  };
   var mergeFileCoverage = function mergeFileCoverage(first, second) {
     var ret = JSON.parse(JSON.stringify(first)), i;
     delete ret.l; //remove derived info
@@ -145,7 +147,7 @@ module.exports = function testTasks(gulp, context) {
         "timeout": 600000
       }))
       .on("error", function onError(err) {
-        logger.error(err.toString());
+        //logger.error(err.toString());
         throw new gutil.PluginError({
           "plugin": "Gulp Mocha",
           "message": err.toString()
@@ -235,9 +237,6 @@ module.exports = function testTasks(gulp, context) {
    * @return {through2} stream
    */
   gulp.task("test_cover_save_cov", ["test_cover_no_cov_report"], function testCoverTask(cb) {
-    var lowerCaseFirstLetter = function lowerCaseFirstLetter(str) {
-      return str.slice(0, 1).toLowerCase() + str.slice(1);
-    };
     var cwd = context.cwd;
     var cwdForwardSlash = lowerCaseFirstLetter(cwd).replace("/", "\\");
     var pkg = context.package;
@@ -259,17 +258,6 @@ module.exports = function testTasks(gulp, context) {
       cb
     );
   });
-
-  /**
-   * A gulp build task to run test steps and calculate test coverage.
-   * Test steps results will be output using spec reporter.
-   * @member {Gulp} test
-   * @return {through2} stream
-   */
-  gulp.task("test", function testTask() {
-    return test("spec", true);
-  });
-
 
   /**
    * A gulp build task to write coverage.
@@ -306,6 +294,29 @@ module.exports = function testTasks(gulp, context) {
       },
       coverageFileNames
     );
+
+    //clean coverage
+    delete global[COVERAGE_VAR].class;
+    delete global[COVERAGE_VAR].hCode;
+    delete global[COVERAGE_VAR].sessionId;
+    delete global[COVERAGE_VAR].state;
+    delete global[COVERAGE_VAR].status;
+    delete global[COVERAGE_VAR].value;
+
+    //copy path to file key
+    global[COVERAGE_VAR] = R.pipe(
+      R.toPairs,
+      R.map(function mapObjPair(objPair) {
+        var filePath = lowerCaseFirstLetter(objPair[0]);
+        if (objPair[1].path) {
+          filePath = lowerCaseFirstLetter(objPair[1].path);
+        }
+        return [filePath, objPair[1]];
+      }),
+      R.fromPairs
+    )(global[COVERAGE_VAR]);
+
+
     return gulp.src(outputDir, {"read": false})
       .pipe(istanbul.writeReports({
         "dir": outputDir,
@@ -327,5 +338,15 @@ module.exports = function testTasks(gulp, context) {
           }
         }
       }));
+  });
+
+  /**
+   * A gulp build task to run test steps and calculate test coverage.
+   * Test steps results will be output using spec reporter.
+   * @member {Gulp} test
+   * @return {through2} stream
+   */
+  gulp.task("test", function testTask() {
+    return test("spec", true);
   });
 };
