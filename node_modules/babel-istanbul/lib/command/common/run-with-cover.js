@@ -24,6 +24,7 @@ function usage(arg0, command) {
     console.error('\nUsage: ' + arg0 + ' ' + command + ' [<options>] <executable-js-file-or-command> [-- <arguments-to-jsfile>]\n\nOptions are:\n\n'
         + [
             formatOption('--config <path-to-config>', 'the configuration file to use, defaults to .istanbul.yml'),
+            formatOption('--babel-config <path-to-config>', 'a babel specific configuration file, same as .babelrc, supports YAML'),
             formatOption('--root <path> ', 'the root path to look for files to instrument, defaults to .'),
             formatOption('-x <exclude-pattern> [-x <exclude-pattern>]', 'one or more fileset patterns e.g. "**/vendor/**"'),
             formatOption('-i <include-pattern> [-i <include-pattern>]', 'one or more fileset patterns e.g. "**/*.js"'),
@@ -45,6 +46,7 @@ function run(args, commandName, enableHooks, callback) {
 
     var template = {
             config: path,
+            'babel-config': path,
             root: path,
             x: [ Array, String ],
             report: [Array, String ],
@@ -85,6 +87,7 @@ function run(args, commandName, enableHooks, callback) {
             }
         },
         config = configuration.loadFile(opts.config, overrides),
+        babelConfig = opts['babel-config'] ? configuration.readFile(opts['babel-config']) : {},
         verbose = config.verbose,
         cmdAndArgs = opts.argv.remain,
         preserveComments = opts['preserve-comments'],
@@ -157,6 +160,7 @@ function run(args, commandName, enableHooks, callback) {
 
                 var coverageVar = '$$cov_' + new Date().getTime() + '$$',
                     instrumenter = new Instrumenter({
+                        babelConfig: babelConfig,
                         coverageVariable: coverageVar,
                         preserveComments: preserveComments
                     }),

@@ -13,6 +13,7 @@
         ESP = isNode ? require('esprima') : esprima,
         ESPGEN = isNode ? require('escodegen') : escodegen,  //TODO - package as dependency
         crypto = isNode ? require('crypto') : null,
+        objectAssign = isNode ? require('object-assign') : null,
         COMMENT_RE = /^\s*istanbul\s+ignore\s+(if|else|next)(?=\W|$)/,
         astgen,
         preconditions,
@@ -378,6 +379,7 @@
      */
     function Instrumenter(options) {
         this.opts = options || {
+            babelConfig: {},
             debug: false,
             walkDebug: false,
             coverageVariable: '__coverage__',
@@ -442,7 +444,7 @@
         instrumentSync: function (code, filename, babelConfig) {
             var program, transformed;
 
-            babelConfig = babelConfig || {};
+            babelConfig = objectAssign({}, this.opts.babelConfig, babelConfig);
 
             babelConfig.filename = filename;
             babelConfig.sourceMaps = true;
