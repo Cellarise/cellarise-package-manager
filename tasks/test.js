@@ -212,7 +212,7 @@ module.exports = function testTasks(gulp, context) {
    * @member {Gulp} test_cover
    * @return {through2} stream
    */
-  gulp.task("test_cover_no_cov_report", ["instrument"], function testCoverNoCovReportTask() {
+  gulp.task("test_cover_no_cov_report", function testCoverNoCovReportTask() {
     var cwd = context.cwd;
     var pkg = context.package;
     var directories = pkg.directories;
