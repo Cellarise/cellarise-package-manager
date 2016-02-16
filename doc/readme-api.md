@@ -1493,8 +1493,9 @@ A module to add gulp tasks which run test steps.
   * [`~instrument`](#module_tasks/testTasks..instrument) ⇒ <code>through2</code>
   * [`~test_cover`](#module_tasks/testTasks..test_cover) ⇒ <code>through2</code>
   * [`~test_cover`](#module_tasks/testTasks..test_cover) ⇒ <code>through2</code>
-  * [`~test`](#module_tasks/testTasks..test) ⇒ <code>through2</code>
+  * [`~test_cover`](#module_tasks/testTasks..test_cover) ⇒ <code>through2</code>
   * [`~write_coverage`](#module_tasks/testTasks..write_coverage) ⇒ <code>through2</code>
+  * [`~test`](#module_tasks/testTasks..test) ⇒ <code>through2</code>
 
 
 -
@@ -1522,9 +1523,31 @@ This task executes the Instrument task as a prerequisite.
 
 <a name="module_tasks/testTasks..test_cover"></a>
 #### `tasks/testTasks~test_cover` ⇒ <code>through2</code>
-A gulp build task to run test steps and calculate test coverage.
+A gulp build task to run test steps and calculate test coverage (but not output test coverage to prevent
+gulp-istanbul issues with webdriverIO).
 Test steps results will be output using mocha-bamboo-reporter-bgo reporter.
 This task executes the Instrument task as a prerequisite.
+
+**Kind**: inner property of <code>[tasks/testTasks](#module_tasks/testTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/testTasks..test_cover"></a>
+#### `tasks/testTasks~test_cover` ⇒ <code>through2</code>
+A gulp build task to run test steps and calculate test coverage (but not output test coverage to prevent
+gulp-istanbul issues with webdriverIO).
+Test steps results will be output using mocha-bamboo-reporter-bgo reporter.
+This task executes the Instrument task as a prerequisite.
+
+**Kind**: inner property of <code>[tasks/testTasks](#module_tasks/testTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/testTasks..write_coverage"></a>
+#### `tasks/testTasks~write_coverage` ⇒ <code>through2</code>
+A gulp build task to write coverage.
 
 **Kind**: inner property of <code>[tasks/testTasks](#module_tasks/testTasks)</code>  
 **Returns**: <code>through2</code> - stream  
@@ -1535,15 +1558,6 @@ This task executes the Instrument task as a prerequisite.
 #### `tasks/testTasks~test` ⇒ <code>through2</code>
 A gulp build task to run test steps and calculate test coverage.
 Test steps results will be output using spec reporter.
-
-**Kind**: inner property of <code>[tasks/testTasks](#module_tasks/testTasks)</code>  
-**Returns**: <code>through2</code> - stream  
-
--
-
-<a name="module_tasks/testTasks..write_coverage"></a>
-#### `tasks/testTasks~write_coverage` ⇒ <code>through2</code>
-A gulp build task to write coverage.
 
 **Kind**: inner property of <code>[tasks/testTasks](#module_tasks/testTasks)</code>  
 **Returns**: <code>through2</code> - stream  

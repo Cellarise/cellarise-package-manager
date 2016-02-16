@@ -11,8 +11,8 @@ Feature: Dependency task: Add David dependency check task
     When executing david_report
     Then the david report passes
 
+  @pending
   Scenario: Check test package dependencies fails
-
     Given a package manifest with out of date dependencies
     When executing david_report_all
     Then the david report fails
