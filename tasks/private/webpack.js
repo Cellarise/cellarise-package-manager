@@ -55,6 +55,23 @@ module.exports = function webpackTasks(gulp, context) {
       }))
       .pipe(gulp.dest(directories.client));
   };
+  var webpackCompileConfiguration = function webpackCompileConfiguration() {
+    var jeditor = require("gulp-json-editor");
+    //read Build/package.json is exists (i.e. created by metadata) or read /package.json
+    var pkg = context.package;
+    var cwd = context.cwd;
+    var directories = pkg.directories;
+    var configCompilerPath = path.join(cwd, directories.client + "/source/scripts/config/configCompiler.js");
+    var configPath = path.join(cwd, directories.client + "/source/scripts/config/config.json");
+    var config1Path = path.join(cwd, directories.client + "/source/scripts/config");
+
+    return gulp.src(configPath)
+      .pipe(jeditor(function compileConfig() {
+        var compiledConfig =  require(configCompilerPath);
+        return compiledConfig;
+      }))
+      .pipe(gulp.dest(config1Path));
+  };
   /**
    * A gulp build task to run the webpack module bundler for development.
    * @member {Gulp} webpack
@@ -87,7 +104,7 @@ module.exports = function webpackTasks(gulp, context) {
    * @member {Gulp} webpackCompileTemplates
    * @return {through2} stream
    */
-  gulp.task("webpackCompileTemplates", function webpackCompileTemplatesTask() {
+  gulp.task("webpackCompileTemplates", ["webpackCompileConfig"], function webpackCompileTemplatesTask() {
     return webpackCompileTemplatesTaskGeneric(false);
   });
   /**
@@ -98,8 +115,16 @@ module.exports = function webpackTasks(gulp, context) {
    * @member {Gulp} webpackCompileTemplatesTestMode
    * @return {through2} stream
    */
-  gulp.task("webpackCompileTemplatesTestMode", function webpackCompileTemplatesTestModeTask() {
+  gulp.task("webpackCompileTemplatesTestMode", ["webpackCompileConfig"],
+    function webpackCompileTemplatesTestModeTask() {
     return webpackCompileTemplatesTaskGeneric(true);
+  });
+  /**
+   * @member {Gulp} webpack
+   * @return {through2} stream
+   */
+  gulp.task("webpackCompileConfig", function webpackCompileConfigTask() {
+    return webpackCompileConfiguration();
   });
   /**
    * A gulp build task to run the webpack dev server
