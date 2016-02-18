@@ -35,6 +35,27 @@ module.exports = function webpackTasks(gulp, context) {
        })*/))
       .pipe(gulp.dest(dest));
   };
+  var webpackCompileIndexTaskGeneric = function webpackCompileIndexTaskGeneric() {
+    //read Build/package.json is exists (i.e. created by metadata) or read /package.json
+    var pkg = context.package;
+    var cwd = context.cwd;
+    var directories = pkg.directories;
+    var templatePkg;
+    var buildPackagePath = path.join(cwd, directories.build + "/package.json");
+    var localPackagePath = path.join(cwd, "package.json");
+    if (fs.existsSync(buildPackagePath)) {
+      templatePkg = require(buildPackagePath);
+    } else {
+      templatePkg = require(localPackagePath);
+    }
+    templatePkg.friendlyVersion = templatePkg.version.replace(/\./g, '-');
+    return gulp.src(directories.client + "/index.dust")
+      .pipe(new GulpDustCompileRender(templatePkg, {"helper": "dustjs-helpers"}))
+      .pipe(rename(function renameExtension(renamePath) {
+        renamePath.extname = ".html";
+      }))
+      .pipe(gulp.dest(directories.client));
+  };
   var webpackCompileTemplatesTaskGeneric = function webpackCompileTemplatesTaskGeneric(testMode) {
     //read Build/package.json is exists (i.e. created by metadata) or read /package.json
     var pkg = context.package;
@@ -48,12 +69,13 @@ module.exports = function webpackTasks(gulp, context) {
     } else {
       templatePkg = require(localPackagePath);
     }
-    return gulp.src(directories.client + "/**/*.dust")
+    templatePkg.friendlyVersion = templatePkg.version.replace(/\./g, '-');
+    return gulp.src(directories.client + "/boot.dust")
       .pipe(new GulpDustCompileRender(R.assoc("testMode", testMode, templatePkg), {"helper": "dustjs-helpers"}))
       .pipe(rename(function renameExtension(renamePath) {
-        renamePath.extname = ".js";
+        renamePath.extname = "-" + templatePkg.friendlyVersion + ".js";
       }))
-      .pipe(gulp.dest(directories.client));
+      .pipe(gulp.dest(directories.client + "/public"));
   };
   var webpackCompileConfiguration = function webpackCompileConfiguration() {
     var jeditor = require("gulp-json-editor");
@@ -104,7 +126,7 @@ module.exports = function webpackTasks(gulp, context) {
    * @member {Gulp} webpackCompileTemplates
    * @return {through2} stream
    */
-  gulp.task("webpackCompileTemplates", ["webpackCompileConfig"], function webpackCompileTemplatesTask() {
+  gulp.task("webpackCompileTemplates", ["webpackCompileIndex", "webpackCompileConfig"], function webpackCompileTemplatesTask() {
     return webpackCompileTemplatesTaskGeneric(false);
   });
   /**
@@ -115,9 +137,16 @@ module.exports = function webpackTasks(gulp, context) {
    * @member {Gulp} webpackCompileTemplatesTestMode
    * @return {through2} stream
    */
-  gulp.task("webpackCompileTemplatesTestMode", ["webpackCompileConfig"],
+  gulp.task("webpackCompileTemplatesTestMode", ["webpackCompileIndex", "webpackCompileConfig"],
     function webpackCompileTemplatesTestModeTask() {
     return webpackCompileTemplatesTaskGeneric(true);
+  });
+  /**
+   * @member {Gulp} webpack
+   * @return {through2} stream
+   */
+  gulp.task("webpackCompileIndex", function webpackCompileIndexTask() {
+    return webpackCompileIndexTaskGeneric();
   });
   /**
    * @member {Gulp} webpack
