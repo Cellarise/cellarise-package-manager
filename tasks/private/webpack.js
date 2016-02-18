@@ -126,7 +126,8 @@ module.exports = function webpackTasks(gulp, context) {
    * @member {Gulp} webpackCompileTemplates
    * @return {through2} stream
    */
-  gulp.task("webpackCompileTemplates", ["webpackCompileIndex", "webpackCompileConfig"], function webpackCompileTemplatesTask() {
+  gulp.task("webpackCompileTemplates", ["webpackCompileIndex", "webpackCompileConfig"],
+    function webpackCompileTemplatesTask() {
     return webpackCompileTemplatesTaskGeneric(false);
   });
   /**
