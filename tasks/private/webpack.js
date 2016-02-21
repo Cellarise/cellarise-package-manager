@@ -87,6 +87,9 @@ module.exports = function webpackTasks(gulp, context) {
     var configPath = path.join(cwd, directories.client + "/source/scripts/config/config.json");
     var config1Path = path.join(cwd, directories.client + "/source/scripts/config");
 
+
+    fs.writeFileSync(configPath, JSON.stringify({}), 'utf8');
+
     return gulp.src(configPath)
       .pipe(jeditor(function compileConfig() {
         var compiledConfig =  require(configCompilerPath);
