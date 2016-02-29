@@ -43,12 +43,18 @@ module.exports = function webpackTasks(gulp, context) {
     var templatePkg;
     var buildPackagePath = path.join(cwd, directories.build + "/package.json");
     var localPackagePath = path.join(cwd, "package.json");
+
+    //set version based on environment (targeting build server)
+    var version = process.env.bamboo_jira_version && process.env.bamboo_jira_version !== "DEV"
+      ? process.env.bamboo_jira_version
+      : "0.0.0";
+
     if (fs.existsSync(buildPackagePath)) {
       templatePkg = require(buildPackagePath);
     } else {
       templatePkg = require(localPackagePath);
     }
-    templatePkg.friendlyVersion = templatePkg.version.replace(/\./g, '-');
+    templatePkg.friendlyVersion = version.replace(/\./g, '-');
     return gulp.src(directories.client + "/index.dust")
       .pipe(new GulpDustCompileRender(templatePkg, {"helper": "dustjs-helpers"}))
       .pipe(rename(function renameExtension(renamePath) {
@@ -64,12 +70,18 @@ module.exports = function webpackTasks(gulp, context) {
     var templatePkg;
     var buildPackagePath = path.join(cwd, directories.build + "/package.json");
     var localPackagePath = path.join(cwd, "package.json");
+
+    //set version based on environment (targeting build server)
+    var version = process.env.bamboo_jira_version && process.env.bamboo_jira_version !== "DEV"
+      ? process.env.bamboo_jira_version
+      : "0.0.0";
+
     if (fs.existsSync(buildPackagePath)) {
       templatePkg = require(buildPackagePath);
     } else {
       templatePkg = require(localPackagePath);
     }
-    templatePkg.friendlyVersion = templatePkg.version.replace(/\./g, '-');
+    templatePkg.friendlyVersion = version.replace(/\./g, '-');
     return gulp.src(directories.client + "/boot.dust")
       .pipe(new GulpDustCompileRender(R.assoc("testMode", testMode, templatePkg), {"helper": "dustjs-helpers"}))
       .pipe(rename(function renameExtension(renamePath) {
