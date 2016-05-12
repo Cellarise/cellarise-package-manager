@@ -154,6 +154,7 @@
     "webdriverio": "^3.3.0",
     "webpack": "^1.12.13",
     "webpack-dev-server": "^1.14.1",
+    "webpack-md5-hash": "0.0.5",
     "yadda": "^0.16.0"
   },
   "directories": {
