@@ -15,11 +15,14 @@ module.exports = function webpackTasks(gulp, context) {
   var webpack = require('webpack');
   var gulpWebpack = require('gulp-webpack');
   var GulpDustCompileRender = require("gulp-dust-compile-render");
+  var batch = require("gulp-batch");
   var rename = require("gulp-rename");
+  var watch = require("gulp-watch");
   var fs = require("fs");
   var R = require('ramda');
 
   var webpackRunner = function webpackRunner(configPath) {
+    var logger = context.logger;
     var pkg = context.package;
     var cwd = context.cwd;
     var directories = pkg.directories;
@@ -116,6 +119,19 @@ module.exports = function webpackTasks(gulp, context) {
    */
   gulp.task("webpack", ["webpackCompileTemplates"], function webpackTask() {
     return webpackRunner("/config/webpack.config.dev.js");
+  });
+  gulp.task("webpackWatch", ["webpackCompileTemplates"], function webpackTask() {
+    var pkg = context.package;
+    var cwd = context.cwd;
+    var directories = pkg.directories;
+    var clientDir = path.join(cwd, directories.client);
+    var webpackRunnerDev = function() {
+      webpackRunner("/config/webpack.config.dev.js");
+    };
+    webpackRunnerDev();
+    return watch(clientDir + "/**/*", batch(function(events, done) {
+      webpackRunnerDev().on("end", done);
+    }));
   });
   /**
    * A gulp build task to run the webpack module bundler using the test config.
