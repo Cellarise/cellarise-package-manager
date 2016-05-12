@@ -2,14 +2,16 @@
 /* global describe, it, afterEach */
 "use strict";
 
-var fs = require('fs');
-var path = require('path');
+var fs = require('../lib/shims').fs,
+    proc = require('../lib/shims').process;
+var path = require('../lib/shims').path;
 var assert = require("assert");
 var FeatureParser = require('../lib/index').parsers.FeatureParser;
 var Localisation = require('../lib/index').localisation;
 var Language = require('../lib/index').localisation.Language;
 var Pirate = require('../lib/index').localisation.Pirate;
 var English = require('../lib/index').localisation.English;
+
 
 describe('FeatureParser', function() {
 
@@ -124,6 +126,22 @@ describe('FeatureParser', function() {
 
             assert.equal(scenarios[4].title, 'Multiline Step Followed By Example Table');
             assert.equal(JSON.stringify(scenarios[4].steps[0]), JSON.stringify(poem));
+        });
+
+        it('should parse multiple multiline steps in the same scenario', function() {
+            var scenarios = parse_file('scenario/multiline_step_scenario_with_multiple_blocks').scenarios;
+            assert.equal(scenarios.length, 1);
+            assert.equal(scenarios[0].title, 'Multiline Step With Multiple Blocks');
+            assert.equal(scenarios[0].steps[0], ['Verse 1'].concat(poem.split('\n').splice(1, 4)).join('\n'));
+            assert.equal(scenarios[0].steps[1], ['Verse 2'].concat(poem.split('\n').splice(6, 9)).join('\n'));
+        });
+
+        it('should append the final blank line in a multiple step', function() {
+            var scenarios = parse_file('scenario/multiline_step_scenario_with_multiple_blocks_and_blank').scenarios;
+            assert.equal(scenarios.length, 1);
+            assert.equal(scenarios[0].title, 'Multiline Step With Multiple Blocks And Blank');
+            assert.equal(scenarios[0].steps[0], ['Verse 1'].concat(poem.split('\n').splice(1, 4)).concat('').join('\n'));
+            assert.equal(scenarios[0].steps[1], ['Verse 2'].concat(poem.split('\n').splice(6, 9)).concat('').join('\n'));
         });
 
         it('should maintain indentation while parsing multiline steps', function() {
@@ -270,6 +288,20 @@ describe('FeatureParser', function() {
 
         it('should expand scenarios from example table', function() {
             var scenarios = parse_file('example_table/example_table').scenarios;
+            assert.equal(scenarios.length, 2);
+            assert.equal(scenarios[0].title, 'First Scenario');
+            assert.equal(scenarios[0].steps[0], 'Step A11');
+            assert.equal(scenarios[0].steps[1], 'Step 1AA');
+            assert.equal(scenarios[1].title, 'Second Scenario');
+            assert.equal(scenarios[1].steps[0], 'Step B22');
+            assert.equal(scenarios[1].steps[1], 'Step 2BB');
+        });
+
+        it('should expand scenarios from example table with chevrons', function() {
+            var scenarios = parse_file('example_table/example_table_with_chevrons', {
+                leftPlaceholderChar: '<',
+                rightPlaceholderChar: '>'
+            }).scenarios;
             assert.equal(scenarios.length, 2);
             assert.equal(scenarios[0].title, 'First Scenario');
             assert.equal(scenarios[0].steps[0], 'Step A11');
@@ -466,6 +498,18 @@ describe('FeatureParser', function() {
             assert(scenarios[1].annotations.brig, 'Localised scenario was not marked as pending');
         });
 
+        it('should support multiple languages using the options object', function() {
+            var feature = parse_file('localisation/pirate_feature', { language: Pirate });
+            assert.equal(feature.title, 'Treasure Island');
+
+            var scenarios = feature.scenarios;
+            assert.equal(scenarios.length, 2);
+            assert.equal(scenarios[0].title, 'The Black Spot');
+            assert.deepEqual(scenarios[0].steps, ['Given A', 'When B', 'Then C']);
+
+            assert(scenarios[1].annotations.brig, 'Localised scenario was not marked as pending');
+        });
+
         it('should support changing the default language', function() {
             Localisation.default = Pirate;
             var feature = new FeatureParser().parse(load('localisation/pirate_feature'));
@@ -530,8 +574,8 @@ describe('FeatureParser', function() {
         });
     });
 
-    function parse_file(filename, language) {
-        return new FeatureParser(language).parse(load(filename));
+    function parse_file(filename, options) {
+        return new FeatureParser(options).parse(load(filename));
     }
 
     function load(filename) {

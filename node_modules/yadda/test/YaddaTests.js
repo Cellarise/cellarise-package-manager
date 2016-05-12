@@ -30,6 +30,55 @@ describe('Yadda', function() {
         });
     });
 
+    it('should interpret a mix of asynchronous and synchronous scenarios', function(done) {
+        var executions = 0;
+        var library = new Library().define('foo', function(next) {
+            executions++;
+            next();
+        }).define('bar', function() {
+            executions++;
+        });
+        new Yadda(library).yadda(['foo', 'bar'], function(err) {
+            assert.ifError(err);
+            assert.equal(executions, 2);
+            done();
+        })
+    });
+
+    it('should interpret asynchronous returning scenarios', function(done) {
+        var executions = 0;
+        var library = new Library().define('foo', function() {
+            executions++;
+            return {
+                then: function(callback) {
+                    callback();
+                }
+            }
+        });
+        new Yadda(library).yadda('foo', function(err) {
+            assert.ifError(err);
+            assert.equal(executions, 1);
+            done();
+        });
+    });
+
+    it('should interpret asynchronous returning scenarios', function(done) {
+        var executions = 0;
+        var library = new Library().define('foo', function() {
+            executions++;
+            return {
+                then: function(callback) {
+                    callback();
+                }
+            }
+        });
+        new Yadda(library).yadda('foo', function(err) {
+            assert.ifError(err);
+            assert.equal(executions, 1);
+            done();
+        });
+    });
+
     it('should cater for people who dont find the recursive api amusing', function() {
         var Yadda = require('../lib/index');
         var executions = 0;

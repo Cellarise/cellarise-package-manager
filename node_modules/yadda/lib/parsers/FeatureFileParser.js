@@ -17,12 +17,11 @@
  /* jslint node: true */
  "use strict";
 
-var FeatureFileParser = function(language) {
+var FeatureFileParser = function(options) {
 
-    // Requiring fs locally so it doesn't break component
-    var fs = require('fs');
+    var fs = require('../shims').fs;
     var FeatureParser = require('./FeatureParser');
-    var parser = new FeatureParser(language);
+    var parser = new FeatureParser(options);
 
     this.parse = function(file, next) {
         var text = fs.readFileSync(file, 'utf8');

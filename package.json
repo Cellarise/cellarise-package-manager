@@ -151,7 +151,7 @@
     "gulp-util": "^3.0.0",
     "istanbul-reporter-clover-limits": "^0.1.1",
     "mocha-bamboo-reporter-bgo": "^1.0.7",
-    "yadda": "^0.16.0",
+    "yadda": "^0.17.7",
     "run-sequence": "^1.0.0",
     "ramda": "^0.21.0",
     "mkdirp": "^0.5.1",
