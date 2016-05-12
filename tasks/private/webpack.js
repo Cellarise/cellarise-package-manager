@@ -20,12 +20,17 @@ module.exports = function webpackTasks(gulp, context) {
   var R = require('ramda');
 
   var webpackRunner = function webpackRunner(configPath) {
+    var logger = context.logger;
     var pkg = context.package;
     var cwd = context.cwd;
     var directories = pkg.directories;
     var webpackConfig = require(path.join(cwd, directories.client + configPath));
-    //var entry = directories.client + "/source/entry.js";
-    var dest = directories.client + "/public";
+    var dest;
+    if (R.isNil(R.path(["output", "path"], webpackConfig))) {
+      logger.error("Was expecting an output path in the Webpack config");
+    } else {
+      dest = webpackConfig.output.path;
+    }
     //direct modules to this package node_modules
     webpackConfig.resolveLoader = {"modulesDirectories": [path.join(__dirname, "../../node_modules")]};
     return gulp.src("")
