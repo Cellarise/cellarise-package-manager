@@ -3,6 +3,33 @@ Changelog
 
 <table>
 <tr>
+<td>0.4.3</td>
+<td>
+    <ul>
+        <li>Create new handlebars instance for the HTML report, thanks to @doowb</li>
+        <li>MetaProperty support thanks to @steve-gray</li>
+        <li>Use ansi colors from 16-color palette for better console support, thanks to @jtangelder</li>
+        <li>Misc doc/ css fixes thanks to @pra85, @abejfehr</li>
+    </ul>
+</td>
+</tr>
+<tr>
+<td>0.4.2</td>
+<td>Fix confusing error message on check-coverage failures, thanks to @isaacs/td>
+</tr>
+<tr>
+<td>v0.4.1</td>
+<td>
+    <ul>
+        <li>Update esprima to 2.7.x, thanks to @ariya</li>
+        <li>Make table header clickable in HTML report, thanks to @iphands</li>
+        <li>Fix strict mode issues thanks to @kpdecker</li>
+        <li>update ignore code example for UMD, thanks to @pgurnee</li>
+        <li>misc build fixes, no user visible changes, thanks to @ariya</li>
+    </ul>
+</td>
+</tr>
+<tr>
 <td>v0.4.0</td>
 <td>
     <ul>
