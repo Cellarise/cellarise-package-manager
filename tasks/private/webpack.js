@@ -97,17 +97,8 @@ module.exports = function webpackTasks(gulp, context) {
       }))
       .pipe(gulp.dest(directories.client + "/public"));
   };
-  var webpackCompileConfiguration = function webpackCompileConfiguration() {
+  var webpackCompiler = function webpackCompiler(configCompilerPath, configPath, configDir) {
     var jeditor = require("gulp-json-editor");
-    //read Build/package.json is exists (i.e. created by metadata) or read /package.json
-    var pkg = context.package;
-    var cwd = context.cwd;
-    var directories = pkg.directories;
-    var configCompilerPath = path.join(cwd, directories.client + "/source/scripts/config/configCompiler.js");
-    var configPath = path.join(cwd, directories.client + "/source/scripts/config/config.json");
-    var config1Path = path.join(cwd, directories.client + "/source/scripts/config");
-
-
     fs.writeFileSync(configPath, JSON.stringify({}), 'utf8');
 
     return gulp.src(configPath)
@@ -115,7 +106,27 @@ module.exports = function webpackTasks(gulp, context) {
         var compiledConfig =  require(configCompilerPath);
         return compiledConfig;
       }))
-      .pipe(gulp.dest(config1Path));
+      .pipe(gulp.dest(configDir));
+  };
+  var webpackCompileRoutes = function webpackCompileRoutes() {
+    //read Build/package.json is exists (i.e. created by metadata) or read /package.json
+    var pkg = context.package;
+    var cwd = context.cwd;
+    var directories = pkg.directories;
+    var routeCompilerPath = path.join(cwd, directories.client + "/source/scripts/config/routeCompiler.js");
+    var routePath = path.join(cwd, directories.client + "/source/scripts/config/routes.json");
+    var routeDirPath = path.join(cwd, directories.client + "/source/scripts/config");
+    return webpackCompiler(routeCompilerPath, routePath, routeDirPath);
+  };
+  var webpackCompileConfiguration = function webpackCompileConfiguration() {
+    //read Build/package.json is exists (i.e. created by metadata) or read /package.json
+    var pkg = context.package;
+    var cwd = context.cwd;
+    var directories = pkg.directories;
+    var configCompilerPath = path.join(cwd, directories.client + "/source/scripts/config/configCompiler.js");
+    var configPath = path.join(cwd, directories.client + "/source/scripts/config/config.json");
+    var configDir = path.join(cwd, directories.client + "/source/scripts/config");
+    return webpackCompiler(configCompilerPath, configPath, configDir);
   };
   /**
    * A gulp build task to run the webpack module bundler for development.
@@ -191,6 +202,13 @@ module.exports = function webpackTasks(gulp, context) {
    */
   gulp.task("webpackCompileConfig", function webpackCompileConfigTask() {
     return webpackCompileConfiguration();
+  });
+  /**
+   * @member {Gulp} webpack
+   * @return {through2} stream
+   */
+  gulp.task("webpackCompileRoutes", function webpackCompileRoutesTask() {
+    return webpackCompileRoutes();
   });
   /**
    * A gulp build task to run the webpack dev server
