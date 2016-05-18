@@ -38,6 +38,8 @@ module.exports = function packageTasks(gulp, context) {
       "!package.json",
       "!" + directories.build,
       "!" + directories.build + "/**/*",
+      "!node_modules",
+      "!node_modules/**/*",
       "!pub-build",
       "!pub-build/**/*"
     ];
@@ -49,8 +51,6 @@ module.exports = function packageTasks(gulp, context) {
       sourcePaths = _.union(sourcePaths, [
         "!" + directories.reports + "/",
         "!" + directories.reports + "/**/*",
-        "!node_modules",
-        "!node_modules/**/*",
         "!Tools",
         "!Tools/**/*",
         "!Temp",
