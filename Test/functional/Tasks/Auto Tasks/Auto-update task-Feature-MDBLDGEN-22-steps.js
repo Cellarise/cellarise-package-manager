@@ -76,7 +76,7 @@ module.exports = (function testSuite() {
                     results[0].releasedVersion.name,
                     function deleteJiraVersionCallback(err1) {
                       logger.info("Deleted version: " + results[0].releasedVersion.name);
-                      logger.info(" " + err1);
+                      logger.info(JSON.stringify(err1 || {}));
                       assert(!err1);
                       callback();
                     });
