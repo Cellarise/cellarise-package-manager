@@ -158,6 +158,14 @@ module.exports = function webpackTasks(gulp, context) {
     return webpackRunner("/config/webpack.config.test.js");
   });
   /**
+   * A gulp build task to run metadata and the webpack module bundler using the test config.
+   * @member {Gulp} webpack
+   * @return {through2} stream
+   */
+  gulp.task("webpackTestAndMeta", ["metadata", "webpackCompileTemplatesTestMode"], function webpackTestAndMeta() {
+    return webpackRunner("/config/webpack.config.test.js");
+  });
+  /**
    * A gulp build task to run the webpack module bundler for production packaging.
    * @member {Gulp} webpack
    * @return {through2} stream
