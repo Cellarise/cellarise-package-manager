@@ -1,5 +1,5 @@
 git init
-git remote add origin %bamboo_REMOTE_HOST%
+git remote add origin %bamboo_REMOTE_GIT%
 git fetch
 git reset origin/master
 git rm . -r --cached --quiet
