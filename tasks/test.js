@@ -287,7 +287,10 @@ module.exports = function testTasks(gulp, context) {
       function forEachFile(fileName) {
         try {
           fileContents = fs.readFileSync(path.join(outputDir, fileName));
-          processCoverage(JSON.parse(fileContents));
+          //add find and replace for bamboo build server remote agents
+          processCoverage(
+            JSON.parse(fileContents.replace(/(C:|D:|c:|d:).bamboo.*?\\xml-data\\build-dir\\.*?\\/g, cwd + "\\"))
+          );
         } catch (err) {
           return false;
         }
