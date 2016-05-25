@@ -287,11 +287,16 @@ module.exports = function testTasks(gulp, context) {
       function forEachFile(fileName) {
         try {
           fileContents = fs.readFileSync(path.join(outputDir, fileName));
+          logger.info("Loaded: " + fileName);
           //add find and replace for bamboo build server remote agents
           processCoverage(
-            JSON.parse(fileContents.replace(/(C:|D:|c:|d:).bamboo.*?\\xml-data\\build-dir\\.*?\\/g, cwd + "\\"))
+            JSON.parse(fileContents
+              .toString('utf-8')
+              .replace(/(C:|D:|c:|d:).bamboo.*?\\xml-data\\build-dir\\.*?\\/g, cwd + "\\")
+            )
           );
         } catch (err) {
+          logger.info("Write coverage failed for: " + fileName);
           return false;
         }
       },
