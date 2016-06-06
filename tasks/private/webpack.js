@@ -103,7 +103,12 @@ module.exports = function webpackTasks(gulp, context) {
 
     return gulp.src(configPath)
       .pipe(jeditor(function compileConfig() {
-        var compiledConfig =  require(configCompilerPath);
+        var compiledConfig;
+        try {
+          compiledConfig = require(configCompilerPath);
+        } catch (err) {
+          compiledConfig = {};
+        }
         return compiledConfig;
       }))
       .pipe(gulp.dest(configDir));
@@ -181,7 +186,7 @@ module.exports = function webpackTasks(gulp, context) {
    * @member {Gulp} webpackCompileTemplates
    * @return {through2} stream
    */
-  gulp.task("webpackCompileTemplates", ["webpackCompileIndex", "webpackCompileConfig"],
+  gulp.task("webpackCompileTemplates", ["webpackCompileIndex", "webpackCompileConfig", "webpackCompileRoutes"],
     function webpackCompileTemplatesTask() {
     return webpackCompileTemplatesTaskGeneric(false);
   });
@@ -193,7 +198,7 @@ module.exports = function webpackTasks(gulp, context) {
    * @member {Gulp} webpackCompileTemplatesTestMode
    * @return {through2} stream
    */
-  gulp.task("webpackCompileTemplatesTestMode", ["webpackCompileIndex", "webpackCompileConfig"],
+  gulp.task("webpackCompileTemplatesTestMode", ["webpackCompileIndex", "webpackCompileConfig", "webpackCompileRoutes"],
     function webpackCompileTemplatesTestModeTask() {
     return webpackCompileTemplatesTaskGeneric(true);
   });
