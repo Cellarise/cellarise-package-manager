@@ -78,7 +78,10 @@ module.exports = function packageTasks(gulp, context) {
     var BUILDIGNOREPATH = ".buildignore";
     var GITIGNOREPATH = ".gitignore";
     var buildIgnore = fs.readFileSync(BUILDIGNOREPATH).toString();
-    var gitIgnore = fs.readFileSync(GITIGNOREPATH).toString().replace("/**/client/public/*.*\n", "");
+    var gitIgnore = fs.readFileSync(GITIGNOREPATH)
+      .toString()
+      .replace("/client/index.html\n", "")
+      .replace("/**/client/public/*.*\n", "");
     fs.writeFileSync(GITIGNOREPATH, gitIgnore + buildIgnore);
     return gulp.src([".gitignore"])
       .pipe(gulp.dest("Build"))
@@ -95,7 +98,7 @@ module.exports = function packageTasks(gulp, context) {
     var GITIGNOREPATH = ".gitignore";
     var buildIgnore = fs.readFileSync(BUILDIGNOREPATH).toString();
     var gitIgnore = fs.readFileSync(GITIGNOREPATH).toString();
-    fs.writeFileSync(GITIGNOREPATH, gitIgnore.replace(buildIgnore, "") + "/**/client/public/*.*\n");
+    fs.writeFileSync(GITIGNOREPATH, gitIgnore.replace(buildIgnore, "") + "/client/index.html\n/**/client/public/*.*\n");
     return gulp.src([".gitignore"])
       .pipe(gulp.dest("Build"))
       .pipe(gulp.dest(""));
