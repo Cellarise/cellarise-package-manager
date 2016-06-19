@@ -97,7 +97,7 @@ module.exports = function webpackTasks(gulp, context) {
       }))
       .pipe(gulp.dest(directories.client + "/public"));
   };
-  var webpackCompiler = function webpackCompiler(configCompilerPath, configPath, configDir) {
+  var webpackCompiler = function webpackCompiler(configCompilerPath, configPath, compileDir) {
     var jeditor = require("gulp-json-editor");
     fs.writeFileSync(configPath, JSON.stringify({}), 'utf8');
 
@@ -111,27 +111,29 @@ module.exports = function webpackTasks(gulp, context) {
         }
         return compiledConfig;
       }))
-      .pipe(gulp.dest(configDir));
+      .pipe(gulp.dest(compileDir));
   };
   var webpackCompileRoutes = function webpackCompileRoutes() {
     //read Build/package.json is exists (i.e. created by metadata) or read /package.json
     var pkg = context.package;
     var cwd = context.cwd;
     var directories = pkg.directories;
-    var routeCompilerPath = path.join(cwd, directories.client + "/source/scripts/config/routeCompiler.js");
-    var routePath = path.join(cwd, directories.client + "/source/scripts/config/routes.json");
-    var routeDirPath = path.join(cwd, directories.client + "/source/scripts/config");
-    return webpackCompiler(routeCompilerPath, routePath, routeDirPath);
+    var configDir = directories.config || "/source/scripts/config"; //for backwards compatibility
+    var routeCompilerPath = path.join(cwd, configDir + "/routeCompiler.js");
+    var routePath = path.join(cwd, configDir + "/routes.json");
+    var routeCompileDir = path.join(cwd, configDir);
+    return webpackCompiler(routeCompilerPath, routePath, routeCompileDir);
   };
   var webpackCompileConfiguration = function webpackCompileConfiguration() {
     //read Build/package.json is exists (i.e. created by metadata) or read /package.json
     var pkg = context.package;
     var cwd = context.cwd;
     var directories = pkg.directories;
-    var configCompilerPath = path.join(cwd, directories.client + "/source/scripts/config/configCompiler.js");
-    var configPath = path.join(cwd, directories.client + "/source/scripts/config/config.json");
-    var configDir = path.join(cwd, directories.client + "/source/scripts/config");
-    return webpackCompiler(configCompilerPath, configPath, configDir);
+    var configDir = directories.config || "source/scripts/config"; //for backwards compatibility
+    var configCompilerPath = path.join(cwd, configDir + "/configCompiler.js");
+    var configPath = path.join(cwd, configDir + "/config.json");
+    var configCompileDir = path.join(cwd, configDir);
+    return webpackCompiler(configCompilerPath, configPath, configCompileDir);
   };
   /**
    * A gulp build task to run the webpack module bundler for development.
