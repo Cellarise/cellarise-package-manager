@@ -16,12 +16,15 @@ module.exports = function webpackTasks(gulp, context) {
   var gulpWebpack = require('gulp-webpack');
   var GulpDustCompileRender = require("gulp-dust-compile-render");
   var rename = require("gulp-rename");
-  var batch = require("gulp-batch");
-  var watch = require("gulp-watch");
   var fs = require("fs");
   var R = require('ramda');
 
-  var webpackRunner = function webpackRunner(configPath) {
+  /**
+   *
+   * @param {String} configPath - path to webpack config
+   * @param {Object} webpackOptions - other options to merge with Webpack config to pass to Gulp Webpack
+   */
+  var webpackRunner = function webpackRunner(configPath, webpackOptions) {
     var logger = context.logger;
     var pkg = context.package;
     var cwd = context.cwd;
@@ -36,6 +39,7 @@ module.exports = function webpackTasks(gulp, context) {
     }
     //direct modules to this package node_modules
     webpackConfig.resolveLoader = {"modulesDirectories": [path.join(__dirname, "../../node_modules")]};
+    webpackConfig = R.merge(webpackConfig, webpackOptions || {});
     return gulp.src("")
       .pipe(gulpWebpack(webpackConfig, webpack /*,
        function gulpWebpackStats(err, stats){
@@ -143,18 +147,13 @@ module.exports = function webpackTasks(gulp, context) {
   gulp.task("webpack", ["webpackCompileTemplates"], function webpackTask() {
     return webpackRunner("/config/webpack.config.dev.js");
   });
+  /**
+   * A gulp build task to continuously run the webpack module bundler for development in watch mode.
+   * @member {Gulp} webpack
+   * @return {through2} stream
+   */
   gulp.task("webpackWatch", ["webpackCompileTemplates"], function webpackTask() {
-    var pkg = context.package;
-    var cwd = context.cwd;
-    var directories = pkg.directories;
-    var clientDir = path.join(cwd, directories.client);
-    var webpackRunnerDev = function() {
-      webpackRunner("/config/webpack.config.dev.js");
-    };
-    webpackRunnerDev();
-    return watch(clientDir + "/**/*", batch(function(events, done) {
-      webpackRunnerDev().on("end", done);
-    }));
+    return webpackRunner("/config/webpack.config.dev.js", { watch: true });
   });
   /**
    * A gulp build task to run the webpack module bundler using the test config.
