@@ -23,6 +23,7 @@ module.exports = function webpackTasks(gulp, context) {
    *
    * @param {String} configPath - path to webpack config
    * @param {Object} webpackOptions - other options to merge with Webpack config to pass to Gulp Webpack
+   * @return {through2} stream
    */
   var webpackRunner = function webpackRunner(configPath, webpackOptions) {
     var logger = context.logger;
@@ -153,7 +154,7 @@ module.exports = function webpackTasks(gulp, context) {
    * @return {through2} stream
    */
   gulp.task("webpackWatch", ["webpackCompileTemplates"], function webpackTask() {
-    return webpackRunner("/config/webpack.config.dev.js", { watch: true });
+    return webpackRunner("/config/webpack.config.dev.js", {"watch": true});
   });
   /**
    * A gulp build task to run the webpack module bundler using the test config.
