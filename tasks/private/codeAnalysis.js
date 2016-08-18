@@ -29,8 +29,8 @@ module.exports = function codeAnalysisTasks(gulp, context) {
     var eslintMochaOut, eslintCucumberOut;
     var srcArr = [directories.lib + "/**/*.js", directories.tasks + "/**/*.js", directories.test + "/**/*.js"];
     if (directories.client) {
-      srcArr.push(directories.client + "/source/**/*.js");
-      srcArr.push(directories.client + "/source/**/*.jsx");
+      srcArr.push(directories.client + "/**/*.js");
+      srcArr.push(directories.client + "/**/*.jsx");
     }
     if (directories.server) {
       srcArr.push(directories.server + "/**/*.js");
