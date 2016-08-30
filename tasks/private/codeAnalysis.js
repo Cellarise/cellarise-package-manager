@@ -31,6 +31,14 @@ module.exports = function codeAnalysisTasks(gulp, context) {
     if (directories.client) {
       srcArr.push(directories.client + "/source/**/*.js");
       srcArr.push(directories.client + "/source/**/*.jsx");
+      srcArr.push(cwd + "/node_modules/cell-cycle/client/**/*.js");
+      srcArr.push(cwd + "/node_modules/cell-cycle/client/**/*.jsx");
+      srcArr.push(cwd + "/node_modules/cell-cycle/common/**/*.js");
+      srcArr.push(cwd + "/node_modules/cell-cycle/server/**/*.js");
+    }
+    if (pkg.name === 'cell-cycle') {
+      srcArr.push(directories.client + "/**/*.js");
+      srcArr.push(directories.client + "/**/*.jsx");
     }
     if (directories.server) {
       srcArr.push(directories.server + "/**/*.js");
