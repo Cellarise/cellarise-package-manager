@@ -1,7 +1,6 @@
 var _concat = require('./internal/_concat');
 var _curry2 = require('./internal/_curry2');
 var _reduce = require('./internal/_reduce');
-var curryN = require('./curryN');
 var map = require('./map');
 
 
@@ -9,13 +8,14 @@ var map = require('./map');
  * ap applies a list of functions to a list of values.
  *
  * Dispatches to the `ap` method of the second argument, if present. Also
- * treats functions as applicatives.
+ * treats curried functions as applicatives.
  *
  * @func
  * @memberOf R
  * @since v0.3.0
  * @category Function
- * @sig [f] -> [a] -> [f a]
+ * @sig [a -> b] -> [a] -> [b]
+ * @sig Apply f => f (a -> b) -> f a -> f b
  * @param {Array} fns An array of functions
  * @param {Array} vs An array of values
  * @return {Array} An array of results of applying each of `fns` to all of `vs` in turn.
@@ -28,9 +28,7 @@ module.exports = _curry2(function ap(applicative, fn) {
     typeof applicative.ap === 'function' ?
       applicative.ap(fn) :
     typeof applicative === 'function' ?
-      curryN(Math.max(applicative.length, fn.length), function() {
-        return applicative.apply(this, arguments)(fn.apply(this, arguments));
-      }) :
+      function(x) { return applicative(x)(fn(x)); } :
     // else
       _reduce(function(acc, f) { return _concat(acc, map(f, fn)); }, [], applicative)
   );

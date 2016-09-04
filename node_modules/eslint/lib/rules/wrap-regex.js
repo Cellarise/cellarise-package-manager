@@ -9,30 +9,38 @@
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = function(context) {
+module.exports = {
+    meta: {
+        docs: {
+            description: "require parenthesis around regex literals",
+            category: "Stylistic Issues",
+            recommended: false
+        },
 
-    return {
+        schema: []
+    },
 
-        "Literal": function(node) {
-            var token = context.getFirstToken(node),
-                nodeType = token.type,
-                source,
-                grandparent,
-                ancestors;
+    create(context) {
+        const sourceCode = context.getSourceCode();
 
-            if (nodeType === "RegularExpression") {
-                source = context.getTokenBefore(node);
-                ancestors = context.getAncestors();
-                grandparent = ancestors[ancestors.length - 1];
+        return {
 
-                if (grandparent.type === "MemberExpression" && grandparent.object === node &&
-                    (!source || source.value !== "(")) {
-                    context.report(node, "Wrap the regexp literal in parens to disambiguate the slash.");
+            Literal(node) {
+                const token = sourceCode.getFirstToken(node),
+                    nodeType = token.type;
+
+                if (nodeType === "RegularExpression") {
+                    const source = sourceCode.getTokenBefore(node);
+                    const ancestors = context.getAncestors();
+                    const grandparent = ancestors[ancestors.length - 1];
+
+                    if (grandparent.type === "MemberExpression" && grandparent.object === node &&
+                        (!source || source.value !== "(")) {
+                        context.report(node, "Wrap the regexp literal in parens to disambiguate the slash.");
+                    }
                 }
             }
-        }
-    };
+        };
 
+    }
 };
-
-module.exports.schema = [];
