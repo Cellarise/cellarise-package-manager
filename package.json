@@ -81,7 +81,7 @@
     "chokidar": "^1.0.5",
     "minimist": "^1.1.1",
     "pretty-hrtime": "^1.0.0",
-    "ramda": "^0.22.1"
+    "ramda": "^0.23.0"
   },
   "optionalDependencies": {
     "bower": "^1.7.9",
@@ -154,7 +154,7 @@
     "mocha-bamboo-reporter-bgo": "^1.0.7",
     "yadda": "^0.17.7",
     "run-sequence": "^1.0.0",
-    "ramda": "^0.22.1",
+    "ramda": "^0.23.0",
     "mkdirp": "^0.5.1",
     "v8-profiler": "^5.6.0"
   },

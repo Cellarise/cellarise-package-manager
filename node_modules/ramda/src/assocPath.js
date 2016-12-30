@@ -1,5 +1,7 @@
 var _curry3 = require('./internal/_curry3');
-var _slice = require('./internal/_slice');
+var _has = require('./internal/_has');
+var _isArray = require('./internal/_isArray');
+var _isInteger = require('./internal/_isInteger');
 var assoc = require('./assoc');
 
 
@@ -13,23 +15,34 @@ var assoc = require('./assoc');
  * @memberOf R
  * @since v0.8.0
  * @category Object
- * @sig [String] -> a -> {k: v} -> {k: v}
+ * @typedefn Idx = String | Int
+ * @sig [Idx] -> a -> {a} -> {a}
  * @param {Array} path the path to set
- * @param {*} val the new value
- * @param {Object} obj the object to clone
- * @return {Object} a new object similar to the original except along the specified path.
+ * @param {*} val The new value
+ * @param {Object} obj The object to clone
+ * @return {Object} A new object equivalent to the original except along the specified path.
  * @see R.dissocPath
  * @example
  *
  *      R.assocPath(['a', 'b', 'c'], 42, {a: {b: {c: 0}}}); //=> {a: {b: {c: 42}}}
+ *
+ *      // Any missing or non-object keys in path will be overridden
+ *      R.assocPath(['a', 'b', 'c'], 42, {a: 5}); //=> {a: {b: {c: 42}}}
  */
 module.exports = _curry3(function assocPath(path, val, obj) {
-  switch (path.length) {
-    case 0:
-      return val;
-    case 1:
-      return assoc(path[0], val, obj);
-    default:
-      return assoc(path[0], assocPath(_slice(path, 1), val, Object(obj[path[0]])), obj);
+  if (path.length === 0) {
+    return val;
+  }
+  var idx = path[0];
+  if (path.length > 1) {
+    var nextObj = _has(idx, obj) ? obj[idx] : _isInteger(path[1]) ? [] : {};
+    val = assocPath(Array.prototype.slice.call(path, 1), val, nextObj);
+  }
+  if (_isInteger(idx) && _isArray(obj)) {
+    var arr = [].concat(obj);
+    arr[idx] = val;
+    return arr;
+  } else {
+    return assoc(idx, val, obj);
   }
 });

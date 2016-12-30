@@ -17,19 +17,19 @@ var map = require('./map');
  * @since v0.3.0
  * @category List
  * @sig Chain m => (a -> m b) -> m a -> m b
- * @param {Function} fn
- * @param {Array} list
- * @return {Array}
+ * @param {Function} fn The function to map with
+ * @param {Array} list The list to map over
+ * @return {Array} The result of flat-mapping `list` with `fn`
  * @example
  *
  *      var duplicate = n => [n, n];
  *      R.chain(duplicate, [1, 2, 3]); //=> [1, 1, 2, 2, 3, 3]
+ *
+ *      R.chain(R.append, R.head)([1, 2, 3]); //=> [1, 2, 3, 1]
  */
-module.exports = _curry2(_dispatchable('chain', _xchain, function chain(fn, monad) {
+module.exports = _curry2(_dispatchable(['chain'], _xchain, function chain(fn, monad) {
   if (typeof monad === 'function') {
-    return function() {
-      return monad.call(this, fn.apply(this, arguments)).apply(this, arguments);
-    };
+    return function(x) { return fn(monad(x))(x); };
   }
   return _makeFlat(false)(map(fn, monad));
 }));

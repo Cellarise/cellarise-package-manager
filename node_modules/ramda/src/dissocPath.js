@@ -1,5 +1,4 @@
 var _curry2 = require('./internal/_curry2');
-var _slice = require('./internal/_slice');
 var assoc = require('./assoc');
 var dissoc = require('./dissoc');
 
@@ -14,9 +13,9 @@ var dissoc = require('./dissoc');
  * @since v0.11.0
  * @category Object
  * @sig [String] -> {k: v} -> {k: v}
- * @param {Array} path the path to set
- * @param {Object} obj the object to clone
- * @return {Object} a new object without the property at path
+ * @param {Array} path The path to the value to omit
+ * @param {Object} obj The object to clone
+ * @return {Object} A new object without the property at path
  * @see R.assocPath
  * @example
  *
@@ -30,7 +29,7 @@ module.exports = _curry2(function dissocPath(path, obj) {
       return dissoc(path[0], obj);
     default:
       var head = path[0];
-      var tail = _slice(path, 1);
+      var tail = Array.prototype.slice.call(path, 1);
       return obj[head] == null ? obj : assoc(head, dissocPath(tail, obj[head]), obj);
   }
 });

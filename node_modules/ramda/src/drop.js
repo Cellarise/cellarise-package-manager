@@ -17,9 +17,9 @@ var slice = require('./slice');
  * @sig Number -> [a] -> [a]
  * @sig Number -> String -> String
  * @param {Number} n
- * @param {*} list
- * @return {*}
- * @see R.take, R.transduce
+ * @param {[a]} list
+ * @return {[a]} A copy of list without the first `n` elements
+ * @see R.take, R.transduce, R.dropLast, R.dropWhile
  * @example
  *
  *      R.drop(1, ['foo', 'bar', 'baz']); //=> ['bar', 'baz']
@@ -28,6 +28,6 @@ var slice = require('./slice');
  *      R.drop(4, ['foo', 'bar', 'baz']); //=> []
  *      R.drop(3, 'ramda');               //=> 'da'
  */
-module.exports = _curry2(_dispatchable('drop', _xdrop, function drop(n, xs) {
+module.exports = _curry2(_dispatchable(['drop'], _xdrop, function drop(n, xs) {
   return slice(Math.max(0, n), Infinity, xs);
 }));

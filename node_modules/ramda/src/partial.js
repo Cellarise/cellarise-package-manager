@@ -18,8 +18,8 @@ var _createPartialApplicator = require('./internal/_createPartialApplicator');
  * @see R.partialRight
  * @example
  *
- *      var multiply = (a, b) => a * b;
- *      var double = R.partial(multiply, [2]);
+ *      var multiply2 = (a, b) => a * b;
+ *      var double = R.partial(multiply2, [2]);
  *      double(2); //=> 4
  *
  *      var greet = (salutation, title, firstName, lastName) =>
@@ -28,5 +28,6 @@ var _createPartialApplicator = require('./internal/_createPartialApplicator');
  *      var sayHello = R.partial(greet, ['Hello']);
  *      var sayHelloToMs = R.partial(sayHello, ['Ms.']);
  *      sayHelloToMs('Jane', 'Jones'); //=> 'Hello, Ms. Jane Jones!'
+ * @symb R.partial(f, [a, b])(c, d) = f(a, b, c, d)
  */
 module.exports = _createPartialApplicator(_concat);

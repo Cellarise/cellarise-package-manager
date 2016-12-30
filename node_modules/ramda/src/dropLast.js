@@ -13,10 +13,10 @@ var _xdropLast = require('./internal/_xdropLast');
  * @category List
  * @sig Number -> [a] -> [a]
  * @sig Number -> String -> String
- * @param {Number} n The number of elements of `xs` to skip.
- * @param {Array} xs The collection to consider.
- * @return {Array}
- * @see R.takeLast
+ * @param {Number} n The number of elements of `list` to skip.
+ * @param {Array} list The list of elements to consider.
+ * @return {Array} A copy of the list with only the first `list.length - n` elements
+ * @see R.takeLast, R.drop, R.dropWhile, R.dropLastWhile
  * @example
  *
  *      R.dropLast(1, ['foo', 'bar', 'baz']); //=> ['foo', 'bar']
@@ -25,4 +25,4 @@ var _xdropLast = require('./internal/_xdropLast');
  *      R.dropLast(4, ['foo', 'bar', 'baz']); //=> []
  *      R.dropLast(3, 'ramda');               //=> 'ra'
  */
-module.exports = _curry2(_dispatchable('dropLast', _xdropLast, _dropLast));
+module.exports = _curry2(_dispatchable([], _xdropLast, _dropLast));
