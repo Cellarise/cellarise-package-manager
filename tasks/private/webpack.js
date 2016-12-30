@@ -57,6 +57,7 @@ module.exports = function webpackTasks(gulp, context) {
     var buildPackagePath = path.join(cwd, directories.build + "/package.json");
     var localPackagePath = path.join(cwd, "package.json");
 
+    var buildNumber = process.env.bamboo_buildNumber ? process.env.bamboo_buildNumber : 0;
     //set version based on environment (targeting build server)
     var version = process.env.bamboo_jira_version && process.env.bamboo_jira_version !== "DEV"
       ? process.env.bamboo_jira_version
@@ -67,7 +68,8 @@ module.exports = function webpackTasks(gulp, context) {
     } else {
       templatePkg = require(localPackagePath);
     }
-    templatePkg.friendlyVersion = version.replace(/\./g, '-');
+    templatePkg.originalVersion = version.replace(/\./g, '-');
+    templatePkg.friendlyVersion = templatePkg.originalVersion + "_" + buildNumber;
     return gulp.src(directories.client + "/index.dust")
       .pipe(new GulpDustCompileRender(templatePkg, {"helper": "dustjs-helpers"}))
       .pipe(rename(function renameExtension(renamePath) {
@@ -84,6 +86,7 @@ module.exports = function webpackTasks(gulp, context) {
     var buildPackagePath = path.join(cwd, directories.build + "/package.json");
     var localPackagePath = path.join(cwd, "package.json");
 
+    var buildNumber = process.env.bamboo_buildNumber ? process.env.bamboo_buildNumber : 0;
     //set version based on environment (targeting build server)
     var version = process.env.bamboo_jira_version && process.env.bamboo_jira_version !== "DEV"
       ? process.env.bamboo_jira_version
@@ -94,7 +97,8 @@ module.exports = function webpackTasks(gulp, context) {
     } else {
       templatePkg = require(localPackagePath);
     }
-    templatePkg.friendlyVersion = version.replace(/\./g, '-');
+    templatePkg.originalVersion = version.replace(/\./g, '-');
+    templatePkg.friendlyVersion = templatePkg.originalVersion + "_" + buildNumber;
     return gulp.src(directories.client + "/boot.dust")
       .pipe(new GulpDustCompileRender(R.assoc("testMode", testMode, templatePkg), {"helper": "dustjs-helpers"}))
       .pipe(rename(function renameExtension(renamePath) {
