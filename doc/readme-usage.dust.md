@@ -1,24 +1,21 @@
 ## Installation
 
-Install as a global package to enable commandline execution of `cpm`, `cgulp`, `cgitsh`, and `oauth` from any location.
+Install as a local package.
 
 ```cmd
-npm install -g {name}
+npm install --production
+```
+
+Run npm link to enable commandline execution of `cpm`, `cgulp`, `cgitsh`, and `oauth` from any location.
+
+```cmd
+npm link
 ```
 
 ### Pre-requisites
 
-  * Windows 7/8
-    * Unix has not been tested and for this reason is unsupported.
-  * [GITWin32 OpenSSL v1.0.1g](http://slproweb.com/products/Win32OpenSSL.html).
-    * When installing OpenSSL, you must tell it to put DLLs in the Windows system directory
-  * Node packages (global):
-    * node-gyp
-        * Python ([windows-python-v2.7.3](http://www.python.org/download/releases/2.7.3#download) recommended, `v3.x.x` is __*not*__ supported)
-        * Microsoft Visual Studio 2013 for Windows Desktop (Express version works well)
-    * gulp
   * Git
-    * cygwin is recommended for Windows and use with Atlassian Bamboo.  Install packages git-completion, git-gui, gitk, and openssh.
+    * git for windows is recommended for Windows and use with Atlassian Bamboo.
   * Atlassian suite - for build tasks integrating with Atlassian JIRA or Atlassian Bamboo.
 
 Only 32bit versions of the following pre-requisites have been tested.
