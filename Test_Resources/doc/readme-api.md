@@ -1,21 +1,24 @@
-# API
-<a name="module_Cellarise/Test"></a>
-#Cellarise/Test
+## API
+<a name="module_Test"></a>
+
+### Test ⇒ <code>Object</code>
 .
+**Returns**: <code>Object</code> - - return description  
 
-**Params**
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| opts | <code>Object</code> |  | optional options |
+| [opts.modulePrefix] | <code>Object</code> | <code>&#x27;gulp-&#x27;</code> | load dependencies that start with this prefix in package.json. |
 
-- opts `Object` - optional options  
-  - \[modulePrefix='gulp-'\] `Object` - load dependencies that start with this prefix in package.json.  
-
-**Type**: `name`  
-**Returns**: `Object`  
 **Example**  
+```none
 Usage:
 ```
-var Cellarise/Test = require('Cellarise/Test');
+var Test = require('Test');
 ```
 
+```
 
+-
 
 *documented by [jsdoc-to-markdown](https://github.com/75lb/jsdoc-to-markdown)*.
