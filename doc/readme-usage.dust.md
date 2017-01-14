@@ -14,6 +14,12 @@ npm link
 
 ### Pre-requisites
 
+  * [OpenSSL >v1.0.1g](http://slproweb.com/products/Win32OpenSSL.html).
+    * When installing OpenSSL, you must tell it to put DLLs in the Windows system directory
+  * Node packages (global):
+    * node-gyp
+        * Python ([windows-python-v2.7.3](http://www.python.org/download/releases/2.7.3#download) recommended, `v3.x.x` is __*not*__ supported)
+        * Microsoft Visual Studio 2015 with C++ packages installed (Community edition works well)
   * Git
     * git for windows is recommended for Windows and use with Atlassian Bamboo.
   * Atlassian suite - for build tasks integrating with Atlassian JIRA or Atlassian Bamboo.
@@ -90,14 +96,10 @@ rmdir .\Temp /s /q
 
 ## install
 
-Install modules (production dependencies only). First prune any modules no longer in package.json and after installation deduplicate. This function uses the second argument passed to `cpm` as the module name to install.
+Install modules (production dependencies only).
 
 ```bat
-REM set path to programs required by installers
-set path = c:\OpenSSL-Win32\bin;%windir%\Microsoft.NET\Framework\v4.0.30319; %path%
-call npm prune
-call npm install --msvs_version=2013 --production %2
-call npm dedupe --msvs_version=2013
+call npm install --msvs_version=2015 --production %2
 ```
 
 ## publish
@@ -105,21 +107,31 @@ call npm dedupe --msvs_version=2013
 Publish to npm
 
 ```bat
-REM set path to programs required by installers
-set path = c:\OpenSSL-Win32\bin;%windir%\Microsoft.NET\Framework\v4.0.30319; %path%
 call npm publish
 ```
 
 ## update
 
-Update modules (production dependencies only). First prune any modules no longer in package.json and after installation deduplicate. This function uses the second argument passed to `cpm` as the module name to update.
+Update modules (production dependencies only).
 
 ```bat
-REM set path to programs required by installers
-set path = c:\OpenSSL-Win32\bin;%windir%\Microsoft.NET\Framework\v4.0.30319; %path%
+call npm update --msvs_version=2015 --production %2
+```
+
+## dedupe
+
+Deduplicate modules.
+
+```bat
+call npm dedupe --msvs_version=2015
+```
+
+## prune
+
+Prune modules.
+
+```bat
 call npm prune
-call npm update --msvs_version=2013 --production %2
-call npm dedupe --msvs_version=2013
 ```
 
 
