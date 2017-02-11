@@ -100,7 +100,7 @@ module.exports = function webpackTasks(gulp, context) {
     templatePkg.originalVersion = version.replace(/\./g, '-');
     templatePkg.friendlyVersion = templatePkg.originalVersion + "_" + buildNumber;
     return gulp.src(directories.client + "/boot.dust")
-      .pipe(new GulpDustCompileRender(R.assoc("testMode", testMode, templatePkg), {"helper": "dustjs-helpers"}))
+      .pipe(new GulpDustCompileRender(R.assoc("testMode", testMode + "", templatePkg), {"helper": "dustjs-helpers"}))
       .pipe(rename(function renameExtension(renamePath) {
         renamePath.extname = "-" + templatePkg.friendlyVersion + ".js";
       }))
