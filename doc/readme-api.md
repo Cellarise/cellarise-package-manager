@@ -1,6 +1,28 @@
 ## API
 ### Modules
+
 <dl>
+<dt><a href="#module_utils/autoUpdate">utils/autoUpdate</a> ⇒ <code>Object</code></dt>
+<dd><p>Auto update build utilities.</p>
+</dd>
+<dt><a href="#module_utils/bamboo">utils/bamboo</a> ⇒ <code>Object</code></dt>
+<dd><p>Bamboo build utilities</p>
+</dd>
+<dt><a href="#module_utils/config">utils/config</a> ⇒ <code>Object</code></dt>
+<dd><p>Application configuration utility</p>
+</dd>
+<dt><a href="#module_utils/david">utils/david</a> ⇒ <code>Object</code></dt>
+<dd><p>David build utilities</p>
+</dd>
+<dt><a href="#module_utils/jira">utils/jira</a> ⇒ <code>Object</code></dt>
+<dd><p>JIRA build utilities</p>
+</dd>
+<dt><a href="#module_utils/postBuild">utils/postBuild</a> ⇒ <code>Object</code></dt>
+<dd><p>Post build utilities</p>
+</dd>
+<dt><a href="#module_utils/reports">utils/reports</a> ⇒ <code>Object</code></dt>
+<dd><p>Build report utilities</p>
+</dd>
 <dt><a href="#module_reports/autoUpdateMocha">reports/autoUpdateMocha</a> ⇒ <code>Object</code></dt>
 <dd><p>Auto update mocha report</p>
 </dd>
@@ -36,27 +58,6 @@
 </dd>
 <dt><a href="#module_reports/postBuildMocha">reports/postBuildMocha</a> ⇒ <code>Object</code></dt>
 <dd><p>Post build mocha report</p>
-</dd>
-<dt><a href="#module_utils/autoUpdate">utils/autoUpdate</a> ⇒ <code>Object</code></dt>
-<dd><p>Auto update build utilities.</p>
-</dd>
-<dt><a href="#module_utils/bamboo">utils/bamboo</a> ⇒ <code>Object</code></dt>
-<dd><p>Bamboo build utilities</p>
-</dd>
-<dt><a href="#module_utils/config">utils/config</a> ⇒ <code>Object</code></dt>
-<dd><p>Application configuration utility</p>
-</dd>
-<dt><a href="#module_utils/david">utils/david</a> ⇒ <code>Object</code></dt>
-<dd><p>David build utilities</p>
-</dd>
-<dt><a href="#module_utils/jira">utils/jira</a> ⇒ <code>Object</code></dt>
-<dd><p>JIRA build utilities</p>
-</dd>
-<dt><a href="#module_utils/postBuild">utils/postBuild</a> ⇒ <code>Object</code></dt>
-<dd><p>Post build utilities</p>
-</dd>
-<dt><a href="#module_utils/reports">utils/reports</a> ⇒ <code>Object</code></dt>
-<dd><p>Build report utilities</p>
 </dd>
 <dt><a href="#module_tasks/autoScaffoldTasks">tasks/autoScaffoldTasks</a></dt>
 <dd><p>A module to add gulp tasks which automatically update one or more packages.</p>
@@ -141,452 +142,9 @@ scaffolding.</p>
 <dd><p>A module to add gulp tasks for the webpack module bundler.</p>
 </dd>
 </dl>
-<a name="module_reports/autoUpdateMocha"></a>
-### reports/autoUpdateMocha ⇒ <code>Object</code>
-Auto update mocha report
-
-**Returns**: <code>Object</code> - Auto update mocha report functions  
-
-* [reports/autoUpdateMocha](#module_reports/autoUpdateMocha) ⇒ <code>Object</code>
-  * [`.prepare`](#module_reports/autoUpdateMocha.prepare) ⇒ <code>Object</code>
-  * [`.writeToFileSync`](#module_reports/autoUpdateMocha.writeToFileSync)
-  * [`.write(workflowHistory, rpt)`](#module_reports/autoUpdateMocha.write)
-
-
--
-
-<a name="module_reports/autoUpdateMocha.prepare"></a>
-#### `reports/autoUpdateMocha.prepare` ⇒ <code>Object</code>
-Prepare the report header
-
-**Kind**: static property of <code>[reports/autoUpdateMocha](#module_reports/autoUpdateMocha)</code>  
-**Returns**: <code>Object</code> - the report header  
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| [start] | <code>String</code> | <code>new global.Date()</code> | start time and date |
-| [end] | <code>String</code> | <code>new global.Date()</code> | end time and date (will be overwritten by write report function) |
-
-
--
-
-<a name="module_reports/autoUpdateMocha.writeToFileSync"></a>
-#### `reports/autoUpdateMocha.writeToFileSync`
-Synchronously write a test report to a file location
-
-**Kind**: static property of <code>[reports/autoUpdateMocha](#module_reports/autoUpdateMocha)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| reportPath | <code>String</code> | the file path including filename |
-| report | <code>Object</code> | the report object containing report header and results |
-
-
--
-
-<a name="module_reports/autoUpdateMocha.write"></a>
-#### `reports/autoUpdateMocha.write(workflowHistory, rpt)`
-Write a new test
-
-**Kind**: static method of <code>[reports/autoUpdateMocha](#module_reports/autoUpdateMocha)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| workflowHistory | <code>Object</code> | the workflow history returned from an auto update |
-| rpt | <code>Object</code> | the report object to write or add the test result to |
-
-
--
-
-<a name="module_reports/baseCucumber"></a>
-### reports/baseCucumber ⇒ <code>Object</code>
-Base methods for cucumber reports
-
-**Returns**: <code>Object</code> - Base cucumber report functions  
-
-* [reports/baseCucumber](#module_reports/baseCucumber) ⇒ <code>Object</code>
-  * [`.prepare(type, name, description)`](#module_reports/baseCucumber.prepare) ⇒ <code>Object</code>
-  * [`.write(suite, pass, message, rpt)`](#module_reports/baseCucumber.write)
-  * [`.writeToFileSync(reportPath, report)`](#module_reports/baseCucumber.writeToFileSync)
-
-
--
-
-<a name="module_reports/baseCucumber.prepare"></a>
-#### `reports/baseCucumber.prepare(type, name, description)` ⇒ <code>Object</code>
-Prepare the report header
-
-**Kind**: static method of <code>[reports/baseCucumber](#module_reports/baseCucumber)</code>  
-**Returns**: <code>Object</code> - the report header  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| type | <code>String</code> | the test report type (e.g. feature, bug) |
-| name | <code>String</code> | the test report name |
-| description | <code>String</code> | the test report description |
-
-
--
-
-<a name="module_reports/baseCucumber.write"></a>
-#### `reports/baseCucumber.write(suite, pass, message, rpt)`
-Write a new test
-
-**Kind**: static method of <code>[reports/baseCucumber](#module_reports/baseCucumber)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| suite | <code>String</code> | the test suite name |
-| pass | <code>Boolean</code> | has the test passed? |
-| message | <code>String</code> | the test description message |
-| rpt | <code>Object</code> | the report object to write or add the test result to |
-
-
--
-
-<a name="module_reports/baseCucumber.writeToFileSync"></a>
-#### `reports/baseCucumber.writeToFileSync(reportPath, report)`
-Synchronously write a test report to a file location
-
-**Kind**: static method of <code>[reports/baseCucumber](#module_reports/baseCucumber)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| reportPath | <code>String</code> | the file path including filename |
-| report | <code>Object</code> | the report object containing report header and results |
-
-
--
-
-<a name="module_reports/baseMocha"></a>
-### reports/baseMocha ⇒ <code>Object</code>
-Base methods for mocha reports
-
-**Returns**: <code>Object</code> - Base mocha report functions  
-
-* [reports/baseMocha](#module_reports/baseMocha) ⇒ <code>Object</code>
-  * [`.prepare([start], [end])`](#module_reports/baseMocha.prepare) ⇒ <code>Object</code>
-  * [`.write(suite, pass, message, rpt)`](#module_reports/baseMocha.write)
-  * [`.writeToFileSync(reportPath, report)`](#module_reports/baseMocha.writeToFileSync)
-
-
--
-
-<a name="module_reports/baseMocha.prepare"></a>
-#### `reports/baseMocha.prepare([start], [end])` ⇒ <code>Object</code>
-Prepare the report header
-
-**Kind**: static method of <code>[reports/baseMocha](#module_reports/baseMocha)</code>  
-**Returns**: <code>Object</code> - the report header  
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| [start] | <code>String</code> | <code>new global.Date()</code> | start time and date |
-| [end] | <code>String</code> | <code>new global.Date()</code> | end time and date (will be overwritten by write report function) |
-
-
--
-
-<a name="module_reports/baseMocha.write"></a>
-#### `reports/baseMocha.write(suite, pass, message, rpt)`
-Write a new test
-
-**Kind**: static method of <code>[reports/baseMocha](#module_reports/baseMocha)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| suite | <code>String</code> | the test suite name |
-| pass | <code>Boolean</code> | has the test passed? |
-| message | <code>String</code> | the test description message |
-| rpt | <code>Object</code> | the report object to write or add the test result to |
-
-
--
-
-<a name="module_reports/baseMocha.writeToFileSync"></a>
-#### `reports/baseMocha.writeToFileSync(reportPath, report)`
-Synchronously write a test report to a file location
-
-**Kind**: static method of <code>[reports/baseMocha](#module_reports/baseMocha)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| reportPath | <code>String</code> | the file path including filename |
-| report | <code>Object</code> | the report object containing report header and results |
-
-
--
-
-<a name="module_reports/davidCucumber"></a>
-### reports/davidCucumber ⇒ <code>Object</code>
-David cucumber report
-
-**Returns**: <code>Object</code> - David cucumber report functions  
-
-* [reports/davidCucumber](#module_reports/davidCucumber) ⇒ <code>Object</code>
-  * [`.prepare()`](#module_reports/davidCucumber.prepare) ⇒ <code>Object</code>
-  * [`.write(opts, pkgs, pkg, rpt)`](#module_reports/davidCucumber.write)
-
-
--
-
-<a name="module_reports/davidCucumber.prepare"></a>
-#### `reports/davidCucumber.prepare()` ⇒ <code>Object</code>
-Prepare the report header
-
-**Kind**: static method of <code>[reports/davidCucumber](#module_reports/davidCucumber)</code>  
-**Returns**: <code>Object</code> - the report header  
-
--
-
-<a name="module_reports/davidCucumber.write"></a>
-#### `reports/davidCucumber.write(opts, pkgs, pkg, rpt)`
-Write a new test
-
-**Kind**: static method of <code>[reports/davidCucumber](#module_reports/davidCucumber)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| opts | <code>Object</code> | the david options |
-| opts.suite | <code>String</code> | the test suite name |
-| pkgs | <code>Object</code> | the package dependency analysis returned by david |
-| pkg | <code>String</code> | the package to write test for |
-| rpt | <code>Object</code> | the report object to write or add the test result to |
-
-
--
-
-<a name="module_reports/davidMocha"></a>
-### reports/davidMocha ⇒ <code>Object</code>
-David mocha report
-
-**Returns**: <code>Object</code> - David mocha report functions  
-
-* [reports/davidMocha](#module_reports/davidMocha) ⇒ <code>Object</code>
-  * [`.prepare`](#module_reports/davidMocha.prepare) ⇒ <code>Object</code>
-  * [`.writeToFileSync`](#module_reports/davidMocha.writeToFileSync)
-  * [`.write(opts, pkgs, pkg, rpt)`](#module_reports/davidMocha.write)
-
-
--
-
-<a name="module_reports/davidMocha.prepare"></a>
-#### `reports/davidMocha.prepare` ⇒ <code>Object</code>
-Prepare the report header
-
-**Kind**: static property of <code>[reports/davidMocha](#module_reports/davidMocha)</code>  
-**Returns**: <code>Object</code> - the report header  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| start | <code>String</code> | start time and date |
-| end | <code>String</code> | end time and date (will be overwritten by write report function) |
-
-
--
-
-<a name="module_reports/davidMocha.writeToFileSync"></a>
-#### `reports/davidMocha.writeToFileSync`
-Synchronously write a test report to a file location
-
-**Kind**: static property of <code>[reports/davidMocha](#module_reports/davidMocha)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| reportPath | <code>String</code> | the file path including filename |
-| report | <code>Object</code> | the report object containing report header and results |
-
-
--
-
-<a name="module_reports/davidMocha.write"></a>
-#### `reports/davidMocha.write(opts, pkgs, pkg, rpt)`
-Write a new test
-
-**Kind**: static method of <code>[reports/davidMocha](#module_reports/davidMocha)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| opts | <code>Object</code> | the david options |
-| opts.suite | <code>String</code> | the test suite name |
-| pkgs | <code>Object</code> | the package dependency analysis returned by david |
-| pkg | <code>String</code> | the package to write test for |
-| rpt | <code>Object</code> | the report object to write or add the test result to |
-
-
--
-
-<a name="module_reports/eslintBunyan"></a>
-### reports/eslintBunyan ⇒ <code>String</code>
-Eslint bunyan report logger.
-
-**Returns**: <code>String</code> - empty string  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| results | <code>Array</code> | eslint results returned through gulp-eslint |
-
-
--
-
-<a name="module_reports/eslintCucumber"></a>
-### reports/eslintCucumber ⇒ <code>Object</code>
-Eslint cucumber report
-
-**Returns**: <code>Object</code> - Eslint cucumber report formatter  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| results | <code>Array</code> | eslint results returned through gulp-eslint |
-
-
--
-
-<a name="module_reports/eslintMocha"></a>
-### reports/eslintMocha ⇒ <code>Object</code>
-Eslint mocha report
-
-**Returns**: <code>Object</code> - Eslint mocha report formatter  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| results | <code>Array</code> | eslint results returned through gulp-eslint |
-
-
--
-
-<a name="module_reports/genericCucumber"></a>
-### reports/genericCucumber ⇒ <code>Object</code>
-Generic cucumber report
-
-**Returns**: <code>Object</code> - Generic cucumber report functions  
-
-* [reports/genericCucumber](#module_reports/genericCucumber) ⇒ <code>Object</code>
-  * [`.prepare`](#module_reports/genericCucumber.prepare) ⇒ <code>Object</code>
-  * [`.write(suiteName, testName, errorMessages, givenDesc, whenDesc, thenDesc, rpt)`](#module_reports/genericCucumber.write)
-
-
--
-
-<a name="module_reports/genericCucumber.prepare"></a>
-#### `reports/genericCucumber.prepare` ⇒ <code>Object</code>
-Prepare the report header
-
-**Kind**: static property of <code>[reports/genericCucumber](#module_reports/genericCucumber)</code>  
-**Returns**: <code>Object</code> - the report header  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| type | <code>String</code> | the test report type (e.g. feature, bug) |
-| name | <code>String</code> | the test report name |
-| description | <code>String</code> | the test report description |
-
-
--
-
-<a name="module_reports/genericCucumber.write"></a>
-#### `reports/genericCucumber.write(suiteName, testName, errorMessages, givenDesc, whenDesc, thenDesc, rpt)`
-Write a new test
-
-**Kind**: static method of <code>[reports/genericCucumber](#module_reports/genericCucumber)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| suiteName | <code>String</code> | the test suite name |
-| testName | <code>String</code> | the test name |
-| errorMessages | <code>Array</code> | the error messages if the test failed |
-| givenDesc | <code>String</code> | the given step part description |
-| whenDesc | <code>String</code> | the when step part description |
-| thenDesc | <code>String</code> | the then step part description |
-| rpt | <code>Object</code> | the report object to write or add the test result to |
-
-
--
-
-<a name="module_reports/genericMocha"></a>
-### reports/genericMocha ⇒ <code>Object</code>
-Generic mocha report
-
-**Returns**: <code>Object</code> - Generic mocha report functions  
-
-* [reports/genericMocha](#module_reports/genericMocha) ⇒ <code>Object</code>
-  * [`.writeToFileSync`](#module_reports/genericMocha.writeToFileSync)
-  * [`.prepare()`](#module_reports/genericMocha.prepare) ⇒ <code>Object</code>
-  * [`.write(suiteName, testName, errorMessages, rpt)`](#module_reports/genericMocha.write)
-
-
--
-
-<a name="module_reports/genericMocha.writeToFileSync"></a>
-#### `reports/genericMocha.writeToFileSync`
-Synchronously write a test report to a file location
-
-**Kind**: static property of <code>[reports/genericMocha](#module_reports/genericMocha)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| reportPath | <code>String</code> | the file path including filename |
-| report | <code>Object</code> | the report object containing report header and results |
-
-
--
-
-<a name="module_reports/genericMocha.prepare"></a>
-#### `reports/genericMocha.prepare()` ⇒ <code>Object</code>
-Prepare the report header
-
-**Kind**: static method of <code>[reports/genericMocha](#module_reports/genericMocha)</code>  
-**Returns**: <code>Object</code> - the report header  
-
--
-
-<a name="module_reports/genericMocha.write"></a>
-#### `reports/genericMocha.write(suiteName, testName, errorMessages, rpt)`
-Write a new test
-
-**Kind**: static method of <code>[reports/genericMocha](#module_reports/genericMocha)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| suiteName | <code>String</code> | the test suite name |
-| testName | <code>String</code> | the test name |
-| errorMessages | <code>Array</code> | the error messages if the test failed |
-| rpt | <code>Object</code> | the report object to write or add the test result to |
-
-
--
-
-<a name="module_reports/postBuildCucumber"></a>
-### reports/postBuildCucumber ⇒ <code>Object</code>
-Post build cucumber report
-
-**Returns**: <code>Object</code> - Post build cucumber report in JSON  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| suiteName | <code>String</code> | the test suite name |
-| results | <code>Array</code> | post build results returned as an array of object test results. The test result object contains two properties `testName` and `errMessage` e.g. `{testName: "test description", errMessage: "error message"}` |
-| [reportPath] | <code>String</code> | the file path including filename |
-
-
--
-
-<a name="module_reports/postBuildMocha"></a>
-### reports/postBuildMocha ⇒ <code>Object</code>
-Post build mocha report
-
-**Returns**: <code>Object</code> - Post build mocha report in JSON  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| suiteName | <code>String</code> | the test suite name |
-| results | <code>Array</code> | post build results returned as an array of object test results. The test result object contains two properties `testName` and `errMessage` e.g. `{testName: "test description", errMessage: "error message"}` |
-| [reportPath] | <code>String</code> | the file path including filename |
-
-
--
 
 <a name="module_utils/autoUpdate"></a>
+
 ### utils/autoUpdate ⇒ <code>Object</code>
 Auto update build utilities.
 
@@ -598,17 +156,18 @@ Auto update build utilities.
 
 
 * [utils/autoUpdate](#module_utils/autoUpdate) ⇒ <code>Object</code>
-  * [`.run(opts, gulp, context)`](#module_utils/autoUpdate.run) ⇒ <code>through2</code>
-  * [`.autoUpdate(opts, cb)`](#module_utils/autoUpdate.autoUpdate)
-  * [`.updateProject(opts, cb)`](#module_utils/autoUpdate.updateProject)
-  * [`.updateCheck(opts, cb)`](#module_utils/autoUpdate.updateCheck)
-  * [`.updateSource(opts, cb)`](#module_utils/autoUpdate.updateSource)
-  * [`.releaseBuild(issue, workflowHistory, opts, cb)`](#module_utils/autoUpdate.releaseBuild)
+    * [`.run(opts, gulp, context)`](#module_utils/autoUpdate.run) ⇒ <code>through2</code>
+    * [`.autoUpdate(opts, cb)`](#module_utils/autoUpdate.autoUpdate)
+    * [`.updateProject(opts, cb)`](#module_utils/autoUpdate.updateProject)
+    * [`.updateCheck(opts, cb)`](#module_utils/autoUpdate.updateCheck)
+    * [`.updateSource(opts, cb)`](#module_utils/autoUpdate.updateSource)
+    * [`.releaseBuild(issue, workflowHistory, opts, cb)`](#module_utils/autoUpdate.releaseBuild)
 
 
 -
 
 <a name="module_utils/autoUpdate.run"></a>
+
 #### `utils/autoUpdate.run(opts, gulp, context)` ⇒ <code>through2</code>
 Run the update task on all projects matching specified criteria and generate output reports.
 
@@ -638,6 +197,7 @@ Run the update task on all projects matching specified criteria and generate out
 -
 
 <a name="module_utils/autoUpdate.autoUpdate"></a>
+
 #### `utils/autoUpdate.autoUpdate(opts, cb)`
 Execute update task on all projects matching specified criteria.
 
@@ -667,12 +227,12 @@ Auto update runs a simple workflow for all projects in JIRA matching a specified
 
 Projects in JIRA are expected to conform to a naming convention which consists of a git repository namespace and repository name: /
 
-
 ```
 
 -
 
 <a name="module_utils/autoUpdate.updateProject"></a>
+
 #### `utils/autoUpdate.updateProject(opts, cb)`
 Execute update task on a project.
 
@@ -696,6 +256,7 @@ Execute update task on a project.
 -
 
 <a name="module_utils/autoUpdate.updateCheck"></a>
+
 #### `utils/autoUpdate.updateCheck(opts, cb)`
 Check whether an update is required by cloning the master branch of the project to a directory and
 running a provided gulp task. The provided gulp task is expected to generate test reports.
@@ -717,6 +278,7 @@ will return false in the callback data. Otherwise this function will return true
 -
 
 <a name="module_utils/autoUpdate.updateSource"></a>
+
 #### `utils/autoUpdate.updateSource(opts, cb)`
 Update the source of a project by cloning the master branch of the project and running the provided
 gulp task. A JIRA issue is created to track the progress of the update. The issue is transitioned to
@@ -740,6 +302,7 @@ a Bamboo build on the master branch.
 -
 
 <a name="module_utils/autoUpdate.releaseBuild"></a>
+
 #### `utils/autoUpdate.releaseBuild(issue, workflowHistory, opts, cb)`
 Transition issue to "done", release a Jira project version, and if there are no unresolved issues
 then trigger a release build.
@@ -759,6 +322,7 @@ then trigger a release build.
 -
 
 <a name="module_utils/bamboo"></a>
+
 ### utils/bamboo ⇒ <code>Object</code>
 Bamboo build utilities
 
@@ -770,16 +334,17 @@ Bamboo build utilities
 
 
 * [utils/bamboo](#module_utils/bamboo) ⇒ <code>Object</code>
-  * [`.getBuildPlans(cb)`](#module_utils/bamboo.getBuildPlans)
-  * [`.queueBuild(buildPlanKey, variables, cb)`](#module_utils/bamboo.queueBuild)
-  * [`.getResults(buildPlanKey, maxResults, cb)`](#module_utils/bamboo.getResults)
-  * [`.getResult(buildPlanKey, buildNumber, cb)`](#module_utils/bamboo.getResult)
-  * [`.triggerBamboo(buildPlanName, variables, cb)`](#module_utils/bamboo.triggerBamboo)
+    * [`.getBuildPlans(cb)`](#module_utils/bamboo.getBuildPlans)
+    * [`.queueBuild(buildPlanKey, variables, cb)`](#module_utils/bamboo.queueBuild)
+    * [`.getResults(buildPlanKey, maxResults, cb)`](#module_utils/bamboo.getResults)
+    * [`.getResult(buildPlanKey, buildNumber, cb)`](#module_utils/bamboo.getResult)
+    * [`.triggerBamboo(buildPlanName, variables, cb)`](#module_utils/bamboo.triggerBamboo)
 
 
 -
 
 <a name="module_utils/bamboo.getBuildPlans"></a>
+
 #### `utils/bamboo.getBuildPlans(cb)`
 Get build plans from Bamboo.
 
@@ -793,6 +358,7 @@ Get build plans from Bamboo.
 -
 
 <a name="module_utils/bamboo.queueBuild"></a>
+
 #### `utils/bamboo.queueBuild(buildPlanKey, variables, cb)`
 Queue a build on Bamboo.
 
@@ -808,6 +374,7 @@ Queue a build on Bamboo.
 -
 
 <a name="module_utils/bamboo.getResults"></a>
+
 #### `utils/bamboo.getResults(buildPlanKey, maxResults, cb)`
 Get the queue results of a build project on Bamboo.
 
@@ -823,6 +390,7 @@ Get the queue results of a build project on Bamboo.
 -
 
 <a name="module_utils/bamboo.getResult"></a>
+
 #### `utils/bamboo.getResult(buildPlanKey, buildNumber, cb)`
 Get the result of a build queued on Bamboo.
 
@@ -838,6 +406,7 @@ Get the result of a build queued on Bamboo.
 -
 
 <a name="module_utils/bamboo.triggerBamboo"></a>
+
 #### `utils/bamboo.triggerBamboo(buildPlanName, variables, cb)`
 Trigger a build on Bamboo and return the result in the callback.
 
@@ -853,6 +422,7 @@ Trigger a build on Bamboo and return the result in the callback.
 -
 
 <a name="module_utils/config"></a>
+
 ### utils/config ⇒ <code>Object</code>
 Application configuration utility
 
@@ -866,6 +436,7 @@ Application configuration utility
 -
 
 <a name="module_utils/david"></a>
+
 ### utils/david ⇒ <code>Object</code>
 David build utilities
 
@@ -877,14 +448,15 @@ David build utilities
 
 
 * [utils/david](#module_utils/david) ⇒ <code>Object</code>
-  * [`.dependencyReport(manifest, [opts], cb)`](#module_utils/david.dependencyReport)
-  * [`.recordDependencies(manifest, [opts], rpt, reportWriter, cb)`](#module_utils/david.recordDependencies)
-  * [`.addUpdatedDeps(pathToManifest, [opts], cb)`](#module_utils/david.addUpdatedDeps)
+    * [`.dependencyReport(manifest, [opts], cb)`](#module_utils/david.dependencyReport)
+    * [`.recordDependencies(manifest, [opts], rpt, reportWriter, cb)`](#module_utils/david.recordDependencies)
+    * [`.addUpdatedDeps(pathToManifest, [opts], cb)`](#module_utils/david.addUpdatedDeps)
 
 
 -
 
 <a name="module_utils/david.dependencyReport"></a>
+
 #### `utils/david.dependencyReport(manifest, [opts], cb)`
 Generate a dependency report in the mocha output format.
 
@@ -903,6 +475,7 @@ Generate a dependency report in the mocha output format.
 -
 
 <a name="module_utils/david.recordDependencies"></a>
+
 #### `utils/david.recordDependencies(manifest, [opts], rpt, reportWriter, cb)`
 Record the result of dependency checks against all provided dependencies of a particular typein the report object. The david.isUpdated() function.
 
@@ -928,6 +501,7 @@ Record the result of dependency checks against all provided dependencies of a pa
 -
 
 <a name="module_utils/david.addUpdatedDeps"></a>
+
 #### `utils/david.addUpdatedDeps(pathToManifest, [opts], cb)`
 Add updated dependencies to package.json
 
@@ -950,28 +524,30 @@ Add updated dependencies to package.json
 -
 
 <a name="module_utils/jira"></a>
+
 ### utils/jira ⇒ <code>Object</code>
 JIRA build utilities
 
 **Returns**: <code>Object</code> - JIRA build utility functions  
 
 * [utils/jira](#module_utils/jira) ⇒ <code>Object</code>
-  * [`.rest(opts, cb)`](#module_utils/jira.rest)
-  * [`.getProjects(cb)`](#module_utils/jira.getProjects)
-  * [`.createIssue(issue, cb)`](#module_utils/jira.createIssue)
-  * [`.deleteIssue(key, cb)`](#module_utils/jira.deleteIssue)
-  * [`.createVersion(key, version, cb)`](#module_utils/jira.createVersion)
-  * [`.deleteVersion(key, version, cb)`](#module_utils/jira.deleteVersion)
-  * [`.releaseVersion(key, version, releaseDate, cb)`](#module_utils/jira.releaseVersion)
-  * [`.transitionIssue(key, transition, cb)`](#module_utils/jira.transitionIssue)
-  * [`.getNextUnreleasedPatchVersion(key, cb)`](#module_utils/jira.getNextUnreleasedPatchVersion)
-  * [`.getChangelog(key, cb)`](#module_utils/jira.getChangelog)
-  * [`.prepareChangeLogJSON(data)`](#module_utils/jira.prepareChangeLogJSON) ⇒ <code>Object</code>
+    * [`.rest(opts, cb)`](#module_utils/jira.rest)
+    * [`.getProjects(cb)`](#module_utils/jira.getProjects)
+    * [`.createIssue(issue, cb)`](#module_utils/jira.createIssue)
+    * [`.deleteIssue(key, cb)`](#module_utils/jira.deleteIssue)
+    * [`.createVersion(key, version, cb)`](#module_utils/jira.createVersion)
+    * [`.deleteVersion(key, version, cb)`](#module_utils/jira.deleteVersion)
+    * [`.releaseVersion(key, version, releaseDate, cb)`](#module_utils/jira.releaseVersion)
+    * [`.transitionIssue(key, transition, cb)`](#module_utils/jira.transitionIssue)
+    * [`.getNextUnreleasedPatchVersion(key, cb)`](#module_utils/jira.getNextUnreleasedPatchVersion)
+    * [`.getChangelog(key, cb)`](#module_utils/jira.getChangelog)
+    * [`.prepareChangeLogJSON(data)`](#module_utils/jira.prepareChangeLogJSON) ⇒ <code>Object</code>
 
 
 -
 
 <a name="module_utils/jira.rest"></a>
+
 #### `utils/jira.rest(opts, cb)`
 Send query to rest api.
 
@@ -989,6 +565,7 @@ Send query to rest api.
 -
 
 <a name="module_utils/jira.getProjects"></a>
+
 #### `utils/jira.getProjects(cb)`
 Get all JIRA projects.
 
@@ -1002,6 +579,7 @@ Get all JIRA projects.
 -
 
 <a name="module_utils/jira.createIssue"></a>
+
 #### `utils/jira.createIssue(issue, cb)`
 Create a JIRA issue.
 
@@ -1020,6 +598,7 @@ Create a JIRA issue.
 -
 
 <a name="module_utils/jira.deleteIssue"></a>
+
 #### `utils/jira.deleteIssue(key, cb)`
 Delete a JIRA issue.
 
@@ -1034,6 +613,7 @@ Delete a JIRA issue.
 -
 
 <a name="module_utils/jira.createVersion"></a>
+
 #### `utils/jira.createVersion(key, version, cb)`
 Create a new version in a JIRA project.
 
@@ -1049,6 +629,7 @@ Create a new version in a JIRA project.
 -
 
 <a name="module_utils/jira.deleteVersion"></a>
+
 #### `utils/jira.deleteVersion(key, version, cb)`
 Delete an existing version in a JIRA project.
 
@@ -1064,6 +645,7 @@ Delete an existing version in a JIRA project.
 -
 
 <a name="module_utils/jira.releaseVersion"></a>
+
 #### `utils/jira.releaseVersion(key, version, releaseDate, cb)`
 Release a version in a JIRA project.
 The version will only be released if there are 0 unresolved issue linked to version.
@@ -1081,6 +663,7 @@ The version will only be released if there are 0 unresolved issue linked to vers
 -
 
 <a name="module_utils/jira.transitionIssue"></a>
+
 #### `utils/jira.transitionIssue(key, transition, cb)`
 Transition a JIRA issue.
 
@@ -1096,6 +679,7 @@ Transition a JIRA issue.
 -
 
 <a name="module_utils/jira.getNextUnreleasedPatchVersion"></a>
+
 #### `utils/jira.getNextUnreleasedPatchVersion(key, cb)`
 Get the next unresolved and unreleased minor version for the project (based on semver).
 If there is an existing unresolved and unreleased major or minor version then the earliest is returned.
@@ -1111,6 +695,7 @@ If there is an existing unresolved and unreleased major or minor version then th
 -
 
 <a name="module_utils/jira.getChangelog"></a>
+
 #### `utils/jira.getChangelog(key, cb)`
 Get the changelog for a JIRA project.
 
@@ -1125,6 +710,7 @@ Get the changelog for a JIRA project.
 -
 
 <a name="module_utils/jira.prepareChangeLogJSON"></a>
+
 #### `utils/jira.prepareChangeLogJSON(data)` ⇒ <code>Object</code>
 Tranform raw changelog data from a JQL query into a JSON object.
 
@@ -1157,6 +743,7 @@ Raw changelog data:
 -
 
 <a name="module_utils/postBuild"></a>
+
 ### utils/postBuild ⇒ <code>Object</code>
 Post build utilities
 
@@ -1168,14 +755,15 @@ Post build utilities
 
 
 * [utils/postBuild](#module_utils/postBuild) ⇒ <code>Object</code>
-  * [`.pathExists(testPath, cwd, result)`](#module_utils/postBuild.pathExists) ⇒ <code>Boolean</code>
-  * [`.pathNotExists(testPath, cwd, result)`](#module_utils/postBuild.pathNotExists) ⇒ <code>Boolean</code>
-  * [`.checks(directories, cwd, cb)`](#module_utils/postBuild.checks)
+    * [`.pathExists(testPath, cwd, result)`](#module_utils/postBuild.pathExists) ⇒ <code>Boolean</code>
+    * [`.pathNotExists(testPath, cwd, result)`](#module_utils/postBuild.pathNotExists) ⇒ <code>Boolean</code>
+    * [`.checks(directories, cwd, cb)`](#module_utils/postBuild.checks)
 
 
 -
 
 <a name="module_utils/postBuild.pathExists"></a>
+
 #### `utils/postBuild.pathExists(testPath, cwd, result)` ⇒ <code>Boolean</code>
 Check whether a file or directory path exists and if not record an error message in the provided results object.
 
@@ -1192,6 +780,7 @@ Check whether a file or directory path exists and if not record an error message
 -
 
 <a name="module_utils/postBuild.pathNotExists"></a>
+
 #### `utils/postBuild.pathNotExists(testPath, cwd, result)` ⇒ <code>Boolean</code>
 Check whether a file or directory path exists and if so record an error message in the provided results object.
 
@@ -1208,6 +797,7 @@ Check whether a file or directory path exists and if so record an error message 
 -
 
 <a name="module_utils/postBuild.checks"></a>
+
 #### `utils/postBuild.checks(directories, cwd, cb)`
 Post build checks including:Check that build directory exists and contains expected contents
 
@@ -1223,19 +813,21 @@ Post build checks including:Check that build directory exists and contains expe
 -
 
 <a name="module_utils/reports"></a>
+
 ### utils/reports ⇒ <code>Object</code>
 Build report utilities
 
 **Returns**: <code>Object</code> - Build report utility functions  
 
 * [utils/reports](#module_utils/reports) ⇒ <code>Object</code>
-  * [`.checkReportsPass(reportDir)`](#module_utils/reports.checkReportsPass) ⇒ <code>Boolean</code>
-  * [`.getReportFailures(reportDir)`](#module_utils/reports.getReportFailures) ⇒ <code>Array</code>
+    * [`.checkReportsPass(reportDir)`](#module_utils/reports.checkReportsPass) ⇒ <code>Boolean</code>
+    * [`.getReportFailures(reportDir)`](#module_utils/reports.getReportFailures) ⇒ <code>Array</code>
 
 
 -
 
 <a name="module_utils/reports.checkReportsPass"></a>
+
 #### `utils/reports.checkReportsPass(reportDir)` ⇒ <code>Boolean</code>
 Check all mocha test reports and return true if all tests passed or false if one or more tests failed.
 
@@ -1250,6 +842,7 @@ Check all mocha test reports and return true if all tests passed or false if one
 -
 
 <a name="module_utils/reports.getReportFailures"></a>
+
 #### `utils/reports.getReportFailures(reportDir)` ⇒ <code>Array</code>
 Check all mocha test reports and return an array containing all failures.
 
@@ -1263,7 +856,484 @@ Check all mocha test reports and return an array containing all failures.
 
 -
 
+<a name="module_reports/autoUpdateMocha"></a>
+
+### reports/autoUpdateMocha ⇒ <code>Object</code>
+Auto update mocha report
+
+**Returns**: <code>Object</code> - Auto update mocha report functions  
+
+* [reports/autoUpdateMocha](#module_reports/autoUpdateMocha) ⇒ <code>Object</code>
+    * [`.prepare`](#module_reports/autoUpdateMocha.prepare) ⇒ <code>Object</code>
+    * [`.writeToFileSync`](#module_reports/autoUpdateMocha.writeToFileSync)
+    * [`.write(workflowHistory, rpt)`](#module_reports/autoUpdateMocha.write)
+
+
+-
+
+<a name="module_reports/autoUpdateMocha.prepare"></a>
+
+#### `reports/autoUpdateMocha.prepare` ⇒ <code>Object</code>
+Prepare the report header
+
+**Kind**: static property of <code>[reports/autoUpdateMocha](#module_reports/autoUpdateMocha)</code>  
+**Returns**: <code>Object</code> - the report header  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [start] | <code>String</code> | <code>new global.Date()</code> | start time and date |
+| [end] | <code>String</code> | <code>new global.Date()</code> | end time and date (will be overwritten by write report function) |
+
+
+-
+
+<a name="module_reports/autoUpdateMocha.writeToFileSync"></a>
+
+#### `reports/autoUpdateMocha.writeToFileSync`
+Synchronously write a test report to a file location
+
+**Kind**: static property of <code>[reports/autoUpdateMocha](#module_reports/autoUpdateMocha)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| reportPath | <code>String</code> | the file path including filename |
+| report | <code>Object</code> | the report object containing report header and results |
+
+
+-
+
+<a name="module_reports/autoUpdateMocha.write"></a>
+
+#### `reports/autoUpdateMocha.write(workflowHistory, rpt)`
+Write a new test
+
+**Kind**: static method of <code>[reports/autoUpdateMocha](#module_reports/autoUpdateMocha)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| workflowHistory | <code>Object</code> | the workflow history returned from an auto update |
+| rpt | <code>Object</code> | the report object to write or add the test result to |
+
+
+-
+
+<a name="module_reports/baseCucumber"></a>
+
+### reports/baseCucumber ⇒ <code>Object</code>
+Base methods for cucumber reports
+
+**Returns**: <code>Object</code> - Base cucumber report functions  
+
+* [reports/baseCucumber](#module_reports/baseCucumber) ⇒ <code>Object</code>
+    * [`.prepare(type, name, description)`](#module_reports/baseCucumber.prepare) ⇒ <code>Object</code>
+    * [`.write(suite, pass, message, rpt)`](#module_reports/baseCucumber.write)
+    * [`.writeToFileSync(reportPath, report)`](#module_reports/baseCucumber.writeToFileSync)
+
+
+-
+
+<a name="module_reports/baseCucumber.prepare"></a>
+
+#### `reports/baseCucumber.prepare(type, name, description)` ⇒ <code>Object</code>
+Prepare the report header
+
+**Kind**: static method of <code>[reports/baseCucumber](#module_reports/baseCucumber)</code>  
+**Returns**: <code>Object</code> - the report header  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| type | <code>String</code> | the test report type (e.g. feature, bug) |
+| name | <code>String</code> | the test report name |
+| description | <code>String</code> | the test report description |
+
+
+-
+
+<a name="module_reports/baseCucumber.write"></a>
+
+#### `reports/baseCucumber.write(suite, pass, message, rpt)`
+Write a new test
+
+**Kind**: static method of <code>[reports/baseCucumber](#module_reports/baseCucumber)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| suite | <code>String</code> | the test suite name |
+| pass | <code>Boolean</code> | has the test passed? |
+| message | <code>String</code> | the test description message |
+| rpt | <code>Object</code> | the report object to write or add the test result to |
+
+
+-
+
+<a name="module_reports/baseCucumber.writeToFileSync"></a>
+
+#### `reports/baseCucumber.writeToFileSync(reportPath, report)`
+Synchronously write a test report to a file location
+
+**Kind**: static method of <code>[reports/baseCucumber](#module_reports/baseCucumber)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| reportPath | <code>String</code> | the file path including filename |
+| report | <code>Object</code> | the report object containing report header and results |
+
+
+-
+
+<a name="module_reports/baseMocha"></a>
+
+### reports/baseMocha ⇒ <code>Object</code>
+Base methods for mocha reports
+
+**Returns**: <code>Object</code> - Base mocha report functions  
+
+* [reports/baseMocha](#module_reports/baseMocha) ⇒ <code>Object</code>
+    * [`.prepare([start], [end])`](#module_reports/baseMocha.prepare) ⇒ <code>Object</code>
+    * [`.write(suite, pass, message, rpt)`](#module_reports/baseMocha.write)
+    * [`.writeToFileSync(reportPath, report)`](#module_reports/baseMocha.writeToFileSync)
+
+
+-
+
+<a name="module_reports/baseMocha.prepare"></a>
+
+#### `reports/baseMocha.prepare([start], [end])` ⇒ <code>Object</code>
+Prepare the report header
+
+**Kind**: static method of <code>[reports/baseMocha](#module_reports/baseMocha)</code>  
+**Returns**: <code>Object</code> - the report header  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [start] | <code>String</code> | <code>new global.Date()</code> | start time and date |
+| [end] | <code>String</code> | <code>new global.Date()</code> | end time and date (will be overwritten by write report function) |
+
+
+-
+
+<a name="module_reports/baseMocha.write"></a>
+
+#### `reports/baseMocha.write(suite, pass, message, rpt)`
+Write a new test
+
+**Kind**: static method of <code>[reports/baseMocha](#module_reports/baseMocha)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| suite | <code>String</code> | the test suite name |
+| pass | <code>Boolean</code> | has the test passed? |
+| message | <code>String</code> | the test description message |
+| rpt | <code>Object</code> | the report object to write or add the test result to |
+
+
+-
+
+<a name="module_reports/baseMocha.writeToFileSync"></a>
+
+#### `reports/baseMocha.writeToFileSync(reportPath, report)`
+Synchronously write a test report to a file location
+
+**Kind**: static method of <code>[reports/baseMocha](#module_reports/baseMocha)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| reportPath | <code>String</code> | the file path including filename |
+| report | <code>Object</code> | the report object containing report header and results |
+
+
+-
+
+<a name="module_reports/davidCucumber"></a>
+
+### reports/davidCucumber ⇒ <code>Object</code>
+David cucumber report
+
+**Returns**: <code>Object</code> - David cucumber report functions  
+
+* [reports/davidCucumber](#module_reports/davidCucumber) ⇒ <code>Object</code>
+    * [`.prepare()`](#module_reports/davidCucumber.prepare) ⇒ <code>Object</code>
+    * [`.write(opts, pkgs, pkg, rpt)`](#module_reports/davidCucumber.write)
+
+
+-
+
+<a name="module_reports/davidCucumber.prepare"></a>
+
+#### `reports/davidCucumber.prepare()` ⇒ <code>Object</code>
+Prepare the report header
+
+**Kind**: static method of <code>[reports/davidCucumber](#module_reports/davidCucumber)</code>  
+**Returns**: <code>Object</code> - the report header  
+
+-
+
+<a name="module_reports/davidCucumber.write"></a>
+
+#### `reports/davidCucumber.write(opts, pkgs, pkg, rpt)`
+Write a new test
+
+**Kind**: static method of <code>[reports/davidCucumber](#module_reports/davidCucumber)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| opts | <code>Object</code> | the david options |
+| opts.suite | <code>String</code> | the test suite name |
+| pkgs | <code>Object</code> | the package dependency analysis returned by david |
+| pkg | <code>String</code> | the package to write test for |
+| rpt | <code>Object</code> | the report object to write or add the test result to |
+
+
+-
+
+<a name="module_reports/davidMocha"></a>
+
+### reports/davidMocha ⇒ <code>Object</code>
+David mocha report
+
+**Returns**: <code>Object</code> - David mocha report functions  
+
+* [reports/davidMocha](#module_reports/davidMocha) ⇒ <code>Object</code>
+    * [`.prepare`](#module_reports/davidMocha.prepare) ⇒ <code>Object</code>
+    * [`.writeToFileSync`](#module_reports/davidMocha.writeToFileSync)
+    * [`.write(opts, pkgs, pkg, rpt)`](#module_reports/davidMocha.write)
+
+
+-
+
+<a name="module_reports/davidMocha.prepare"></a>
+
+#### `reports/davidMocha.prepare` ⇒ <code>Object</code>
+Prepare the report header
+
+**Kind**: static property of <code>[reports/davidMocha](#module_reports/davidMocha)</code>  
+**Returns**: <code>Object</code> - the report header  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| start | <code>String</code> | start time and date |
+| end | <code>String</code> | end time and date (will be overwritten by write report function) |
+
+
+-
+
+<a name="module_reports/davidMocha.writeToFileSync"></a>
+
+#### `reports/davidMocha.writeToFileSync`
+Synchronously write a test report to a file location
+
+**Kind**: static property of <code>[reports/davidMocha](#module_reports/davidMocha)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| reportPath | <code>String</code> | the file path including filename |
+| report | <code>Object</code> | the report object containing report header and results |
+
+
+-
+
+<a name="module_reports/davidMocha.write"></a>
+
+#### `reports/davidMocha.write(opts, pkgs, pkg, rpt)`
+Write a new test
+
+**Kind**: static method of <code>[reports/davidMocha](#module_reports/davidMocha)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| opts | <code>Object</code> | the david options |
+| opts.suite | <code>String</code> | the test suite name |
+| pkgs | <code>Object</code> | the package dependency analysis returned by david |
+| pkg | <code>String</code> | the package to write test for |
+| rpt | <code>Object</code> | the report object to write or add the test result to |
+
+
+-
+
+<a name="module_reports/eslintBunyan"></a>
+
+### reports/eslintBunyan ⇒ <code>String</code>
+Eslint bunyan report logger.
+
+**Returns**: <code>String</code> - empty string  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| results | <code>Array</code> | eslint results returned through gulp-eslint |
+
+
+-
+
+<a name="module_reports/eslintCucumber"></a>
+
+### reports/eslintCucumber ⇒ <code>Object</code>
+Eslint cucumber report
+
+**Returns**: <code>Object</code> - Eslint cucumber report formatter  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| results | <code>Array</code> | eslint results returned through gulp-eslint |
+
+
+-
+
+<a name="module_reports/eslintMocha"></a>
+
+### reports/eslintMocha ⇒ <code>Object</code>
+Eslint mocha report
+
+**Returns**: <code>Object</code> - Eslint mocha report formatter  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| results | <code>Array</code> | eslint results returned through gulp-eslint |
+
+
+-
+
+<a name="module_reports/genericCucumber"></a>
+
+### reports/genericCucumber ⇒ <code>Object</code>
+Generic cucumber report
+
+**Returns**: <code>Object</code> - Generic cucumber report functions  
+
+* [reports/genericCucumber](#module_reports/genericCucumber) ⇒ <code>Object</code>
+    * [`.prepare`](#module_reports/genericCucumber.prepare) ⇒ <code>Object</code>
+    * [`.write(suiteName, testName, errorMessages, givenDesc, whenDesc, thenDesc, rpt)`](#module_reports/genericCucumber.write)
+
+
+-
+
+<a name="module_reports/genericCucumber.prepare"></a>
+
+#### `reports/genericCucumber.prepare` ⇒ <code>Object</code>
+Prepare the report header
+
+**Kind**: static property of <code>[reports/genericCucumber](#module_reports/genericCucumber)</code>  
+**Returns**: <code>Object</code> - the report header  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| type | <code>String</code> | the test report type (e.g. feature, bug) |
+| name | <code>String</code> | the test report name |
+| description | <code>String</code> | the test report description |
+
+
+-
+
+<a name="module_reports/genericCucumber.write"></a>
+
+#### `reports/genericCucumber.write(suiteName, testName, errorMessages, givenDesc, whenDesc, thenDesc, rpt)`
+Write a new test
+
+**Kind**: static method of <code>[reports/genericCucumber](#module_reports/genericCucumber)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| suiteName | <code>String</code> | the test suite name |
+| testName | <code>String</code> | the test name |
+| errorMessages | <code>Array</code> | the error messages if the test failed |
+| givenDesc | <code>String</code> | the given step part description |
+| whenDesc | <code>String</code> | the when step part description |
+| thenDesc | <code>String</code> | the then step part description |
+| rpt | <code>Object</code> | the report object to write or add the test result to |
+
+
+-
+
+<a name="module_reports/genericMocha"></a>
+
+### reports/genericMocha ⇒ <code>Object</code>
+Generic mocha report
+
+**Returns**: <code>Object</code> - Generic mocha report functions  
+
+* [reports/genericMocha](#module_reports/genericMocha) ⇒ <code>Object</code>
+    * [`.writeToFileSync`](#module_reports/genericMocha.writeToFileSync)
+    * [`.prepare()`](#module_reports/genericMocha.prepare) ⇒ <code>Object</code>
+    * [`.write(suiteName, testName, errorMessages, rpt)`](#module_reports/genericMocha.write)
+
+
+-
+
+<a name="module_reports/genericMocha.writeToFileSync"></a>
+
+#### `reports/genericMocha.writeToFileSync`
+Synchronously write a test report to a file location
+
+**Kind**: static property of <code>[reports/genericMocha](#module_reports/genericMocha)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| reportPath | <code>String</code> | the file path including filename |
+| report | <code>Object</code> | the report object containing report header and results |
+
+
+-
+
+<a name="module_reports/genericMocha.prepare"></a>
+
+#### `reports/genericMocha.prepare()` ⇒ <code>Object</code>
+Prepare the report header
+
+**Kind**: static method of <code>[reports/genericMocha](#module_reports/genericMocha)</code>  
+**Returns**: <code>Object</code> - the report header  
+
+-
+
+<a name="module_reports/genericMocha.write"></a>
+
+#### `reports/genericMocha.write(suiteName, testName, errorMessages, rpt)`
+Write a new test
+
+**Kind**: static method of <code>[reports/genericMocha](#module_reports/genericMocha)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| suiteName | <code>String</code> | the test suite name |
+| testName | <code>String</code> | the test name |
+| errorMessages | <code>Array</code> | the error messages if the test failed |
+| rpt | <code>Object</code> | the report object to write or add the test result to |
+
+
+-
+
+<a name="module_reports/postBuildCucumber"></a>
+
+### reports/postBuildCucumber ⇒ <code>Object</code>
+Post build cucumber report
+
+**Returns**: <code>Object</code> - Post build cucumber report in JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| suiteName | <code>String</code> | the test suite name |
+| results | <code>Array</code> | post build results returned as an array of object test results. The test result object contains two properties `testName` and `errMessage` e.g. `{testName: "test description", errMessage: "error message"}` |
+| [reportPath] | <code>String</code> | the file path including filename |
+
+
+-
+
+<a name="module_reports/postBuildMocha"></a>
+
+### reports/postBuildMocha ⇒ <code>Object</code>
+Post build mocha report
+
+**Returns**: <code>Object</code> - Post build mocha report in JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| suiteName | <code>String</code> | the test suite name |
+| results | <code>Array</code> | post build results returned as an array of object test results. The test result object contains two properties `testName` and `errMessage` e.g. `{testName: "test description", errMessage: "error message"}` |
+| [reportPath] | <code>String</code> | the file path including filename |
+
+
+-
+
 <a name="module_tasks/autoScaffoldTasks"></a>
+
 ### tasks/autoScaffoldTasks
 A module to add gulp tasks which automatically update one or more packages.
 
@@ -1281,6 +1351,7 @@ A module to add gulp tasks which automatically update one or more packages.
 -
 
 <a name="module_tasks/autoScaffoldTasks..auto_update_dependencies"></a>
+
 #### `tasks/autoScaffoldTasks~auto_update_dependencies` ⇒ <code>through2</code>
 A gulp build task to automatically update one or more packages.
 
@@ -1290,6 +1361,7 @@ A gulp build task to automatically update one or more packages.
 -
 
 <a name="module_tasks/autoUpdateDependenciesTasks"></a>
+
 ### tasks/autoUpdateDependenciesTasks
 A module to add gulp tasks which automatically update one or more packages.
 
@@ -1307,6 +1379,7 @@ A module to add gulp tasks which automatically update one or more packages.
 -
 
 <a name="module_tasks/autoUpdateDependenciesTasks..auto_update_dependencies"></a>
+
 #### `tasks/autoUpdateDependenciesTasks~auto_update_dependencies` ⇒ <code>through2</code>
 A gulp build task to automatically update one or more packages.
 
@@ -1316,6 +1389,7 @@ A gulp build task to automatically update one or more packages.
 -
 
 <a name="module_tasks/updateDependenciesTasks"></a>
+
 ### tasks/updateDependenciesTasks
 A module to add gulp tasks which automatically update package dependencies.
 
@@ -1328,6 +1402,7 @@ A module to add gulp tasks which automatically update package dependencies.
 -
 
 <a name="module_tasks/updateDependenciesTasks..update_dependencies"></a>
+
 #### `tasks/updateDependenciesTasks~update_dependencies` : <code>Gulp</code>
 A gulp task to automatically update package dependencies.The following tasks are executed in sequence: ["scaffold", "david-update", "david-cpm-update"]The sequence works by piping each task to the next.
 
@@ -1341,6 +1416,7 @@ A gulp task to automatically update package dependencies.The following tasks ar
 -
 
 <a name="module_tasks/codeAnalysisTasks"></a>
+
 ### tasks/codeAnalysisTasks
 A module to add gulp tasks which execute static code analysis.
 
@@ -1356,13 +1432,14 @@ A module to add gulp tasks which execute static code analysis.
 
 
 * [tasks/codeAnalysisTasks](#module_tasks/codeAnalysisTasks)
-  * [`~code_analysis`](#module_tasks/codeAnalysisTasks..code_analysis) ⇒ <code>through2</code>
-  * [`~code_analysis`](#module_tasks/codeAnalysisTasks..code_analysis) ⇒ <code>through2</code>
+    * [`~code_analysis`](#module_tasks/codeAnalysisTasks..code_analysis) ⇒ <code>through2</code>
+    * [`~code_analysis`](#module_tasks/codeAnalysisTasks..code_analysis) ⇒ <code>through2</code>
 
 
 -
 
 <a name="module_tasks/codeAnalysisTasks..code_analysis"></a>
+
 #### `tasks/codeAnalysisTasks~code_analysis` ⇒ <code>through2</code>
 A gulp build task to execute static code analysis on the files at `package.json:directories.lib`.
 The report results are saved to `package.json:directories.reports`
@@ -1373,6 +1450,7 @@ The report results are saved to `package.json:directories.reports`
 -
 
 <a name="module_tasks/codeAnalysisTasks..code_analysis"></a>
+
 #### `tasks/codeAnalysisTasks~code_analysis` ⇒ <code>through2</code>
 A gulp build task to execute static code analysis on the files at `package.json:directories.lib`.
 The report results are saved to `package.json:directories.reports`
@@ -1383,6 +1461,7 @@ The report results are saved to `package.json:directories.reports`
 -
 
 <a name="module_tasks/coverageStatsTasks"></a>
+
 ### tasks/coverageStatsTasks
 A module to add a gulp task which calculates coverage stats from the Istanbul reporter json-summary.
 
@@ -1398,13 +1477,14 @@ A module to add a gulp task which calculates coverage stats from the Istanbul re
 
 
 * [tasks/coverageStatsTasks](#module_tasks/coverageStatsTasks)
-  * [`~coverage_stats`](#module_tasks/coverageStatsTasks..coverage_stats) ⇒ <code>through2</code>
-  * [`~coverage_stats`](#module_tasks/coverageStatsTasks..coverage_stats) ⇒ <code>through2</code>
+    * [`~coverage_stats`](#module_tasks/coverageStatsTasks..coverage_stats) ⇒ <code>through2</code>
+    * [`~coverage_stats`](#module_tasks/coverageStatsTasks..coverage_stats) ⇒ <code>through2</code>
 
 
 -
 
 <a name="module_tasks/coverageStatsTasks..coverage_stats"></a>
+
 #### `tasks/coverageStatsTasks~coverage_stats` ⇒ <code>through2</code>
 A gulp build task to calculate coverage stats from the Istanbul reporter json-summary.
 Coverage stats are appended to package.json config.coverage.stats property.
@@ -1416,6 +1496,7 @@ The coverage stats include an overall coverage percentage and badge colour.
 -
 
 <a name="module_tasks/coverageStatsTasks..coverage_stats"></a>
+
 #### `tasks/coverageStatsTasks~coverage_stats` ⇒ <code>through2</code>
 A gulp build task to calculate coverage stats from the Istanbul reporter json-summary.
 Coverage stats are appended to package.json config.coverage.stats property.
@@ -1427,6 +1508,7 @@ The coverage stats include an overall coverage percentage and badge colour.
 -
 
 <a name="module_tasks/defaultTasks"></a>
+
 ### tasks/defaultTasks
 A module to add a gulp task which executes the default task.
 
@@ -1437,13 +1519,14 @@ A module to add a gulp task which executes the default task.
 
 
 * [tasks/defaultTasks](#module_tasks/defaultTasks)
-  * [`~default`](#module_tasks/defaultTasks..default) : <code>Gulp</code>
-  * [`~default`](#module_tasks/defaultTasks..default) : <code>Gulp</code>
+    * [`~default`](#module_tasks/defaultTasks..default) : <code>Gulp</code>
+    * [`~default`](#module_tasks/defaultTasks..default) : <code>Gulp</code>
 
 
 -
 
 <a name="module_tasks/defaultTasks..default"></a>
+
 #### `tasks/defaultTasks~default` : <code>Gulp</code>
 A gulp build task to run the default tasks.
 The following tasks are executed in sequence: ["test"]
@@ -1459,6 +1542,7 @@ The sequence works by piping each task to the next.
 -
 
 <a name="module_tasks/defaultTasks..default"></a>
+
 #### `tasks/defaultTasks~default` : <code>Gulp</code>
 The default private gulp build task to execute all tasks. The following tasks are executed in sequence:
 ["code_analysis", "step_sync", "test_cover", "coverage_stats", "license", "docs", "metadata", "package"]
@@ -1475,6 +1559,7 @@ The sequence works by piping each task to the next.
 -
 
 <a name="module_tasks/testTasks"></a>
+
 ### tasks/testTasks
 A module to add gulp tasks which run test steps.
 
@@ -1490,17 +1575,18 @@ A module to add gulp tasks which run test steps.
 
 
 * [tasks/testTasks](#module_tasks/testTasks)
-  * [`~instrument`](#module_tasks/testTasks..instrument) ⇒ <code>through2</code>
-  * [`~test_cover`](#module_tasks/testTasks..test_cover) ⇒ <code>through2</code>
-  * [`~test_cover`](#module_tasks/testTasks..test_cover) ⇒ <code>through2</code>
-  * [`~test_cover`](#module_tasks/testTasks..test_cover) ⇒ <code>through2</code>
-  * [`~write_coverage`](#module_tasks/testTasks..write_coverage) ⇒ <code>through2</code>
-  * [`~test`](#module_tasks/testTasks..test) ⇒ <code>through2</code>
+    * [`~instrument`](#module_tasks/testTasks..instrument) ⇒ <code>through2</code>
+    * [`~test_cover`](#module_tasks/testTasks..test_cover) ⇒ <code>through2</code>
+    * [`~test_cover`](#module_tasks/testTasks..test_cover) ⇒ <code>through2</code>
+    * [`~test_cover`](#module_tasks/testTasks..test_cover) ⇒ <code>through2</code>
+    * [`~write_coverage`](#module_tasks/testTasks..write_coverage) ⇒ <code>through2</code>
+    * [`~test`](#module_tasks/testTasks..test) ⇒ <code>through2</code>
 
 
 -
 
 <a name="module_tasks/testTasks..instrument"></a>
+
 #### `tasks/testTasks~instrument` ⇒ <code>through2</code>
 A gulp build task to instrument files.
 Istanbul will override the node require() function to redirect to the instrumented files.
@@ -1511,6 +1597,7 @@ Istanbul will override the node require() function to redirect to the instrument
 -
 
 <a name="module_tasks/testTasks..test_cover"></a>
+
 #### `tasks/testTasks~test_cover` ⇒ <code>through2</code>
 A gulp build task to run test steps and calculate test coverage.
 Test steps results will be output using mocha-bamboo-reporter-bgo reporter.
@@ -1522,6 +1609,7 @@ This task executes the Instrument task as a prerequisite.
 -
 
 <a name="module_tasks/testTasks..test_cover"></a>
+
 #### `tasks/testTasks~test_cover` ⇒ <code>through2</code>
 A gulp build task to run test steps and calculate test coverage (but not output test coverage to prevent
 gulp-istanbul issues with webdriverIO).
@@ -1534,6 +1622,7 @@ This task executes the Instrument task as a prerequisite.
 -
 
 <a name="module_tasks/testTasks..test_cover"></a>
+
 #### `tasks/testTasks~test_cover` ⇒ <code>through2</code>
 A gulp build task to run test steps and calculate test coverage (but not output test coverage to prevent
 gulp-istanbul issues with webdriverIO).
@@ -1546,6 +1635,7 @@ This task executes the Instrument task as a prerequisite.
 -
 
 <a name="module_tasks/testTasks..write_coverage"></a>
+
 #### `tasks/testTasks~write_coverage` ⇒ <code>through2</code>
 A gulp build task to write coverage.
 
@@ -1555,6 +1645,7 @@ A gulp build task to write coverage.
 -
 
 <a name="module_tasks/testTasks..test"></a>
+
 #### `tasks/testTasks~test` ⇒ <code>through2</code>
 A gulp build task to run test steps and calculate test coverage.
 Test steps results will be output using spec reporter.
@@ -1565,6 +1656,7 @@ Test steps results will be output using spec reporter.
 -
 
 <a name="module_utils/coverageStats"></a>
+
 ### utils/coverageStats ⇒ <code>Object</code>
 Coverage statistic utilities
 
@@ -1576,15 +1668,16 @@ Coverage statistic utilities
 
 
 * [utils/coverageStats](#module_utils/coverageStats) ⇒ <code>Object</code>
-  * [`.addStats(collection, pkg)`](#module_utils/coverageStats.addStats)
-  * [`.deleteStats(collection)`](#module_utils/coverageStats.deleteStats)
-  * [`.badgeColour(collection, stat, watermarks)`](#module_utils/coverageStats.badgeColour)
-  * [`.calculateCoverageStats(coverageReport, packageJSON)`](#module_utils/coverageStats.calculateCoverageStats) ⇒ <code>Object</code>
+    * [`.addStats(collection, pkg)`](#module_utils/coverageStats.addStats)
+    * [`.deleteStats(collection)`](#module_utils/coverageStats.deleteStats)
+    * [`.badgeColour(collection, stat, watermarks)`](#module_utils/coverageStats.badgeColour)
+    * [`.calculateCoverageStats(coverageReport, packageJSON)`](#module_utils/coverageStats.calculateCoverageStats) ⇒ <code>Object</code>
 
 
 -
 
 <a name="module_utils/coverageStats.addStats"></a>
+
 #### `utils/coverageStats.addStats(collection, pkg)`
 Helper function to append statistic properties from the provided collection to the provided package.json
 
@@ -1599,6 +1692,7 @@ Helper function to append statistic properties from the provided collection to t
 -
 
 <a name="module_utils/coverageStats.deleteStats"></a>
+
 #### `utils/coverageStats.deleteStats(collection)`
 Helper function to delete total, covered and skipped statistic properties from a collection
 
@@ -1612,6 +1706,7 @@ Helper function to delete total, covered and skipped statistic properties from a
 -
 
 <a name="module_utils/coverageStats.badgeColour"></a>
+
 #### `utils/coverageStats.badgeColour(collection, stat, watermarks)`
 Helper function to determine badge colour
 
@@ -1627,6 +1722,7 @@ Helper function to determine badge colour
 -
 
 <a name="module_utils/coverageStats.calculateCoverageStats"></a>
+
 #### `utils/coverageStats.calculateCoverageStats(coverageReport, packageJSON)` ⇒ <code>Object</code>
 Calculate coverage stats from an istanbul coverage.json reportand append to provided package.json config.coverage.stats property.The coverage stats include an overall coverage percentage and badge colour.
 
@@ -1642,6 +1738,7 @@ Calculate coverage stats from an istanbul coverage.json reportand append to pro
 -
 
 <a name="module_tasks/allTasks"></a>
+
 ### tasks/allTasks
 A module to add a gulp task which executes all build tasks.
 
@@ -1652,18 +1749,19 @@ A module to add a gulp task which executes all build tasks.
 
 
 * [tasks/allTasks](#module_tasks/allTasks)
-  * [`~all`](#module_tasks/allTasks..all) : <code>Gulp</code>
-  * [`~all_product`](#module_tasks/allTasks..all_product) : <code>Gulp</code>
-  * [`~all_product`](#module_tasks/allTasks..all_product) : <code>Gulp</code>
-  * [`~all_product`](#module_tasks/allTasks..all_product) : <code>Gulp</code>
-  * [`~all_product`](#module_tasks/allTasks..all_product) : <code>Gulp</code>
-  * [`~all_product`](#module_tasks/allTasks..all_product) : <code>Gulp</code>
-  * [`~all_product`](#module_tasks/allTasks..all_product) : <code>Gulp</code>
+    * [`~all`](#module_tasks/allTasks..all) : <code>Gulp</code>
+    * [`~all_product`](#module_tasks/allTasks..all_product) : <code>Gulp</code>
+    * [`~all_product`](#module_tasks/allTasks..all_product) : <code>Gulp</code>
+    * [`~all_product`](#module_tasks/allTasks..all_product) : <code>Gulp</code>
+    * [`~all_product`](#module_tasks/allTasks..all_product) : <code>Gulp</code>
+    * [`~all_product`](#module_tasks/allTasks..all_product) : <code>Gulp</code>
+    * [`~all_product`](#module_tasks/allTasks..all_product) : <code>Gulp</code>
 
 
 -
 
 <a name="module_tasks/allTasks..all"></a>
+
 #### `tasks/allTasks~all` : <code>Gulp</code>
 A gulp build task to run all build tasks for a module.
 The following tasks are executed in sequence:
@@ -1680,6 +1778,7 @@ The sequence works by piping each task to the next.
 -
 
 <a name="module_tasks/allTasks..all_product"></a>
+
 #### `tasks/allTasks~all_product` : <code>Gulp</code>
 A gulp build task to run all build tasks for a product.
 The following tasks are executed in sequence:
@@ -1696,6 +1795,7 @@ The sequence works by piping each task to the next.
 -
 
 <a name="module_tasks/allTasks..all_product"></a>
+
 #### `tasks/allTasks~all_product` : <code>Gulp</code>
 A gulp build task to run all package tasks for a product.
 The following tasks are executed in sequence:
@@ -1712,6 +1812,7 @@ The sequence works by piping each task to the next.
 -
 
 <a name="module_tasks/allTasks..all_product"></a>
+
 #### `tasks/allTasks~all_product` : <code>Gulp</code>
 A gulp build task to run selenium and test tasks
 The following tasks are executed in sequence:
@@ -1728,6 +1829,7 @@ The sequence works by piping each task to the next.
 -
 
 <a name="module_tasks/allTasks..all_product"></a>
+
 #### `tasks/allTasks~all_product` : <code>Gulp</code>
 A gulp build task to run selenium, loopback and test tasks
 The following tasks are executed in sequence:
@@ -1744,6 +1846,7 @@ The sequence works by piping each task to the next.
 -
 
 <a name="module_tasks/allTasks..all_product"></a>
+
 #### `tasks/allTasks~all_product` : <code>Gulp</code>
 A gulp build task to run webpack and test tasks
 The following tasks are executed in sequence:
@@ -1760,6 +1863,7 @@ The sequence works by piping each task to the next.
 -
 
 <a name="module_tasks/allTasks..all_product"></a>
+
 #### `tasks/allTasks~all_product` : <code>Gulp</code>
 A gulp build task to run webpack and test_cover tasks
 The following tasks are executed in sequence:
@@ -1776,6 +1880,7 @@ The sequence works by piping each task to the next.
 -
 
 <a name="module_tasks/codeAnalysisTasks"></a>
+
 ### tasks/codeAnalysisTasks
 A module to add gulp tasks which execute static code analysis.
 
@@ -1791,13 +1896,14 @@ A module to add gulp tasks which execute static code analysis.
 
 
 * [tasks/codeAnalysisTasks](#module_tasks/codeAnalysisTasks)
-  * [`~code_analysis`](#module_tasks/codeAnalysisTasks..code_analysis) ⇒ <code>through2</code>
-  * [`~code_analysis`](#module_tasks/codeAnalysisTasks..code_analysis) ⇒ <code>through2</code>
+    * [`~code_analysis`](#module_tasks/codeAnalysisTasks..code_analysis) ⇒ <code>through2</code>
+    * [`~code_analysis`](#module_tasks/codeAnalysisTasks..code_analysis) ⇒ <code>through2</code>
 
 
 -
 
 <a name="module_tasks/codeAnalysisTasks..code_analysis"></a>
+
 #### `tasks/codeAnalysisTasks~code_analysis` ⇒ <code>through2</code>
 A gulp build task to execute static code analysis on the files at `package.json:directories.lib`.
 The report results are saved to `package.json:directories.reports`
@@ -1808,6 +1914,7 @@ The report results are saved to `package.json:directories.reports`
 -
 
 <a name="module_tasks/codeAnalysisTasks..code_analysis"></a>
+
 #### `tasks/codeAnalysisTasks~code_analysis` ⇒ <code>through2</code>
 A gulp build task to execute static code analysis on the files at `package.json:directories.lib`.
 The report results are saved to `package.json:directories.reports`
@@ -1818,6 +1925,7 @@ The report results are saved to `package.json:directories.reports`
 -
 
 <a name="module_tasks/coverageStatsTasks"></a>
+
 ### tasks/coverageStatsTasks
 A module to add a gulp task which calculates coverage stats from the Istanbul reporter json-summary.
 
@@ -1833,13 +1941,14 @@ A module to add a gulp task which calculates coverage stats from the Istanbul re
 
 
 * [tasks/coverageStatsTasks](#module_tasks/coverageStatsTasks)
-  * [`~coverage_stats`](#module_tasks/coverageStatsTasks..coverage_stats) ⇒ <code>through2</code>
-  * [`~coverage_stats`](#module_tasks/coverageStatsTasks..coverage_stats) ⇒ <code>through2</code>
+    * [`~coverage_stats`](#module_tasks/coverageStatsTasks..coverage_stats) ⇒ <code>through2</code>
+    * [`~coverage_stats`](#module_tasks/coverageStatsTasks..coverage_stats) ⇒ <code>through2</code>
 
 
 -
 
 <a name="module_tasks/coverageStatsTasks..coverage_stats"></a>
+
 #### `tasks/coverageStatsTasks~coverage_stats` ⇒ <code>through2</code>
 A gulp build task to calculate coverage stats from the Istanbul reporter json-summary.
 Coverage stats are appended to package.json config.coverage.stats property.
@@ -1851,6 +1960,7 @@ The coverage stats include an overall coverage percentage and badge colour.
 -
 
 <a name="module_tasks/coverageStatsTasks..coverage_stats"></a>
+
 #### `tasks/coverageStatsTasks~coverage_stats` ⇒ <code>through2</code>
 A gulp build task to calculate coverage stats from the Istanbul reporter json-summary.
 Coverage stats are appended to package.json config.coverage.stats property.
@@ -1862,6 +1972,7 @@ The coverage stats include an overall coverage percentage and badge colour.
 -
 
 <a name="module_tasks/davidTasks"></a>
+
 ### tasks/davidTasks
 A module to add gulp tasks which check/report/update package dependencies.
 
@@ -1877,16 +1988,17 @@ A module to add gulp tasks which check/report/update package dependencies.
 
 
 * [tasks/davidTasks](#module_tasks/davidTasks)
-  * [`~david_report`](#module_tasks/davidTasks..david_report) : <code>Gulp</code>
-  * [`~david_report_all`](#module_tasks/davidTasks..david_report_all) : <code>Gulp</code>
-  * [`~david_update`](#module_tasks/davidTasks..david_update) : <code>Gulp</code>
-  * [`~david_update_all`](#module_tasks/davidTasks..david_update_all) : <code>Gulp</code>
-  * [`~david_cpm_update`](#module_tasks/davidTasks..david_cpm_update) : <code>Gulp</code>
+    * [`~david_report`](#module_tasks/davidTasks..david_report) : <code>Gulp</code>
+    * [`~david_report_all`](#module_tasks/davidTasks..david_report_all) : <code>Gulp</code>
+    * [`~david_update`](#module_tasks/davidTasks..david_update) : <code>Gulp</code>
+    * [`~david_update_all`](#module_tasks/davidTasks..david_update_all) : <code>Gulp</code>
+    * [`~david_cpm_update`](#module_tasks/davidTasks..david_cpm_update) : <code>Gulp</code>
 
 
 -
 
 <a name="module_tasks/davidTasks..david_report"></a>
+
 #### `tasks/davidTasks~david_report` : <code>Gulp</code>
 A gulp build task to generate a package dependency report for production dependencies onlyand output to the package reports directory.
 
@@ -1900,6 +2012,7 @@ A gulp build task to generate a package dependency report for production depende
 -
 
 <a name="module_tasks/davidTasks..david_report_all"></a>
+
 #### `tasks/davidTasks~david_report_all` : <code>Gulp</code>
 A gulp build task to generate a package dependency report and output to the package reports directory.
 
@@ -1913,6 +2026,7 @@ A gulp build task to generate a package dependency report and output to the pack
 -
 
 <a name="module_tasks/davidTasks..david_update"></a>
+
 #### `tasks/davidTasks~david_update` : <code>Gulp</code>
 A gulp build task to update package.json dependencies and optional dependencies with the most recent stableversions.
 
@@ -1926,6 +2040,7 @@ A gulp build task to update package.json dependencies and optional dependencies 
 -
 
 <a name="module_tasks/davidTasks..david_update_all"></a>
+
 #### `tasks/davidTasks~david_update_all` : <code>Gulp</code>
 A gulp build task to update package.json dependencies with the most recent stable versions.
 
@@ -1939,6 +2054,7 @@ A gulp build task to update package.json dependencies with the most recent stabl
 -
 
 <a name="module_tasks/davidTasks..david_cpm_update"></a>
+
 #### `tasks/davidTasks~david_cpm_update` : <code>Gulp</code>
 A gulp build task to run cpm update to update the package NPM dependencies to the most recent stable versions.
 
@@ -1952,6 +2068,7 @@ A gulp build task to run cpm update to update the package NPM dependencies to th
 -
 
 <a name="module_tasks/defaultTasks"></a>
+
 ### tasks/defaultTasks
 A module to add a default gulp task which executes default build tasks.
 
@@ -1962,13 +2079,14 @@ A module to add a default gulp task which executes default build tasks.
 
 
 * [tasks/defaultTasks](#module_tasks/defaultTasks)
-  * [`~default`](#module_tasks/defaultTasks..default) : <code>Gulp</code>
-  * [`~default`](#module_tasks/defaultTasks..default) : <code>Gulp</code>
+    * [`~default`](#module_tasks/defaultTasks..default) : <code>Gulp</code>
+    * [`~default`](#module_tasks/defaultTasks..default) : <code>Gulp</code>
 
 
 -
 
 <a name="module_tasks/defaultTasks..default"></a>
+
 #### `tasks/defaultTasks~default` : <code>Gulp</code>
 A gulp build task to run the default tasks.
 The following tasks are executed in sequence: ["test"]
@@ -1984,6 +2102,7 @@ The sequence works by piping each task to the next.
 -
 
 <a name="module_tasks/defaultTasks..default"></a>
+
 #### `tasks/defaultTasks~default` : <code>Gulp</code>
 The default private gulp build task to execute all tasks. The following tasks are executed in sequence:
 ["code_analysis", "step_sync", "test_cover", "coverage_stats", "license", "docs", "metadata", "package"]
@@ -2000,6 +2119,7 @@ The sequence works by piping each task to the next.
 -
 
 <a name="module_tasks/docsTasks"></a>
+
 ### tasks/docsTasks
 A module to add gulp tasks which prepare readme documentation.
 
@@ -2015,13 +2135,14 @@ A module to add gulp tasks which prepare readme documentation.
 
 
 * [tasks/docsTasks](#module_tasks/docsTasks)
-  * [`~docs`](#module_tasks/docsTasks..docs) ⇒ <code>through2</code>
-  * [`~docs`](#module_tasks/docsTasks..docs) ⇒ <code>through2</code>
+    * [`~docs`](#module_tasks/docsTasks..docs) ⇒ <code>through2</code>
+    * [`~docs`](#module_tasks/docsTasks..docs) ⇒ <code>through2</code>
 
 
 -
 
 <a name="module_tasks/docsTasks..docs"></a>
+
 #### `tasks/docsTasks~docs` ⇒ <code>through2</code>
 A gulp build task to compile and render the `tasks/templates/readme.dust` document template.
 The document template readme.dust references four other templates:
@@ -2037,6 +2158,7 @@ The result is saved to `README.md`.
 -
 
 <a name="module_tasks/docsTasks..docs"></a>
+
 #### `tasks/docsTasks~docs` ⇒ <code>through2</code>
 A gulp build task to compile and render the `tasks/templates/readme-product.dust` document template.
 The document template readme.dust references four other templates:
@@ -2052,6 +2174,7 @@ The result is saved to `README.md`.
 -
 
 <a name="module_tasks/docsChangelogTasks"></a>
+
 ### tasks/docsChangelogTasks
 A module to add gulp tasks which prepare changelog readme documentation.
 
@@ -2067,13 +2190,14 @@ A module to add gulp tasks which prepare changelog readme documentation.
 
 
 * [tasks/docsChangelogTasks](#module_tasks/docsChangelogTasks)
-  * [`~docs_changelog`](#module_tasks/docsChangelogTasks..docs_changelog) ⇒ <code>through2</code>
-  * [`~docs_changelog`](#module_tasks/docsChangelogTasks..docs_changelog) ⇒ <code>through2</code>
+    * [`~docs_changelog`](#module_tasks/docsChangelogTasks..docs_changelog) ⇒ <code>through2</code>
+    * [`~docs_changelog`](#module_tasks/docsChangelogTasks..docs_changelog) ⇒ <code>through2</code>
 
 
 -
 
 <a name="module_tasks/docsChangelogTasks..docs_changelog"></a>
+
 #### `tasks/docsChangelogTasks~docs_changelog` ⇒ <code>through2</code>
 A gulp build task to compile and render the package changelog.
 The changelog data is automatically sourced from Jira if the oauth config.json file exists and
@@ -2086,6 +2210,7 @@ The result is saved to `doc/readme-changelog.md`.
 -
 
 <a name="module_tasks/docsChangelogTasks..docs_changelog"></a>
+
 #### `tasks/docsChangelogTasks~docs_changelog` ⇒ <code>through2</code>
 A gulp build task to compile and render the package changelog in markdown (no HTML).
 The changelog data is automatically sourced from Jira if the oauth config.json file exists and
@@ -2098,6 +2223,7 @@ The result is saved to `doc/readme-changelog.md`.
 -
 
 <a name="module_tasks/docsJsdocsTasks"></a>
+
 ### tasks/docsJsdocsTasks
 A module to add gulp tasks which prepare code api readme documentation.
 
@@ -2115,6 +2241,7 @@ A module to add gulp tasks which prepare code api readme documentation.
 -
 
 <a name="module_tasks/docsJsdocsTasks..docs_jsdocs"></a>
+
 #### `tasks/docsJsdocsTasks~docs_jsdocs` ⇒ <code>through2</code>
 A gulp build task to generate JSDoc documentation.The result is saved to `doc/readme-api.md`.
 
@@ -2124,6 +2251,7 @@ A gulp build task to generate JSDoc documentation.The result is saved to `doc/r
 -
 
 <a name="module_tasks/docsLicenseTasks"></a>
+
 ### tasks/docsLicenseTasks
 A module to add gulp tasks which prepare license readme documentation.
 
@@ -2139,13 +2267,14 @@ A module to add gulp tasks which prepare license readme documentation.
 
 
 * [tasks/docsLicenseTasks](#module_tasks/docsLicenseTasks)
-  * [`~docs_license`](#module_tasks/docsLicenseTasks..docs_license) ⇒ <code>through2</code>
-  * [`~docs_license`](#module_tasks/docsLicenseTasks..docs_license) ⇒ <code>through2</code>
+    * [`~docs_license`](#module_tasks/docsLicenseTasks..docs_license) ⇒ <code>through2</code>
+    * [`~docs_license`](#module_tasks/docsLicenseTasks..docs_license) ⇒ <code>through2</code>
 
 
 -
 
 <a name="module_tasks/docsLicenseTasks..docs_license"></a>
+
 #### `tasks/docsLicenseTasks~docs_license` ⇒ <code>through2</code>
 A gulp build task to generate license documentation from all dependent packages.
 The license data is automatically sourced from the node_modules folder using `npm-license`.
@@ -2157,6 +2286,7 @@ The result is saved to `doc/readme-license.md`.
 -
 
 <a name="module_tasks/docsLicenseTasks..docs_license"></a>
+
 #### `tasks/docsLicenseTasks~docs_license` ⇒ <code>through2</code>
 A gulp build task to generate license documentation from all dependent packages (for products).
 The license data is automatically sourced from the node_modules folder using `npm-license`.
@@ -2168,6 +2298,7 @@ The result is saved to `doc/readme-license.md`.
 -
 
 <a name="module_tasks/metadataTasks"></a>
+
 ### tasks/metadataTasks
 A module to add gulp tasks which prepare the package.json file for build packaging and deployment.
 
@@ -2180,6 +2311,7 @@ A module to add gulp tasks which prepare the package.json file for build packagi
 -
 
 <a name="module_tasks/metadataTasks..metadata"></a>
+
 #### `tasks/metadataTasks~metadata` ⇒ <code>through2</code>
 A gulp build task to prepare the package.json file for build packaging and deployment.
 Atlassian Bamboo variables are expected and used to populate the package.json version and config properties.
@@ -2191,6 +2323,7 @@ Also, all optionalDependencies are removed.
 -
 
 <a name="module_tasks/nullTasks"></a>
+
 ### tasks/nullTasks
 A module to add a gulp task which does nothing.
 
@@ -2203,6 +2336,7 @@ A module to add a gulp task which does nothing.
 -
 
 <a name="module_tasks/nullTasks..null"></a>
+
 #### `tasks/nullTasks~null` : <code>Gulp</code>
 A gulp build task that does nothing. Used for tests.
 
@@ -2216,6 +2350,7 @@ A gulp build task that does nothing. Used for tests.
 -
 
 <a name="module_tasks/packageTasks"></a>
+
 ### tasks/packageTasks
 A module to add gulp tasks which prepare the build package.
 
@@ -2230,9 +2365,16 @@ A module to add gulp tasks which prepare the build package.
 | context.logger | <code>bunyan</code> | A logger matching the bunyan API |
 
 
+* [tasks/packageTasks](#module_tasks/packageTasks)
+    * [`~package`](#module_tasks/packageTasks..package) ⇒ <code>through2</code>
+    * [`~metadata`](#module_tasks/packageTasks..metadata) ⇒ <code>through2</code>
+    * [`~metadata`](#module_tasks/packageTasks..metadata) ⇒ <code>through2</code>
+
+
 -
 
 <a name="module_tasks/packageTasks..package"></a>
+
 #### `tasks/packageTasks~package` ⇒ <code>through2</code>
 A gulp build task to copy files to the `package.json:directories.build` directory.
 The existing build, tasks and reports directories are ignored.
@@ -2242,7 +2384,28 @@ The existing build, tasks and reports directories are ignored.
 
 -
 
+<a name="module_tasks/packageTasks..metadata"></a>
+
+#### `tasks/packageTasks~metadata` ⇒ <code>through2</code>
+A gulp build task to setup the gitignore file for deployment (appends the buildignore file contents).
+
+**Kind**: inner property of <code>[tasks/packageTasks](#module_tasks/packageTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/packageTasks..metadata"></a>
+
+#### `tasks/packageTasks~metadata` ⇒ <code>through2</code>
+A gulp build task to setup the gitignore file for normal use (removes the buildignore file contents).
+
+**Kind**: inner property of <code>[tasks/packageTasks](#module_tasks/packageTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
 <a name="module_tasks/postBuild"></a>
+
 ### tasks/postBuild
 A module to add gulp tasks which runs post build verification tests
 
@@ -2260,6 +2423,7 @@ A module to add gulp tasks which runs post build verification tests
 -
 
 <a name="module_tasks/publishTasks"></a>
+
 ### tasks/publishTasks
 A module to add a gulp task which executes publish tasks.
 
@@ -2272,6 +2436,7 @@ A module to add a gulp task which executes publish tasks.
 -
 
 <a name="module_tasks/publishTasks..all"></a>
+
 #### `tasks/publishTasks~all` : <code>Gulp</code>
 A gulp build task to run all build tasks for a module.
 The following tasks are executed in sequence:
@@ -2288,6 +2453,7 @@ The sequence works by piping each task to the next.
 -
 
 <a name="module_tasks/scaffoldTasks"></a>
+
 ### tasks/scaffoldTasks
 A module to add gulp tasks which currently update development dependencies but in future could provide further
 scaffolding.
@@ -2304,13 +2470,14 @@ scaffolding.
 
 
 * [tasks/scaffoldTasks](#module_tasks/scaffoldTasks)
-  * [`~scaffold`](#module_tasks/scaffoldTasks..scaffold) ⇒ <code>through2</code>
-  * [`~rebuild_scaffold`](#module_tasks/scaffoldTasks..rebuild_scaffold) : <code>Gulp</code>
+    * [`~scaffold`](#module_tasks/scaffoldTasks..scaffold) ⇒ <code>through2</code>
+    * [`~rebuild_scaffold`](#module_tasks/scaffoldTasks..rebuild_scaffold) : <code>Gulp</code>
 
 
 -
 
 <a name="module_tasks/scaffoldTasks..scaffold"></a>
+
 #### `tasks/scaffoldTasks~scaffold` ⇒ <code>through2</code>
 A gulp build task to scaffold an existing package.
 
@@ -2325,6 +2492,7 @@ A gulp build task to scaffold an existing package.
 -
 
 <a name="module_tasks/scaffoldTasks..rebuild_scaffold"></a>
+
 #### `tasks/scaffoldTasks~rebuild_scaffold` : <code>Gulp</code>
 A gulp build task to rebuild the source scaffold files for yeoman generators by copying default files from this
 package.
@@ -2339,6 +2507,7 @@ package.
 -
 
 <a name="module_tasks/serversTasks"></a>
+
 ### tasks/serversTasks
 A module to add gulp tasks which run test steps.
 
@@ -2356,6 +2525,7 @@ A module to add gulp tasks which run test steps.
 -
 
 <a name="module_tasks/stepSyncTasks"></a>
+
 ### tasks/stepSyncTasks
 A module to add gulp tasks which synchronise test steps from feature files with JIRA.
 
@@ -2373,6 +2543,7 @@ A module to add gulp tasks which synchronise test steps from feature files with 
 -
 
 <a name="module_tasks/stepSyncTasks..step_sync"></a>
+
 #### `tasks/stepSyncTasks~step_sync` : <code>Gulp</code>
 A gulp build task to download new test features from JIRA and upload changes to existing
 feature files back to JIRA.
@@ -2387,6 +2558,7 @@ feature files back to JIRA.
 -
 
 <a name="module_tasks/stepsTasks"></a>
+
 ### tasks/stepsTasks
 A module to add a gulp tasks which creates missing test steps in new or existing step libraries.
 
@@ -2404,6 +2576,7 @@ A module to add a gulp tasks which creates missing test steps in new or existing
 -
 
 <a name="module_tasks/stepsTasks..steps"></a>
+
 #### `tasks/stepsTasks~steps` : <code>Gulp</code>
 A gulp build task to create missing test steps in new or existing step libraries.
 
@@ -2417,6 +2590,7 @@ A gulp build task to create missing test steps in new or existing step libraries
 -
 
 <a name="module_tasks/webpackTasks"></a>
+
 ### tasks/webpackTasks
 A module to add gulp tasks for the webpack module bundler.
 
@@ -2432,17 +2606,24 @@ A module to add gulp tasks for the webpack module bundler.
 
 
 * [tasks/webpackTasks](#module_tasks/webpackTasks)
-  * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
-  * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
-  * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
-  * [`~webpackCompileTemplates`](#module_tasks/webpackTasks..webpackCompileTemplates) ⇒ <code>through2</code>
-  * [`~webpackCompileTemplatesTestMode`](#module_tasks/webpackTasks..webpackCompileTemplatesTestMode) ⇒ <code>through2</code>
-  * [`~webpackDevServer`](#module_tasks/webpackTasks..webpackDevServer) ⇒ <code>through2</code>
+    * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
+    * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
+    * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
+    * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
+    * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
+    * [`~webpackCompileTemplates`](#module_tasks/webpackTasks..webpackCompileTemplates) ⇒ <code>through2</code>
+    * [`~webpackCompileTemplatesTestMode`](#module_tasks/webpackTasks..webpackCompileTemplatesTestMode) ⇒ <code>through2</code>
+    * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
+    * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
+    * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
+    * [`~webpackDevServer`](#module_tasks/webpackTasks..webpackDevServer) ⇒ <code>through2</code>
+    * [`~webpackRunner(configPath, webpackOptions)`](#module_tasks/webpackTasks..webpackRunner) ⇒ <code>through2</code>
 
 
 -
 
 <a name="module_tasks/webpackTasks..webpack"></a>
+
 #### `tasks/webpackTasks~webpack` ⇒ <code>through2</code>
 A gulp build task to run the webpack module bundler for development.
 
@@ -2452,6 +2633,17 @@ A gulp build task to run the webpack module bundler for development.
 -
 
 <a name="module_tasks/webpackTasks..webpack"></a>
+
+#### `tasks/webpackTasks~webpack` ⇒ <code>through2</code>
+A gulp build task to continuously run the webpack module bundler for development in watch mode.
+
+**Kind**: inner property of <code>[tasks/webpackTasks](#module_tasks/webpackTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/webpackTasks..webpack"></a>
+
 #### `tasks/webpackTasks~webpack` ⇒ <code>through2</code>
 A gulp build task to run the webpack module bundler using the test config.
 
@@ -2461,6 +2653,17 @@ A gulp build task to run the webpack module bundler using the test config.
 -
 
 <a name="module_tasks/webpackTasks..webpack"></a>
+
+#### `tasks/webpackTasks~webpack` ⇒ <code>through2</code>
+A gulp build task to run metadata and the webpack module bundler using the test config.
+
+**Kind**: inner property of <code>[tasks/webpackTasks](#module_tasks/webpackTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/webpackTasks..webpack"></a>
+
 #### `tasks/webpackTasks~webpack` ⇒ <code>through2</code>
 A gulp build task to run the webpack module bundler for production packaging.
 
@@ -2470,6 +2673,7 @@ A gulp build task to run the webpack module bundler for production packaging.
 -
 
 <a name="module_tasks/webpackTasks..webpackCompileTemplates"></a>
+
 #### `tasks/webpackTasks~webpackCompileTemplates` ⇒ <code>through2</code>
 A gulp build task to compile dust templates in directories.client.
 The dust templates will be provided one of the following package.json as context:
@@ -2482,6 +2686,7 @@ The dust templates will be provided one of the following package.json as context
 -
 
 <a name="module_tasks/webpackTasks..webpackCompileTemplatesTestMode"></a>
+
 #### `tasks/webpackTasks~webpackCompileTemplatesTestMode` ⇒ <code>through2</code>
 A gulp build task to compile dust templates in directories.client with test flag set to true.
 The dust templates will be provided one of the following package.json as context:
@@ -2493,12 +2698,51 @@ The dust templates will be provided one of the following package.json as context
 
 -
 
+<a name="module_tasks/webpackTasks..webpack"></a>
+
+#### `tasks/webpackTasks~webpack` ⇒ <code>through2</code>
+**Kind**: inner property of <code>[tasks/webpackTasks](#module_tasks/webpackTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/webpackTasks..webpack"></a>
+
+#### `tasks/webpackTasks~webpack` ⇒ <code>through2</code>
+**Kind**: inner property of <code>[tasks/webpackTasks](#module_tasks/webpackTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/webpackTasks..webpack"></a>
+
+#### `tasks/webpackTasks~webpack` ⇒ <code>through2</code>
+**Kind**: inner property of <code>[tasks/webpackTasks](#module_tasks/webpackTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
 <a name="module_tasks/webpackTasks..webpackDevServer"></a>
+
 #### `tasks/webpackTasks~webpackDevServer` ⇒ <code>through2</code>
 A gulp build task to run the webpack dev server
 
 **Kind**: inner property of <code>[tasks/webpackTasks](#module_tasks/webpackTasks)</code>  
 **Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/webpackTasks..webpackRunner"></a>
+
+#### `tasks/webpackTasks~webpackRunner(configPath, webpackOptions)` ⇒ <code>through2</code>
+**Kind**: inner method of <code>[tasks/webpackTasks](#module_tasks/webpackTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| configPath | <code>String</code> | path to webpack config |
+| webpackOptions | <code>Object</code> | other options to merge with Webpack config to pass to Gulp Webpack |
+
 
 -
 
