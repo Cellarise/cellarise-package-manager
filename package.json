@@ -84,6 +84,7 @@
     "ramda": "^0.23.0"
   },
   "optionalDependencies": {
+    "azure-functions-core-tools": "^1.0.7",
     "bower": "^1.8.0",
     "esdoc": "^0.4.3",
     "webdriverio": "^3.3.0",

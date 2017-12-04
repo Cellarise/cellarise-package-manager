@@ -46,6 +46,11 @@ module.exports = function codeAnalysisTasks(gulp, context) {
     if (directories.common) {
       srcArr.push(directories.common + "/**/*.js");
     }
+    if (directories.functions) {
+      directories.functions.forEach(function eachDir(dir) {
+        srcArr.push(dir + "/**/*.js");
+      });
+    }
     mkdirp.sync(reportPath);
     eslintMochaOut = fs.createWriteStream(reportPath + "/lint-mocha-tests.json");
     eslintCucumberOut = fs.createWriteStream(reportPath + "/cucumber-tests.json");
