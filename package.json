@@ -77,6 +77,7 @@
     "selenium": "./bin/selenium.bat"
   },
   "dependencies": {
+    "baconjs": "^0.7.95",
     "chalk": "^1.0.0",
     "chokidar": "^1.0.5",
     "minimist": "^1.1.1",
@@ -85,6 +86,7 @@
   },
   "optionalDependencies": {
     "azure-functions-core-tools": "^1.0.7",
+    "baconjs": "^0.7.89",
     "bower": "^1.8.0",
     "esdoc": "^0.4.3",
     "webdriverio": "^3.3.0",
