@@ -2,27 +2,6 @@
 ### Modules
 
 <dl>
-<dt><a href="#module_utils/autoUpdate">utils/autoUpdate</a> ⇒ <code>Object</code></dt>
-<dd><p>Auto update build utilities.</p>
-</dd>
-<dt><a href="#module_utils/bamboo">utils/bamboo</a> ⇒ <code>Object</code></dt>
-<dd><p>Bamboo build utilities</p>
-</dd>
-<dt><a href="#module_utils/config">utils/config</a> ⇒ <code>Object</code></dt>
-<dd><p>Application configuration utility</p>
-</dd>
-<dt><a href="#module_utils/david">utils/david</a> ⇒ <code>Object</code></dt>
-<dd><p>David build utilities</p>
-</dd>
-<dt><a href="#module_utils/jira">utils/jira</a> ⇒ <code>Object</code></dt>
-<dd><p>JIRA build utilities</p>
-</dd>
-<dt><a href="#module_utils/postBuild">utils/postBuild</a> ⇒ <code>Object</code></dt>
-<dd><p>Post build utilities</p>
-</dd>
-<dt><a href="#module_utils/reports">utils/reports</a> ⇒ <code>Object</code></dt>
-<dd><p>Build report utilities</p>
-</dd>
 <dt><a href="#module_reports/autoUpdateMocha">reports/autoUpdateMocha</a> ⇒ <code>Object</code></dt>
 <dd><p>Auto update mocha report</p>
 </dd>
@@ -58,6 +37,27 @@
 </dd>
 <dt><a href="#module_reports/postBuildMocha">reports/postBuildMocha</a> ⇒ <code>Object</code></dt>
 <dd><p>Post build mocha report</p>
+</dd>
+<dt><a href="#module_utils/autoUpdate">utils/autoUpdate</a> ⇒ <code>Object</code></dt>
+<dd><p>Auto update build utilities.</p>
+</dd>
+<dt><a href="#module_utils/bamboo">utils/bamboo</a> ⇒ <code>Object</code></dt>
+<dd><p>Bamboo build utilities</p>
+</dd>
+<dt><a href="#module_utils/config">utils/config</a> ⇒ <code>Object</code></dt>
+<dd><p>Application configuration utility</p>
+</dd>
+<dt><a href="#module_utils/david">utils/david</a> ⇒ <code>Object</code></dt>
+<dd><p>David build utilities</p>
+</dd>
+<dt><a href="#module_utils/jira">utils/jira</a> ⇒ <code>Object</code></dt>
+<dd><p>JIRA build utilities</p>
+</dd>
+<dt><a href="#module_utils/postBuild">utils/postBuild</a> ⇒ <code>Object</code></dt>
+<dd><p>Post build utilities</p>
+</dd>
+<dt><a href="#module_utils/reports">utils/reports</a> ⇒ <code>Object</code></dt>
+<dd><p>Build report utilities</p>
 </dd>
 <dt><a href="#module_tasks/autoScaffoldTasks">tasks/autoScaffoldTasks</a></dt>
 <dd><p>A module to add gulp tasks which automatically update one or more packages.</p>
@@ -142,6 +142,482 @@ scaffolding.</p>
 <dd><p>A module to add gulp tasks for the webpack module bundler.</p>
 </dd>
 </dl>
+
+<a name="module_reports/autoUpdateMocha"></a>
+
+### reports/autoUpdateMocha ⇒ <code>Object</code>
+Auto update mocha report
+
+**Returns**: <code>Object</code> - Auto update mocha report functions  
+
+* [reports/autoUpdateMocha](#module_reports/autoUpdateMocha) ⇒ <code>Object</code>
+    * [`.prepare`](#module_reports/autoUpdateMocha.prepare) ⇒ <code>Object</code>
+    * [`.writeToFileSync`](#module_reports/autoUpdateMocha.writeToFileSync)
+    * [`.write(workflowHistory, rpt)`](#module_reports/autoUpdateMocha.write)
+
+
+-
+
+<a name="module_reports/autoUpdateMocha.prepare"></a>
+
+#### `reports/autoUpdateMocha.prepare` ⇒ <code>Object</code>
+Prepare the report header
+
+**Kind**: static property of <code>[reports/autoUpdateMocha](#module_reports/autoUpdateMocha)</code>  
+**Returns**: <code>Object</code> - the report header  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [start] | <code>String</code> | <code>new global.Date()</code> | start time and date |
+| [end] | <code>String</code> | <code>new global.Date()</code> | end time and date (will be overwritten by write report function) |
+
+
+-
+
+<a name="module_reports/autoUpdateMocha.writeToFileSync"></a>
+
+#### `reports/autoUpdateMocha.writeToFileSync`
+Synchronously write a test report to a file location
+
+**Kind**: static property of <code>[reports/autoUpdateMocha](#module_reports/autoUpdateMocha)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| reportPath | <code>String</code> | the file path including filename |
+| report | <code>Object</code> | the report object containing report header and results |
+
+
+-
+
+<a name="module_reports/autoUpdateMocha.write"></a>
+
+#### `reports/autoUpdateMocha.write(workflowHistory, rpt)`
+Write a new test
+
+**Kind**: static method of <code>[reports/autoUpdateMocha](#module_reports/autoUpdateMocha)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| workflowHistory | <code>Object</code> | the workflow history returned from an auto update |
+| rpt | <code>Object</code> | the report object to write or add the test result to |
+
+
+-
+
+<a name="module_reports/baseCucumber"></a>
+
+### reports/baseCucumber ⇒ <code>Object</code>
+Base methods for cucumber reports
+
+**Returns**: <code>Object</code> - Base cucumber report functions  
+
+* [reports/baseCucumber](#module_reports/baseCucumber) ⇒ <code>Object</code>
+    * [`.prepare(type, name, description)`](#module_reports/baseCucumber.prepare) ⇒ <code>Object</code>
+    * [`.write(suite, pass, message, rpt)`](#module_reports/baseCucumber.write)
+    * [`.writeToFileSync(reportPath, report)`](#module_reports/baseCucumber.writeToFileSync)
+
+
+-
+
+<a name="module_reports/baseCucumber.prepare"></a>
+
+#### `reports/baseCucumber.prepare(type, name, description)` ⇒ <code>Object</code>
+Prepare the report header
+
+**Kind**: static method of <code>[reports/baseCucumber](#module_reports/baseCucumber)</code>  
+**Returns**: <code>Object</code> - the report header  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| type | <code>String</code> | the test report type (e.g. feature, bug) |
+| name | <code>String</code> | the test report name |
+| description | <code>String</code> | the test report description |
+
+
+-
+
+<a name="module_reports/baseCucumber.write"></a>
+
+#### `reports/baseCucumber.write(suite, pass, message, rpt)`
+Write a new test
+
+**Kind**: static method of <code>[reports/baseCucumber](#module_reports/baseCucumber)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| suite | <code>String</code> | the test suite name |
+| pass | <code>Boolean</code> | has the test passed? |
+| message | <code>String</code> | the test description message |
+| rpt | <code>Object</code> | the report object to write or add the test result to |
+
+
+-
+
+<a name="module_reports/baseCucumber.writeToFileSync"></a>
+
+#### `reports/baseCucumber.writeToFileSync(reportPath, report)`
+Synchronously write a test report to a file location
+
+**Kind**: static method of <code>[reports/baseCucumber](#module_reports/baseCucumber)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| reportPath | <code>String</code> | the file path including filename |
+| report | <code>Object</code> | the report object containing report header and results |
+
+
+-
+
+<a name="module_reports/baseMocha"></a>
+
+### reports/baseMocha ⇒ <code>Object</code>
+Base methods for mocha reports
+
+**Returns**: <code>Object</code> - Base mocha report functions  
+
+* [reports/baseMocha](#module_reports/baseMocha) ⇒ <code>Object</code>
+    * [`.prepare([start], [end])`](#module_reports/baseMocha.prepare) ⇒ <code>Object</code>
+    * [`.write(suite, pass, message, rpt)`](#module_reports/baseMocha.write)
+    * [`.writeToFileSync(reportPath, report)`](#module_reports/baseMocha.writeToFileSync)
+
+
+-
+
+<a name="module_reports/baseMocha.prepare"></a>
+
+#### `reports/baseMocha.prepare([start], [end])` ⇒ <code>Object</code>
+Prepare the report header
+
+**Kind**: static method of <code>[reports/baseMocha](#module_reports/baseMocha)</code>  
+**Returns**: <code>Object</code> - the report header  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [start] | <code>String</code> | <code>new global.Date()</code> | start time and date |
+| [end] | <code>String</code> | <code>new global.Date()</code> | end time and date (will be overwritten by write report function) |
+
+
+-
+
+<a name="module_reports/baseMocha.write"></a>
+
+#### `reports/baseMocha.write(suite, pass, message, rpt)`
+Write a new test
+
+**Kind**: static method of <code>[reports/baseMocha](#module_reports/baseMocha)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| suite | <code>String</code> | the test suite name |
+| pass | <code>Boolean</code> | has the test passed? |
+| message | <code>String</code> | the test description message |
+| rpt | <code>Object</code> | the report object to write or add the test result to |
+
+
+-
+
+<a name="module_reports/baseMocha.writeToFileSync"></a>
+
+#### `reports/baseMocha.writeToFileSync(reportPath, report)`
+Synchronously write a test report to a file location
+
+**Kind**: static method of <code>[reports/baseMocha](#module_reports/baseMocha)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| reportPath | <code>String</code> | the file path including filename |
+| report | <code>Object</code> | the report object containing report header and results |
+
+
+-
+
+<a name="module_reports/davidCucumber"></a>
+
+### reports/davidCucumber ⇒ <code>Object</code>
+David cucumber report
+
+**Returns**: <code>Object</code> - David cucumber report functions  
+
+* [reports/davidCucumber](#module_reports/davidCucumber) ⇒ <code>Object</code>
+    * [`.prepare()`](#module_reports/davidCucumber.prepare) ⇒ <code>Object</code>
+    * [`.write(opts, pkgs, pkg, rpt)`](#module_reports/davidCucumber.write)
+
+
+-
+
+<a name="module_reports/davidCucumber.prepare"></a>
+
+#### `reports/davidCucumber.prepare()` ⇒ <code>Object</code>
+Prepare the report header
+
+**Kind**: static method of <code>[reports/davidCucumber](#module_reports/davidCucumber)</code>  
+**Returns**: <code>Object</code> - the report header  
+
+-
+
+<a name="module_reports/davidCucumber.write"></a>
+
+#### `reports/davidCucumber.write(opts, pkgs, pkg, rpt)`
+Write a new test
+
+**Kind**: static method of <code>[reports/davidCucumber](#module_reports/davidCucumber)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| opts | <code>Object</code> | the david options |
+| opts.suite | <code>String</code> | the test suite name |
+| pkgs | <code>Object</code> | the package dependency analysis returned by david |
+| pkg | <code>String</code> | the package to write test for |
+| rpt | <code>Object</code> | the report object to write or add the test result to |
+
+
+-
+
+<a name="module_reports/davidMocha"></a>
+
+### reports/davidMocha ⇒ <code>Object</code>
+David mocha report
+
+**Returns**: <code>Object</code> - David mocha report functions  
+
+* [reports/davidMocha](#module_reports/davidMocha) ⇒ <code>Object</code>
+    * [`.prepare`](#module_reports/davidMocha.prepare) ⇒ <code>Object</code>
+    * [`.writeToFileSync`](#module_reports/davidMocha.writeToFileSync)
+    * [`.write(opts, pkgs, pkg, rpt)`](#module_reports/davidMocha.write)
+
+
+-
+
+<a name="module_reports/davidMocha.prepare"></a>
+
+#### `reports/davidMocha.prepare` ⇒ <code>Object</code>
+Prepare the report header
+
+**Kind**: static property of <code>[reports/davidMocha](#module_reports/davidMocha)</code>  
+**Returns**: <code>Object</code> - the report header  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| start | <code>String</code> | start time and date |
+| end | <code>String</code> | end time and date (will be overwritten by write report function) |
+
+
+-
+
+<a name="module_reports/davidMocha.writeToFileSync"></a>
+
+#### `reports/davidMocha.writeToFileSync`
+Synchronously write a test report to a file location
+
+**Kind**: static property of <code>[reports/davidMocha](#module_reports/davidMocha)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| reportPath | <code>String</code> | the file path including filename |
+| report | <code>Object</code> | the report object containing report header and results |
+
+
+-
+
+<a name="module_reports/davidMocha.write"></a>
+
+#### `reports/davidMocha.write(opts, pkgs, pkg, rpt)`
+Write a new test
+
+**Kind**: static method of <code>[reports/davidMocha](#module_reports/davidMocha)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| opts | <code>Object</code> | the david options |
+| opts.suite | <code>String</code> | the test suite name |
+| pkgs | <code>Object</code> | the package dependency analysis returned by david |
+| pkg | <code>String</code> | the package to write test for |
+| rpt | <code>Object</code> | the report object to write or add the test result to |
+
+
+-
+
+<a name="module_reports/eslintBunyan"></a>
+
+### reports/eslintBunyan ⇒ <code>String</code>
+Eslint bunyan report logger.
+
+**Returns**: <code>String</code> - empty string  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| results | <code>Array</code> | eslint results returned through gulp-eslint |
+
+
+-
+
+<a name="module_reports/eslintCucumber"></a>
+
+### reports/eslintCucumber ⇒ <code>Object</code>
+Eslint cucumber report
+
+**Returns**: <code>Object</code> - Eslint cucumber report formatter  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| results | <code>Array</code> | eslint results returned through gulp-eslint |
+
+
+-
+
+<a name="module_reports/eslintMocha"></a>
+
+### reports/eslintMocha ⇒ <code>Object</code>
+Eslint mocha report
+
+**Returns**: <code>Object</code> - Eslint mocha report formatter  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| results | <code>Array</code> | eslint results returned through gulp-eslint |
+
+
+-
+
+<a name="module_reports/genericCucumber"></a>
+
+### reports/genericCucumber ⇒ <code>Object</code>
+Generic cucumber report
+
+**Returns**: <code>Object</code> - Generic cucumber report functions  
+
+* [reports/genericCucumber](#module_reports/genericCucumber) ⇒ <code>Object</code>
+    * [`.prepare`](#module_reports/genericCucumber.prepare) ⇒ <code>Object</code>
+    * [`.write(suiteName, testName, errorMessages, givenDesc, whenDesc, thenDesc, rpt)`](#module_reports/genericCucumber.write)
+
+
+-
+
+<a name="module_reports/genericCucumber.prepare"></a>
+
+#### `reports/genericCucumber.prepare` ⇒ <code>Object</code>
+Prepare the report header
+
+**Kind**: static property of <code>[reports/genericCucumber](#module_reports/genericCucumber)</code>  
+**Returns**: <code>Object</code> - the report header  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| type | <code>String</code> | the test report type (e.g. feature, bug) |
+| name | <code>String</code> | the test report name |
+| description | <code>String</code> | the test report description |
+
+
+-
+
+<a name="module_reports/genericCucumber.write"></a>
+
+#### `reports/genericCucumber.write(suiteName, testName, errorMessages, givenDesc, whenDesc, thenDesc, rpt)`
+Write a new test
+
+**Kind**: static method of <code>[reports/genericCucumber](#module_reports/genericCucumber)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| suiteName | <code>String</code> | the test suite name |
+| testName | <code>String</code> | the test name |
+| errorMessages | <code>Array</code> | the error messages if the test failed |
+| givenDesc | <code>String</code> | the given step part description |
+| whenDesc | <code>String</code> | the when step part description |
+| thenDesc | <code>String</code> | the then step part description |
+| rpt | <code>Object</code> | the report object to write or add the test result to |
+
+
+-
+
+<a name="module_reports/genericMocha"></a>
+
+### reports/genericMocha ⇒ <code>Object</code>
+Generic mocha report
+
+**Returns**: <code>Object</code> - Generic mocha report functions  
+
+* [reports/genericMocha](#module_reports/genericMocha) ⇒ <code>Object</code>
+    * [`.writeToFileSync`](#module_reports/genericMocha.writeToFileSync)
+    * [`.prepare()`](#module_reports/genericMocha.prepare) ⇒ <code>Object</code>
+    * [`.write(suiteName, testName, errorMessages, rpt)`](#module_reports/genericMocha.write)
+
+
+-
+
+<a name="module_reports/genericMocha.writeToFileSync"></a>
+
+#### `reports/genericMocha.writeToFileSync`
+Synchronously write a test report to a file location
+
+**Kind**: static property of <code>[reports/genericMocha](#module_reports/genericMocha)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| reportPath | <code>String</code> | the file path including filename |
+| report | <code>Object</code> | the report object containing report header and results |
+
+
+-
+
+<a name="module_reports/genericMocha.prepare"></a>
+
+#### `reports/genericMocha.prepare()` ⇒ <code>Object</code>
+Prepare the report header
+
+**Kind**: static method of <code>[reports/genericMocha](#module_reports/genericMocha)</code>  
+**Returns**: <code>Object</code> - the report header  
+
+-
+
+<a name="module_reports/genericMocha.write"></a>
+
+#### `reports/genericMocha.write(suiteName, testName, errorMessages, rpt)`
+Write a new test
+
+**Kind**: static method of <code>[reports/genericMocha](#module_reports/genericMocha)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| suiteName | <code>String</code> | the test suite name |
+| testName | <code>String</code> | the test name |
+| errorMessages | <code>Array</code> | the error messages if the test failed |
+| rpt | <code>Object</code> | the report object to write or add the test result to |
+
+
+-
+
+<a name="module_reports/postBuildCucumber"></a>
+
+### reports/postBuildCucumber ⇒ <code>Object</code>
+Post build cucumber report
+
+**Returns**: <code>Object</code> - Post build cucumber report in JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| suiteName | <code>String</code> | the test suite name |
+| results | <code>Array</code> | post build results returned as an array of object test results. The test result object contains two properties `testName` and `errMessage` e.g. `{testName: "test description", errMessage: "error message"}` |
+| [reportPath] | <code>String</code> | the file path including filename |
+
+
+-
+
+<a name="module_reports/postBuildMocha"></a>
+
+### reports/postBuildMocha ⇒ <code>Object</code>
+Post build mocha report
+
+**Returns**: <code>Object</code> - Post build mocha report in JSON  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| suiteName | <code>String</code> | the test suite name |
+| results | <code>Array</code> | post build results returned as an array of object test results. The test result object contains two properties `testName` and `errMessage` e.g. `{testName: "test description", errMessage: "error message"}` |
+| [reportPath] | <code>String</code> | the file path including filename |
+
+
+-
 
 <a name="module_utils/autoUpdate"></a>
 
@@ -852,482 +1328,6 @@ Check all mocha test reports and return an array containing all failures.
 | Param | Type | Description |
 | --- | --- | --- |
 | reportDir | <code>String</code> | the directory containing the mocha test reports. |
-
-
--
-
-<a name="module_reports/autoUpdateMocha"></a>
-
-### reports/autoUpdateMocha ⇒ <code>Object</code>
-Auto update mocha report
-
-**Returns**: <code>Object</code> - Auto update mocha report functions  
-
-* [reports/autoUpdateMocha](#module_reports/autoUpdateMocha) ⇒ <code>Object</code>
-    * [`.prepare`](#module_reports/autoUpdateMocha.prepare) ⇒ <code>Object</code>
-    * [`.writeToFileSync`](#module_reports/autoUpdateMocha.writeToFileSync)
-    * [`.write(workflowHistory, rpt)`](#module_reports/autoUpdateMocha.write)
-
-
--
-
-<a name="module_reports/autoUpdateMocha.prepare"></a>
-
-#### `reports/autoUpdateMocha.prepare` ⇒ <code>Object</code>
-Prepare the report header
-
-**Kind**: static property of <code>[reports/autoUpdateMocha](#module_reports/autoUpdateMocha)</code>  
-**Returns**: <code>Object</code> - the report header  
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| [start] | <code>String</code> | <code>new global.Date()</code> | start time and date |
-| [end] | <code>String</code> | <code>new global.Date()</code> | end time and date (will be overwritten by write report function) |
-
-
--
-
-<a name="module_reports/autoUpdateMocha.writeToFileSync"></a>
-
-#### `reports/autoUpdateMocha.writeToFileSync`
-Synchronously write a test report to a file location
-
-**Kind**: static property of <code>[reports/autoUpdateMocha](#module_reports/autoUpdateMocha)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| reportPath | <code>String</code> | the file path including filename |
-| report | <code>Object</code> | the report object containing report header and results |
-
-
--
-
-<a name="module_reports/autoUpdateMocha.write"></a>
-
-#### `reports/autoUpdateMocha.write(workflowHistory, rpt)`
-Write a new test
-
-**Kind**: static method of <code>[reports/autoUpdateMocha](#module_reports/autoUpdateMocha)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| workflowHistory | <code>Object</code> | the workflow history returned from an auto update |
-| rpt | <code>Object</code> | the report object to write or add the test result to |
-
-
--
-
-<a name="module_reports/baseCucumber"></a>
-
-### reports/baseCucumber ⇒ <code>Object</code>
-Base methods for cucumber reports
-
-**Returns**: <code>Object</code> - Base cucumber report functions  
-
-* [reports/baseCucumber](#module_reports/baseCucumber) ⇒ <code>Object</code>
-    * [`.prepare(type, name, description)`](#module_reports/baseCucumber.prepare) ⇒ <code>Object</code>
-    * [`.write(suite, pass, message, rpt)`](#module_reports/baseCucumber.write)
-    * [`.writeToFileSync(reportPath, report)`](#module_reports/baseCucumber.writeToFileSync)
-
-
--
-
-<a name="module_reports/baseCucumber.prepare"></a>
-
-#### `reports/baseCucumber.prepare(type, name, description)` ⇒ <code>Object</code>
-Prepare the report header
-
-**Kind**: static method of <code>[reports/baseCucumber](#module_reports/baseCucumber)</code>  
-**Returns**: <code>Object</code> - the report header  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| type | <code>String</code> | the test report type (e.g. feature, bug) |
-| name | <code>String</code> | the test report name |
-| description | <code>String</code> | the test report description |
-
-
--
-
-<a name="module_reports/baseCucumber.write"></a>
-
-#### `reports/baseCucumber.write(suite, pass, message, rpt)`
-Write a new test
-
-**Kind**: static method of <code>[reports/baseCucumber](#module_reports/baseCucumber)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| suite | <code>String</code> | the test suite name |
-| pass | <code>Boolean</code> | has the test passed? |
-| message | <code>String</code> | the test description message |
-| rpt | <code>Object</code> | the report object to write or add the test result to |
-
-
--
-
-<a name="module_reports/baseCucumber.writeToFileSync"></a>
-
-#### `reports/baseCucumber.writeToFileSync(reportPath, report)`
-Synchronously write a test report to a file location
-
-**Kind**: static method of <code>[reports/baseCucumber](#module_reports/baseCucumber)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| reportPath | <code>String</code> | the file path including filename |
-| report | <code>Object</code> | the report object containing report header and results |
-
-
--
-
-<a name="module_reports/baseMocha"></a>
-
-### reports/baseMocha ⇒ <code>Object</code>
-Base methods for mocha reports
-
-**Returns**: <code>Object</code> - Base mocha report functions  
-
-* [reports/baseMocha](#module_reports/baseMocha) ⇒ <code>Object</code>
-    * [`.prepare([start], [end])`](#module_reports/baseMocha.prepare) ⇒ <code>Object</code>
-    * [`.write(suite, pass, message, rpt)`](#module_reports/baseMocha.write)
-    * [`.writeToFileSync(reportPath, report)`](#module_reports/baseMocha.writeToFileSync)
-
-
--
-
-<a name="module_reports/baseMocha.prepare"></a>
-
-#### `reports/baseMocha.prepare([start], [end])` ⇒ <code>Object</code>
-Prepare the report header
-
-**Kind**: static method of <code>[reports/baseMocha](#module_reports/baseMocha)</code>  
-**Returns**: <code>Object</code> - the report header  
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| [start] | <code>String</code> | <code>new global.Date()</code> | start time and date |
-| [end] | <code>String</code> | <code>new global.Date()</code> | end time and date (will be overwritten by write report function) |
-
-
--
-
-<a name="module_reports/baseMocha.write"></a>
-
-#### `reports/baseMocha.write(suite, pass, message, rpt)`
-Write a new test
-
-**Kind**: static method of <code>[reports/baseMocha](#module_reports/baseMocha)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| suite | <code>String</code> | the test suite name |
-| pass | <code>Boolean</code> | has the test passed? |
-| message | <code>String</code> | the test description message |
-| rpt | <code>Object</code> | the report object to write or add the test result to |
-
-
--
-
-<a name="module_reports/baseMocha.writeToFileSync"></a>
-
-#### `reports/baseMocha.writeToFileSync(reportPath, report)`
-Synchronously write a test report to a file location
-
-**Kind**: static method of <code>[reports/baseMocha](#module_reports/baseMocha)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| reportPath | <code>String</code> | the file path including filename |
-| report | <code>Object</code> | the report object containing report header and results |
-
-
--
-
-<a name="module_reports/davidCucumber"></a>
-
-### reports/davidCucumber ⇒ <code>Object</code>
-David cucumber report
-
-**Returns**: <code>Object</code> - David cucumber report functions  
-
-* [reports/davidCucumber](#module_reports/davidCucumber) ⇒ <code>Object</code>
-    * [`.prepare()`](#module_reports/davidCucumber.prepare) ⇒ <code>Object</code>
-    * [`.write(opts, pkgs, pkg, rpt)`](#module_reports/davidCucumber.write)
-
-
--
-
-<a name="module_reports/davidCucumber.prepare"></a>
-
-#### `reports/davidCucumber.prepare()` ⇒ <code>Object</code>
-Prepare the report header
-
-**Kind**: static method of <code>[reports/davidCucumber](#module_reports/davidCucumber)</code>  
-**Returns**: <code>Object</code> - the report header  
-
--
-
-<a name="module_reports/davidCucumber.write"></a>
-
-#### `reports/davidCucumber.write(opts, pkgs, pkg, rpt)`
-Write a new test
-
-**Kind**: static method of <code>[reports/davidCucumber](#module_reports/davidCucumber)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| opts | <code>Object</code> | the david options |
-| opts.suite | <code>String</code> | the test suite name |
-| pkgs | <code>Object</code> | the package dependency analysis returned by david |
-| pkg | <code>String</code> | the package to write test for |
-| rpt | <code>Object</code> | the report object to write or add the test result to |
-
-
--
-
-<a name="module_reports/davidMocha"></a>
-
-### reports/davidMocha ⇒ <code>Object</code>
-David mocha report
-
-**Returns**: <code>Object</code> - David mocha report functions  
-
-* [reports/davidMocha](#module_reports/davidMocha) ⇒ <code>Object</code>
-    * [`.prepare`](#module_reports/davidMocha.prepare) ⇒ <code>Object</code>
-    * [`.writeToFileSync`](#module_reports/davidMocha.writeToFileSync)
-    * [`.write(opts, pkgs, pkg, rpt)`](#module_reports/davidMocha.write)
-
-
--
-
-<a name="module_reports/davidMocha.prepare"></a>
-
-#### `reports/davidMocha.prepare` ⇒ <code>Object</code>
-Prepare the report header
-
-**Kind**: static property of <code>[reports/davidMocha](#module_reports/davidMocha)</code>  
-**Returns**: <code>Object</code> - the report header  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| start | <code>String</code> | start time and date |
-| end | <code>String</code> | end time and date (will be overwritten by write report function) |
-
-
--
-
-<a name="module_reports/davidMocha.writeToFileSync"></a>
-
-#### `reports/davidMocha.writeToFileSync`
-Synchronously write a test report to a file location
-
-**Kind**: static property of <code>[reports/davidMocha](#module_reports/davidMocha)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| reportPath | <code>String</code> | the file path including filename |
-| report | <code>Object</code> | the report object containing report header and results |
-
-
--
-
-<a name="module_reports/davidMocha.write"></a>
-
-#### `reports/davidMocha.write(opts, pkgs, pkg, rpt)`
-Write a new test
-
-**Kind**: static method of <code>[reports/davidMocha](#module_reports/davidMocha)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| opts | <code>Object</code> | the david options |
-| opts.suite | <code>String</code> | the test suite name |
-| pkgs | <code>Object</code> | the package dependency analysis returned by david |
-| pkg | <code>String</code> | the package to write test for |
-| rpt | <code>Object</code> | the report object to write or add the test result to |
-
-
--
-
-<a name="module_reports/eslintBunyan"></a>
-
-### reports/eslintBunyan ⇒ <code>String</code>
-Eslint bunyan report logger.
-
-**Returns**: <code>String</code> - empty string  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| results | <code>Array</code> | eslint results returned through gulp-eslint |
-
-
--
-
-<a name="module_reports/eslintCucumber"></a>
-
-### reports/eslintCucumber ⇒ <code>Object</code>
-Eslint cucumber report
-
-**Returns**: <code>Object</code> - Eslint cucumber report formatter  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| results | <code>Array</code> | eslint results returned through gulp-eslint |
-
-
--
-
-<a name="module_reports/eslintMocha"></a>
-
-### reports/eslintMocha ⇒ <code>Object</code>
-Eslint mocha report
-
-**Returns**: <code>Object</code> - Eslint mocha report formatter  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| results | <code>Array</code> | eslint results returned through gulp-eslint |
-
-
--
-
-<a name="module_reports/genericCucumber"></a>
-
-### reports/genericCucumber ⇒ <code>Object</code>
-Generic cucumber report
-
-**Returns**: <code>Object</code> - Generic cucumber report functions  
-
-* [reports/genericCucumber](#module_reports/genericCucumber) ⇒ <code>Object</code>
-    * [`.prepare`](#module_reports/genericCucumber.prepare) ⇒ <code>Object</code>
-    * [`.write(suiteName, testName, errorMessages, givenDesc, whenDesc, thenDesc, rpt)`](#module_reports/genericCucumber.write)
-
-
--
-
-<a name="module_reports/genericCucumber.prepare"></a>
-
-#### `reports/genericCucumber.prepare` ⇒ <code>Object</code>
-Prepare the report header
-
-**Kind**: static property of <code>[reports/genericCucumber](#module_reports/genericCucumber)</code>  
-**Returns**: <code>Object</code> - the report header  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| type | <code>String</code> | the test report type (e.g. feature, bug) |
-| name | <code>String</code> | the test report name |
-| description | <code>String</code> | the test report description |
-
-
--
-
-<a name="module_reports/genericCucumber.write"></a>
-
-#### `reports/genericCucumber.write(suiteName, testName, errorMessages, givenDesc, whenDesc, thenDesc, rpt)`
-Write a new test
-
-**Kind**: static method of <code>[reports/genericCucumber](#module_reports/genericCucumber)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| suiteName | <code>String</code> | the test suite name |
-| testName | <code>String</code> | the test name |
-| errorMessages | <code>Array</code> | the error messages if the test failed |
-| givenDesc | <code>String</code> | the given step part description |
-| whenDesc | <code>String</code> | the when step part description |
-| thenDesc | <code>String</code> | the then step part description |
-| rpt | <code>Object</code> | the report object to write or add the test result to |
-
-
--
-
-<a name="module_reports/genericMocha"></a>
-
-### reports/genericMocha ⇒ <code>Object</code>
-Generic mocha report
-
-**Returns**: <code>Object</code> - Generic mocha report functions  
-
-* [reports/genericMocha](#module_reports/genericMocha) ⇒ <code>Object</code>
-    * [`.writeToFileSync`](#module_reports/genericMocha.writeToFileSync)
-    * [`.prepare()`](#module_reports/genericMocha.prepare) ⇒ <code>Object</code>
-    * [`.write(suiteName, testName, errorMessages, rpt)`](#module_reports/genericMocha.write)
-
-
--
-
-<a name="module_reports/genericMocha.writeToFileSync"></a>
-
-#### `reports/genericMocha.writeToFileSync`
-Synchronously write a test report to a file location
-
-**Kind**: static property of <code>[reports/genericMocha](#module_reports/genericMocha)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| reportPath | <code>String</code> | the file path including filename |
-| report | <code>Object</code> | the report object containing report header and results |
-
-
--
-
-<a name="module_reports/genericMocha.prepare"></a>
-
-#### `reports/genericMocha.prepare()` ⇒ <code>Object</code>
-Prepare the report header
-
-**Kind**: static method of <code>[reports/genericMocha](#module_reports/genericMocha)</code>  
-**Returns**: <code>Object</code> - the report header  
-
--
-
-<a name="module_reports/genericMocha.write"></a>
-
-#### `reports/genericMocha.write(suiteName, testName, errorMessages, rpt)`
-Write a new test
-
-**Kind**: static method of <code>[reports/genericMocha](#module_reports/genericMocha)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| suiteName | <code>String</code> | the test suite name |
-| testName | <code>String</code> | the test name |
-| errorMessages | <code>Array</code> | the error messages if the test failed |
-| rpt | <code>Object</code> | the report object to write or add the test result to |
-
-
--
-
-<a name="module_reports/postBuildCucumber"></a>
-
-### reports/postBuildCucumber ⇒ <code>Object</code>
-Post build cucumber report
-
-**Returns**: <code>Object</code> - Post build cucumber report in JSON  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| suiteName | <code>String</code> | the test suite name |
-| results | <code>Array</code> | post build results returned as an array of object test results. The test result object contains two properties `testName` and `errMessage` e.g. `{testName: "test description", errMessage: "error message"}` |
-| [reportPath] | <code>String</code> | the file path including filename |
-
-
--
-
-<a name="module_reports/postBuildMocha"></a>
-
-### reports/postBuildMocha ⇒ <code>Object</code>
-Post build mocha report
-
-**Returns**: <code>Object</code> - Post build mocha report in JSON  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| suiteName | <code>String</code> | the test suite name |
-| results | <code>Array</code> | post build results returned as an array of object test results. The test result object contains two properties `testName` and `errMessage` e.g. `{testName: "test description", errMessage: "error message"}` |
-| [reportPath] | <code>String</code> | the file path including filename |
 
 
 -

@@ -12,7 +12,7 @@
     "private": true,
     "projectCode": "MDBLDGEN",
     "build": "23",
-    "buildTimestamp": "2017-03-22T04:55:40.500Z",
+    "buildTimestamp": "2017-12-10T12:36:20.472Z",
     "adminEmail": "mail@cellarise.com",
     "coverage": {
       "codeClimate": true,
@@ -37,30 +37,30 @@
       "stats": {
         "lines": {
           "pctSkipped": 0,
-          "pct": 27,
-          "colour": "orange"
+          "pct": 42,
+          "colour": "yellow"
         },
         "branches": {
           "pctSkipped": 0,
-          "pct": 14,
+          "pct": 22,
           "colour": "orange"
         },
         "statements": {
           "pctSkipped": 0,
-          "pct": 27,
-          "colour": "orange"
+          "pct": 42,
+          "colour": "yellow"
         },
         "functions": {
           "pctSkipped": 0,
-          "pct": 30,
-          "colour": "orange"
+          "pct": 58,
+          "colour": "yellow"
         },
         "skipped": {
           "pct": 0
         },
         "overall": {
-          "pct": 25,
-          "colour": "orange"
+          "pct": 41,
+          "colour": "yellow"
         }
       }
     }
@@ -78,11 +78,11 @@
   },
   "dependencies": {
     "baconjs": "^0.7.95",
-    "chalk": "^1.0.0",
+    "chalk": "^2.3.0",
     "chokidar": "^1.0.5",
     "minimist": "^1.1.1",
     "pretty-hrtime": "^1.0.0",
-    "ramda": "^0.23.0"
+    "ramda": "^0.25.0"
   },
   "optionalDependencies": {
     "azure-functions-core-tools": "^1.0.7",
@@ -158,7 +158,7 @@
     "mocha-bamboo-reporter-bgo": "git://github.com/Cellarise/mocha-bamboo-reporter-bgo.git#master",
     "yadda": "^0.22.1",
     "run-sequence": "^1.2.2",
-    "ramda": "^0.23.0",
+    "ramda": "^0.25.0",
     "mkdirp": "^0.5.1",
     "v8-profiler": "^5.6.0"
   },
