@@ -9,7 +9,7 @@
   </tr>
     
 <tr>
-        <td colspan=4><strong>Version: 0.5.0 - released 2017-12-10</strong></td>
+        <td colspan=4><strong>Version: 0.5.0 - released 2018-01-21</strong></td>
       </tr>
         
 <tr>

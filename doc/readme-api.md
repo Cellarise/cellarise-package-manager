@@ -1756,6 +1756,7 @@ A module to add a gulp task which executes all build tasks.
     * [`~all_product`](#module_tasks/allTasks..all_product) : <code>Gulp</code>
     * [`~all_product`](#module_tasks/allTasks..all_product) : <code>Gulp</code>
     * [`~all_product`](#module_tasks/allTasks..all_product) : <code>Gulp</code>
+    * [`~all_product`](#module_tasks/allTasks..all_product) : <code>Gulp</code>
 
 
 -
@@ -1798,6 +1799,23 @@ The sequence works by piping each task to the next.
 
 #### `tasks/allTasks~all_product` : <code>Gulp</code>
 A gulp build task to run all package tasks for a product.
+The following tasks are executed in sequence:
+['coverage_stats', 'license', 'docs', 'metadata', 'webpack', 'package']
+The sequence works by piping each task to the next.
+
+**Kind**: inner property of <code>[tasks/allTasks](#module_tasks/allTasks)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| cb | <code>function</code> | callback |
+
+
+-
+
+<a name="module_tasks/allTasks..all_product"></a>
+
+#### `tasks/allTasks~all_product` : <code>Gulp</code>
+A gulp build task to run all package tasks for a product api.
 The following tasks are executed in sequence:
 ['coverage_stats', 'license', 'docs', 'metadata', 'webpack', 'package']
 The sequence works by piping each task to the next.

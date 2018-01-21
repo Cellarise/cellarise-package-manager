@@ -12,7 +12,7 @@
     "private": true,
     "projectCode": "MDBLDGEN",
     "build": "23",
-    "buildTimestamp": "2017-12-10T12:36:20.472Z",
+    "buildTimestamp": "2018-01-21T11:38:34.025Z",
     "adminEmail": "mail@cellarise.com",
     "coverage": {
       "codeClimate": true,
@@ -37,7 +37,7 @@
       "stats": {
         "lines": {
           "pctSkipped": 0,
-          "pct": 42,
+          "pct": 40,
           "colour": "yellow"
         },
         "branches": {
@@ -47,20 +47,20 @@
         },
         "statements": {
           "pctSkipped": 0,
-          "pct": 42,
+          "pct": 40,
           "colour": "yellow"
         },
         "functions": {
           "pctSkipped": 0,
-          "pct": 58,
+          "pct": 55,
           "colour": "yellow"
         },
         "skipped": {
           "pct": 0
         },
         "overall": {
-          "pct": 41,
-          "colour": "yellow"
+          "pct": 39,
+          "colour": "orange"
         }
       }
     }
@@ -77,9 +77,9 @@
     "selenium": "./bin/selenium.bat"
   },
   "dependencies": {
-    "baconjs": "^0.7.95",
+    "baconjs": "^1.0.1",
     "chalk": "^2.3.0",
-    "chokidar": "^1.0.5",
+    "chokidar": "^2.0.0",
     "minimist": "^1.1.1",
     "pretty-hrtime": "^1.0.0",
     "ramda": "^0.25.0"
