@@ -62,10 +62,17 @@ module.exports = function packageTasks(gulp, context) {
       .on("end", function onEnd() {
         //move files which need to exist in a Build folder within the Build package
         //(required by source-map-closest-match)
-        gulp.src([
-          "pub-build/**/*.*"
-        ])
-          .pipe(gulp.dest("Build/build"));
+        if (directories.functions) {
+          gulp.src([
+            ".azurefunctions/swagger/swagger.json"
+          ])
+            .pipe(gulp.dest("Build/.azurefunctions/swagger"));
+        } else {
+          gulp.src([
+            "pub-build/**/*.*"
+          ])
+            .pipe(gulp.dest("Build/build"));
+        }
       });
   });
 
