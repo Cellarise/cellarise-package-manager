@@ -12,7 +12,7 @@
     "private": true,
     "projectCode": "MDBLDGEN",
     "build": "23",
-    "buildTimestamp": "2018-01-21T11:38:34.025Z",
+    "buildTimestamp": "2018-01-21T11:59:10.072Z",
     "adminEmail": "mail@cellarise.com",
     "coverage": {
       "codeClimate": true,
@@ -37,29 +37,29 @@
       "stats": {
         "lines": {
           "pctSkipped": 0,
-          "pct": 40,
-          "colour": "yellow"
+          "pct": 26,
+          "colour": "orange"
         },
         "branches": {
           "pctSkipped": 0,
-          "pct": 22,
+          "pct": 12,
           "colour": "orange"
         },
         "statements": {
           "pctSkipped": 0,
-          "pct": 40,
-          "colour": "yellow"
+          "pct": 26,
+          "colour": "orange"
         },
         "functions": {
           "pctSkipped": 0,
-          "pct": 55,
-          "colour": "yellow"
+          "pct": 28,
+          "colour": "orange"
         },
         "skipped": {
           "pct": 0
         },
         "overall": {
-          "pct": 39,
+          "pct": 23,
           "colour": "orange"
         }
       }
