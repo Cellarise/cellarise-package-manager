@@ -2983,7 +2983,7 @@ A gulp build task to run the webpack dev server
   </tr>
     
 <tr>
-        <td colspan=4><strong>Version: 0.5.0 - released 2018-01-21</strong></td>
+        <td colspan=4><strong>Version: 0.5.0 - released 2018-03-06</strong></td>
       </tr>
         
 <tr>

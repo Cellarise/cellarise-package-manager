@@ -18,6 +18,7 @@ module.exports = (function testSuite() {
       this.world.dir = testDir;
       this.world.after = function afterScenario(done1) {
         if (path.relative(process.cwd(), self.world.dir) !== ""){
+          //done1();
           require(path.join(__dirname, "./Task-utils"))().clearFolders([self.world.dir], done1);
         } else {
           done1();
