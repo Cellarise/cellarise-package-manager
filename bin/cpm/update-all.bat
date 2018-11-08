@@ -1,1 +1,1 @@
-call npm update --msvs_version=2015 %2
+call npm update --msvs_version=2017 %2

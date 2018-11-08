@@ -1,1 +1,1 @@
-call npm dedupe --msvs_version=2015 --production
+call npm dedupe --msvs_version=2017 --production
