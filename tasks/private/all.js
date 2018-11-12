@@ -63,6 +63,13 @@ module.exports = function allTasks(gulp) {
       "package",
       cb);
   });
+  gulp.task("package_product_local", function allProduct(cb) {
+    runSequence(
+      "coverage_stats",
+      "metadata",
+      "webpackPkg",
+      cb);
+  });
 
   /**
    * A gulp build task to run all package tasks for a product api.

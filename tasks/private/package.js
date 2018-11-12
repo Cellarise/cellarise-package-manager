@@ -94,6 +94,18 @@ module.exports = function packageTasks(gulp, context) {
       .pipe(gulp.dest("Build"))
       .pipe(gulp.dest(""));
   });
+  gulp.task("gitignoreDeployLocal", function metadataTask() {
+    var BUILDIGNOREPATH = ".buildignore";
+    var GITIGNOREPATH = ".gitignore";
+    var buildIgnore = fs.readFileSync(BUILDIGNOREPATH).toString();
+    var gitIgnore = fs.readFileSync(GITIGNOREPATH)
+      .toString()
+      .replace("/client/index.html\n", "")
+      .replace("/**/client/public/*.*\n", "");
+    fs.writeFileSync(GITIGNOREPATH, gitIgnore + buildIgnore);
+    return gulp.src([".gitignore"])
+      .pipe(gulp.dest(""));
+  });
 
   /**
    * A gulp build task to setup the gitignore file for normal use (removes the buildignore file contents).
