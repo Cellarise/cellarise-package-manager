@@ -80,6 +80,9 @@
 <dt><a href="#module_tasks/testTasks">tasks/testTasks</a></dt>
 <dd><p>A module to add gulp tasks which run test steps.</p>
 </dd>
+<dt><a href="#module_utils/coverageStats">utils/coverageStats</a> ⇒ <code>Object</code></dt>
+<dd><p>Coverage statistic utilities</p>
+</dd>
 <dt><a href="#module_tasks/allTasks">tasks/allTasks</a></dt>
 <dd><p>A module to add a gulp task which executes all build tasks.</p>
 </dd>
@@ -137,9 +140,6 @@ scaffolding.</p>
 </dd>
 <dt><a href="#module_tasks/webpackTasks">tasks/webpackTasks</a></dt>
 <dd><p>A module to add gulp tasks for the webpack module bundler.</p>
-</dd>
-<dt><a href="#module_utils/coverageStats">utils/coverageStats</a> ⇒ <code>Object</code></dt>
-<dd><p>Coverage statistic utilities</p>
 </dd>
 </dl>
 
@@ -1655,6 +1655,88 @@ Test steps results will be output using spec reporter.
 
 -
 
+<a name="module_utils/coverageStats"></a>
+
+### utils/coverageStats ⇒ <code>Object</code>
+Coverage statistic utilities
+
+**Returns**: <code>Object</code> - coverage statistics utility functions  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| logger | <code>bunyan</code> | A logger matching the bunyan API |
+
+
+* [utils/coverageStats](#module_utils/coverageStats) ⇒ <code>Object</code>
+    * [`.addStats(collection, pkg)`](#module_utils/coverageStats.addStats)
+    * [`.deleteStats(collection)`](#module_utils/coverageStats.deleteStats)
+    * [`.badgeColour(collection, stat, watermarks)`](#module_utils/coverageStats.badgeColour)
+    * [`.calculateCoverageStats(coverageReport, packageJSON)`](#module_utils/coverageStats.calculateCoverageStats) ⇒ <code>Object</code>
+
+
+-
+
+<a name="module_utils/coverageStats.addStats"></a>
+
+#### `utils/coverageStats.addStats(collection, pkg)`
+Helper function to append statistic properties from the provided collection to the provided package.json
+
+**Kind**: static method of <code>[utils/coverageStats](#module_utils/coverageStats)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| collection | <code>Object</code> | a collection of statistic properties |
+| pkg | <code>Object</code> | package.json object |
+
+
+-
+
+<a name="module_utils/coverageStats.deleteStats"></a>
+
+#### `utils/coverageStats.deleteStats(collection)`
+Helper function to delete total, covered and skipped statistic properties from a collection
+
+**Kind**: static method of <code>[utils/coverageStats](#module_utils/coverageStats)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| collection | <code>Object</code> | a collection of statistic properties |
+
+
+-
+
+<a name="module_utils/coverageStats.badgeColour"></a>
+
+#### `utils/coverageStats.badgeColour(collection, stat, watermarks)`
+Helper function to determine badge colour
+
+**Kind**: static method of <code>[utils/coverageStats](#module_utils/coverageStats)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| collection | <code>Object</code> | a collection of statistic properties |
+| stat | <code>Object</code> | a statistic from the collection to calculate the badge for |
+| watermarks | <code>Object</code> | the high and low watermarks for each statistic in collection |
+
+
+-
+
+<a name="module_utils/coverageStats.calculateCoverageStats"></a>
+
+#### `utils/coverageStats.calculateCoverageStats(coverageReport, packageJSON)` ⇒ <code>Object</code>
+Calculate coverage stats from an istanbul coverage.json reportand append to provided package.json config.coverage.stats property.The coverage stats include an overall coverage percentage and badge colour.
+
+**Kind**: static method of <code>[utils/coverageStats](#module_utils/coverageStats)</code>  
+**Returns**: <code>Object</code> - updated package.json object  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| coverageReport | <code>Object</code> | the istanbul generated coverage.json report object |
+| packageJSON | <code>Object</code> | the package.json object |
+
+
+-
+
 <a name="module_tasks/allTasks"></a>
 
 ### tasks/allTasks
@@ -2552,6 +2634,7 @@ A module to add gulp tasks for the webpack module bundler.
     * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
     * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
     * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
+    * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
     * [`~webpackDevServer`](#module_tasks/webpackTasks..webpackDevServer) ⇒ <code>through2</code>
     * [`~webpackRunner(configPath, webpackOptions)`](#module_tasks/webpackTasks..webpackRunner) ⇒ <code>through2</code>
 
@@ -2658,6 +2741,14 @@ The dust templates will be provided one of the following package.json as context
 
 -
 
+<a name="module_tasks/webpackTasks..webpack"></a>
+
+#### `tasks/webpackTasks~webpack` ⇒ <code>through2</code>
+**Kind**: inner property of <code>[tasks/webpackTasks](#module_tasks/webpackTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
 <a name="module_tasks/webpackTasks..webpackDevServer"></a>
 
 #### `tasks/webpackTasks~webpackDevServer` ⇒ <code>through2</code>
@@ -2678,88 +2769,6 @@ A gulp build task to run the webpack dev server
 | --- | --- | --- |
 | configPath | <code>String</code> | path to webpack config |
 | webpackOptions | <code>Object</code> | other options to merge with Webpack config to pass to Gulp Webpack |
-
-
--
-
-<a name="module_utils/coverageStats"></a>
-
-### utils/coverageStats ⇒ <code>Object</code>
-Coverage statistic utilities
-
-**Returns**: <code>Object</code> - coverage statistics utility functions  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| logger | <code>bunyan</code> | A logger matching the bunyan API |
-
-
-* [utils/coverageStats](#module_utils/coverageStats) ⇒ <code>Object</code>
-    * [`.addStats(collection, pkg)`](#module_utils/coverageStats.addStats)
-    * [`.deleteStats(collection)`](#module_utils/coverageStats.deleteStats)
-    * [`.badgeColour(collection, stat, watermarks)`](#module_utils/coverageStats.badgeColour)
-    * [`.calculateCoverageStats(coverageReport, packageJSON)`](#module_utils/coverageStats.calculateCoverageStats) ⇒ <code>Object</code>
-
-
--
-
-<a name="module_utils/coverageStats.addStats"></a>
-
-#### `utils/coverageStats.addStats(collection, pkg)`
-Helper function to append statistic properties from the provided collection to the provided package.json
-
-**Kind**: static method of <code>[utils/coverageStats](#module_utils/coverageStats)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| collection | <code>Object</code> | a collection of statistic properties |
-| pkg | <code>Object</code> | package.json object |
-
-
--
-
-<a name="module_utils/coverageStats.deleteStats"></a>
-
-#### `utils/coverageStats.deleteStats(collection)`
-Helper function to delete total, covered and skipped statistic properties from a collection
-
-**Kind**: static method of <code>[utils/coverageStats](#module_utils/coverageStats)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| collection | <code>Object</code> | a collection of statistic properties |
-
-
--
-
-<a name="module_utils/coverageStats.badgeColour"></a>
-
-#### `utils/coverageStats.badgeColour(collection, stat, watermarks)`
-Helper function to determine badge colour
-
-**Kind**: static method of <code>[utils/coverageStats](#module_utils/coverageStats)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| collection | <code>Object</code> | a collection of statistic properties |
-| stat | <code>Object</code> | a statistic from the collection to calculate the badge for |
-| watermarks | <code>Object</code> | the high and low watermarks for each statistic in collection |
-
-
--
-
-<a name="module_utils/coverageStats.calculateCoverageStats"></a>
-
-#### `utils/coverageStats.calculateCoverageStats(coverageReport, packageJSON)` ⇒ <code>Object</code>
-Calculate coverage stats from an istanbul coverage.json reportand append to provided package.json config.coverage.stats property.The coverage stats include an overall coverage percentage and badge colour.
-
-**Kind**: static method of <code>[utils/coverageStats](#module_utils/coverageStats)</code>  
-**Returns**: <code>Object</code> - updated package.json object  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| coverageReport | <code>Object</code> | the istanbul generated coverage.json report object |
-| packageJSON | <code>Object</code> | the package.json object |
 
 
 -

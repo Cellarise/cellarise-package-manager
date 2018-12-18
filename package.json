@@ -12,7 +12,7 @@
     "private": true,
     "projectCode": "MDBLDGEN",
     "build": "23",
-    "buildTimestamp": "2018-03-06T01:47:05.685Z",
+    "buildTimestamp": "2018-12-18T02:41:37.310Z",
     "adminEmail": "mail@cellarise.com",
     "coverage": {
       "codeClimate": true,
@@ -37,30 +37,30 @@
       "stats": {
         "lines": {
           "pctSkipped": 0,
-          "pct": 42,
-          "colour": "yellow"
+          "pct": 35,
+          "colour": "orange"
         },
         "branches": {
           "pctSkipped": 0,
-          "pct": 22,
+          "pct": 20,
           "colour": "orange"
         },
         "statements": {
           "pctSkipped": 0,
-          "pct": 42,
-          "colour": "yellow"
+          "pct": 35,
+          "colour": "orange"
         },
         "functions": {
           "pctSkipped": 0,
-          "pct": 58,
+          "pct": 45,
           "colour": "yellow"
         },
         "skipped": {
           "pct": 0
         },
         "overall": {
-          "pct": 41,
-          "colour": "yellow"
+          "pct": 34,
+          "colour": "orange"
         }
       }
     }
@@ -82,7 +82,7 @@
     "chokidar": "^2.0.0",
     "minimist": "^1.1.1",
     "pretty-hrtime": "^1.0.0",
-    "ramda": "^0.25.0"
+    "ramda": "^0.26.1"
   },
   "optionalDependencies": {
     "apply-loader": "^0.1.0",
@@ -146,7 +146,7 @@
     "npm-license": "^0.3.1",
     "oauth-rest-atlassian": "^0.4.25",
     "pdfreader": "^0.2.5",
-    "ramda": "^0.25.0",
+    "ramda": "^0.26.1",
     "react-hot-loader": "^1.3.1",
     "react-native-cli": "^2.0.1",
     "request": "^2.55.0",
