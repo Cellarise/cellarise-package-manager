@@ -52,7 +52,22 @@ module.exports = function webpackTasks(gulp, context) {
     //read Build/package.json is exists (i.e. created by metadata) or read /package.json
     var pkg = context.package;
     var cwd = context.cwd;
-    var directories = pkg.directories;
+    var directories = R.defaultTo({
+      "lib": "lib",
+      "bin": "bin",
+      "doc": "doc",
+      "tasks": "tasks",
+      "templates": "templates",
+      "test": "Test",
+      "testLibrary": "Test\\libraries",
+      "reports": "Reports",
+      "build": "Build",
+      "config": "client\\source\\config",
+      "client": "client",
+      "server": "server",
+      "common": "common",
+      "packages": "jspm_packages"
+    }, pkg.directories);
     var templatePkg;
     var buildPackagePath = path.join(cwd, directories.build + "/package.json");
     var localPackagePath = path.join(cwd, "package.json");
