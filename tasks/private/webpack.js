@@ -48,7 +48,7 @@ module.exports = function webpackTasks(gulp, context) {
        })*/))
       .pipe(gulp.dest(dest));
   };
-  var webpackCompileIndexTaskGeneric = function webpackCompileIndexTaskGeneric() {
+  var webpackCompileIndexTaskGeneric = function webpackCompileIndexTaskGeneric(testMode) {
     //read Build/package.json is exists (i.e. created by metadata) or read /package.json
     var pkg = context.package;
     var cwd = context.cwd;
@@ -71,7 +71,7 @@ module.exports = function webpackTasks(gulp, context) {
     templatePkg.originalVersion = version.replace(/\./g, '-');
     templatePkg.friendlyVersion = templatePkg.originalVersion + "_" + buildNumber;
     return gulp.src(directories.client + "/index.dust")
-      .pipe(new GulpDustCompileRender(templatePkg, {"helper": "dustjs-helpers"}))
+      .pipe(new GulpDustCompileRender(R.assoc("testMode", testMode + "", templatePkg), {"helper": "dustjs-helpers"}))
       .pipe(rename(function renameExtension(renamePath) {
         renamePath.extname = ".html";
       }))
@@ -204,7 +204,8 @@ module.exports = function webpackTasks(gulp, context) {
    * @member {Gulp} webpackCompileTemplatesTestMode
    * @return {through2} stream
    */
-  gulp.task("webpackCompileTemplatesTestMode", ["webpackCompileIndex", "webpackCompileConfig", "webpackCompileRoutes"],
+  gulp.task("webpackCompileTemplatesTestMode",
+    ["webpackCompileIndexTestMode", "webpackCompileConfig", "webpackCompileRoutes"],
     function webpackCompileTemplatesTestModeTask() {
     return webpackCompileTemplatesTaskGeneric(true);
   });
@@ -214,6 +215,13 @@ module.exports = function webpackTasks(gulp, context) {
    */
   gulp.task("webpackCompileIndex", function webpackCompileIndexTask() {
     return webpackCompileIndexTaskGeneric();
+  });
+  /**
+   * @member {Gulp} webpack
+   * @return {through2} stream
+   */
+  gulp.task("webpackCompileIndexTestMode", function webpackCompileIndexTask() {
+    return webpackCompileIndexTaskGeneric(true);
   });
   /**
    * @member {Gulp} webpack
