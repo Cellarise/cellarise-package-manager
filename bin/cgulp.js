@@ -2,21 +2,21 @@
 // /*eslint no-process-exit:0*/
 "use strict";
 
-var argv = require("minimist")(process.argv.slice(2));
-var gulp = require("gulp");
-var path = require("path");
-var prettyTime = require("pretty-hrtime");
-var fs = require("fs");
+const argv = require("minimist")(process.argv.slice(2));
+const gulp = require("gulp");
+const path = require("path");
+const prettyTime = require("pretty-hrtime");
+const fs = require("fs");
 
 /**
  * Setup logger
  */
-var bunyanFormat = require("bunyan-format");
-var formatOut = bunyanFormat({"outputMode": "short"});
-var logger = require("bunyan").createLogger({"name": "CGULP", "stream": formatOut});
-var chalk = require("chalk");
+const bunyanFormat = require("bunyan-format");
+const formatOut = bunyanFormat({"outputMode": "short"});
+const logger = require("bunyan").createLogger({"name": "CGULP", "stream": formatOut});
+const chalk = require("chalk");
 
-var cwd = process.cwd();
+const cwd = process.cwd();
 var packageJSON;
 var context;
 var failed;
@@ -27,62 +27,57 @@ var task;
  * @param {Error} e - orchestrator error
  * @returns {String} formatted error message
  */
-var formatError = function formatError(e) {
-    if (!e.err) {
-        return e.message;
-    }
+const formatError = function formatError(e) {
+  if (!e.error) {
+    return e.message;
+  }
 
-    // PluginError
-    if (typeof e.err.showStack === "boolean") {
-        return e.err.toString();
-    }
+  // PluginError
+  if (typeof e.error.showStack === "boolean") {
+    return e.error.toString();
+  }
 
-    // normal error
-    if (e.err.stack) {
-        return e.err.stack;
-    }
+  // normal error
+  if (e.error.stack) {
+    return e.error.stack;
+  }
 
-    // unknown (string, number, etc.)
-    return new Error(String(e.err)).stack;
+  // unknown (string, number, etc.)
+  return new Error(String(e.error)).stack;
 };
 
 /**
  * Wire up logging events
  * @param {Gulp} gulpInst - gulp
  */
-var logEvents = function logEvents(gulpInst) {
+const logEvents = function logEvents(gulpInst) {
 
-    // total hack due to poor error management in orchestrator
-    gulpInst.on("err", function err() {
-        failed = true;
-    });
+  gulpInst.on("start", function onTaskStart(e) {
+    logger.info("Starting", "'" + chalk.cyan(e.name) + "'...");
+  });
 
-    gulpInst.on("task_start", function onTaskStart(e) {
-        logger.info("Starting", "'" + chalk.cyan(e.task) + "'...");
-    });
+  gulpInst.on("stop", function onTaskStop(e) {
+    const time = prettyTime(e.duration);
+    logger.info(
+      "Finished", "'" + chalk.cyan(e.name) + "'",
+      "after", chalk.magenta(time));
+  });
 
-    gulpInst.on("task_stop", function onTaskStop(e) {
-        var time = prettyTime(e.hrDuration);
-        logger.info(
-            "Finished", "'" + chalk.cyan(e.task) + "'",
-            "after", chalk.magenta(time));
-    });
+  gulpInst.on("error", function onTastErr(e) {
+    const msg = formatError(e);
+    const time = prettyTime(e.duration);
+    logger.error(
+      "'" + chalk.cyan(e.name) + "'",
+      chalk.red("errored after"),
+      chalk.magenta(time));
+    logger.error(msg);
+  });
 
-    gulpInst.on("task_err", function onTastErr(e) {
-        var msg = formatError(e);
-        var time = prettyTime(e.hrDuration);
-        logger.error(
-                "'" + chalk.cyan(e.task) + "'",
-            chalk.red("errored after"),
-            chalk.magenta(time));
-        logger.error(msg);
-    });
-
-    gulpInst.on("task_not_found", function onTaskNotFound(err) {
-        logger.error("Task '" + err.task + "' is not in your gulpfile. " +
-            "Please check the documentation for proper gulpfile formatting.");
-        process.exit(1);
-    });
+  gulpInst.on("task_not_found", function onTaskNotFound(err) {
+    logger.error("Task '" + err.name + "' is not in your gulpfile. " +
+      "Please check the documentation for proper gulpfile formatting.");
+    process.exit(1);
+  });
 };
 
 /**
@@ -100,12 +95,12 @@ logger.info("Set NODE_PATH to: ", chalk.magenta(process.env.NODE_PATH));
 /**
  * Check if package.json exists in target
  */
-if (!fs.existsSync(cwd + "/package.json")){
-    logger.warn("Package.json file does not exist in the current working directory. " +
+if (!fs.existsSync(cwd + "/package.json")) {
+  logger.warn("Package.json file does not exist in the current working directory. " +
     "Please check the directory.");
-    packageJSON = {};
+  packageJSON = {};
 } else {
-    packageJSON = require(cwd + "/package.json");
+  packageJSON = require(cwd + "/package.json");
 }
 
 /**
@@ -117,10 +112,10 @@ if (!fs.existsSync(cwd + "/package.json")){
  * @property {bunyan} logger - A logger matching the bunyan API
  */
 context = {
-    "cwd": cwd,
-    "package": packageJSON,
-    "argv": argv._,
-    "logger": logger
+  "cwd": cwd,
+  "package": packageJSON,
+  "argv": argv._,
+  "logger": logger
 };
 
 /**
@@ -136,24 +131,31 @@ logger.info("Loaded tasks from: ", chalk.magenta(path.join(__dirname, "..")));
  */
 failed = false;
 process.once("exit", function exit(code) {
-    if (code === 0 && failed) {
-        process.exit(1);
-    }
+  if (code === 0 && failed) {
+    process.exit(1);
+  }
 });
 
 /**
  * Identify task
  */
-if (argv._.length > 0){
-    task = argv._[0];
+if (argv._.length > 0) {
+  task = argv._[0];
 } else if (process.env.hasOwnProperty("bamboo_gulp_task")) {
-    task = process.env.bamboo_gulp_task;
+  task = process.env.bamboo_gulp_task;
 } else {
-    task = "default";
+  task = "default";
 }
 
 /**
  * Setup event logger and start task
  */
 logEvents(gulp);
-gulp.start(task); //run default gulp
+//     tree = gulp.tree();
+//     return logEvents(tree.nodes);
+gulp.series(task)(function (err) {
+  if (err) {
+    process.exit(1);
+  }
+}); //run default gulp
+

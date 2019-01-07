@@ -68,6 +68,9 @@
 <dt><a href="#module_tasks/updateDependenciesTasks">tasks/updateDependenciesTasks</a></dt>
 <dd><p>A module to add gulp tasks which automatically update package dependencies.</p>
 </dd>
+<dt><a href="#module_tasks/testTasks">tasks/testTasks</a></dt>
+<dd><p>A module to add gulp tasks which run test steps.</p>
+</dd>
 <dt><a href="#module_tasks/codeAnalysisTasks">tasks/codeAnalysisTasks</a></dt>
 <dd><p>A module to add gulp tasks which execute static code analysis.</p>
 </dd>
@@ -77,29 +80,14 @@
 <dt><a href="#module_tasks/defaultTasks">tasks/defaultTasks</a></dt>
 <dd><p>A module to add a gulp task which executes the default task.</p>
 </dd>
-<dt><a href="#module_tasks/testTasks">tasks/testTasks</a></dt>
-<dd><p>A module to add gulp tasks which run test steps.</p>
-</dd>
 <dt><a href="#module_utils/coverageStats">utils/coverageStats</a> ⇒ <code>Object</code></dt>
 <dd><p>Coverage statistic utilities</p>
 </dd>
 <dt><a href="#module_tasks/allTasks">tasks/allTasks</a></dt>
 <dd><p>A module to add a gulp task which executes all build tasks.</p>
 </dd>
-<dt><a href="#module_tasks/codeAnalysisTasks">tasks/codeAnalysisTasks</a></dt>
-<dd><p>A module to add gulp tasks which execute static code analysis.</p>
-</dd>
-<dt><a href="#module_tasks/coverageStatsTasks">tasks/coverageStatsTasks</a></dt>
-<dd><p>A module to add a gulp task which calculates coverage stats from the Istanbul reporter json-summary.</p>
-</dd>
 <dt><a href="#module_tasks/davidTasks">tasks/davidTasks</a></dt>
 <dd><p>A module to add gulp tasks which check/report/update package dependencies.</p>
-</dd>
-<dt><a href="#module_tasks/defaultTasks">tasks/defaultTasks</a></dt>
-<dd><p>A module to add a default gulp task which executes default build tasks.</p>
-</dd>
-<dt><a href="#module_tasks/docsTasks">tasks/docsTasks</a></dt>
-<dd><p>A module to add gulp tasks which prepare readme documentation.</p>
 </dd>
 <dt><a href="#module_tasks/docsChangelogTasks">tasks/docsChangelogTasks</a></dt>
 <dd><p>A module to add gulp tasks which prepare changelog readme documentation.</p>
@@ -110,8 +98,27 @@
 <dt><a href="#module_tasks/docsLicenseTasks">tasks/docsLicenseTasks</a></dt>
 <dd><p>A module to add gulp tasks which prepare license readme documentation.</p>
 </dd>
+<dt><a href="#module_tasks/docsTasks">tasks/docsTasks</a></dt>
+<dd><p>A module to add gulp tasks which prepare readme documentation.</p>
+</dd>
 <dt><a href="#module_tasks/metadataTasks">tasks/metadataTasks</a></dt>
 <dd><p>A module to add gulp tasks which prepare the package.json file for build packaging and deployment.</p>
+</dd>
+<dt><a href="#module_tasks/scaffoldTasks">tasks/scaffoldTasks</a></dt>
+<dd><p>A module to add gulp tasks which currently update development dependencies but in future could provide further
+scaffolding.</p>
+</dd>
+<dt><a href="#module_tasks/stepSyncTasks">tasks/stepSyncTasks</a></dt>
+<dd><p>A module to add gulp tasks which synchronise test steps from feature files with JIRA.</p>
+</dd>
+<dt><a href="#module_tasks/codeAnalysisTasks">tasks/codeAnalysisTasks</a></dt>
+<dd><p>A module to add gulp tasks which execute static code analysis.</p>
+</dd>
+<dt><a href="#module_tasks/coverageStatsTasks">tasks/coverageStatsTasks</a></dt>
+<dd><p>A module to add a gulp task which calculates coverage stats from the Istanbul reporter json-summary.</p>
+</dd>
+<dt><a href="#module_tasks/defaultTasks">tasks/defaultTasks</a></dt>
+<dd><p>A module to add a default gulp task which executes default build tasks.</p>
 </dd>
 <dt><a href="#module_tasks/nullTasks">tasks/nullTasks</a></dt>
 <dd><p>A module to add a gulp task which does nothing.</p>
@@ -125,18 +132,14 @@
 <dt><a href="#module_tasks/publishTasks">tasks/publishTasks</a></dt>
 <dd><p>A module to add a gulp task which executes publish tasks.</p>
 </dd>
-<dt><a href="#module_tasks/scaffoldTasks">tasks/scaffoldTasks</a></dt>
-<dd><p>A module to add gulp tasks which currently update development dependencies but in future could provide further
-scaffolding.</p>
-</dd>
 <dt><a href="#module_tasks/serversTasks">tasks/serversTasks</a></dt>
 <dd><p>A module to add gulp tasks which run test steps.</p>
 </dd>
-<dt><a href="#module_tasks/stepSyncTasks">tasks/stepSyncTasks</a></dt>
-<dd><p>A module to add gulp tasks which synchronise test steps from feature files with JIRA.</p>
-</dd>
 <dt><a href="#module_tasks/stepsTasks">tasks/stepsTasks</a></dt>
 <dd><p>A module to add a gulp tasks which creates missing test steps in new or existing step libraries.</p>
+</dd>
+<dt><a href="#module_tasks/webpackTasks">tasks/webpackTasks</a></dt>
+<dd><p>A module to add gulp tasks for the webpack module bundler.</p>
 </dd>
 <dt><a href="#module_tasks/webpackTasks">tasks/webpackTasks</a></dt>
 <dd><p>A module to add gulp tasks for the webpack module bundler.</p>
@@ -1404,7 +1407,9 @@ A module to add gulp tasks which automatically update package dependencies.
 <a name="module_tasks/updateDependenciesTasks..update_dependencies"></a>
 
 #### `tasks/updateDependenciesTasks~update_dependencies` : <code>Gulp</code>
-A gulp task to automatically update package dependencies.The following tasks are executed in sequence: ["scaffold", "david-update", "david-cpm-update"]The sequence works by piping each task to the next.
+A gulp task to automatically update package dependencies.
+The following tasks are executed in sequence: ["scaffold", "david-update", "david-cpm-update"]
+The sequence works by piping each task to the next.
 
 **Kind**: inner property of <code>[tasks/updateDependenciesTasks](#module_tasks/updateDependenciesTasks)</code>  
 
@@ -1412,6 +1417,103 @@ A gulp task to automatically update package dependencies.The following tasks ar
 | --- | --- | --- |
 | cb | <code>function</code> | callback |
 
+
+-
+
+<a name="module_tasks/testTasks"></a>
+
+### tasks/testTasks
+A module to add gulp tasks which run test steps.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| gulp | <code>Gulp</code> | The gulp module |
+| context | <code>Object</code> | An object containing the following properties: |
+| context.cwd | <code>String</code> | The current working directory |
+| context.package | <code>Object</code> | The package.json for the module |
+| context.argv | <code>Array</code> | The arguments past to the gulp task |
+| context.logger | <code>bunyan</code> | A logger matching the bunyan API |
+
+
+* [tasks/testTasks](#module_tasks/testTasks)
+    * [`~instrument`](#module_tasks/testTasks..instrument) ⇒ <code>through2</code>
+    * [`~test_cover`](#module_tasks/testTasks..test_cover) ⇒ <code>through2</code>
+    * [`~test_cover`](#module_tasks/testTasks..test_cover) ⇒ <code>through2</code>
+    * [`~test_cover`](#module_tasks/testTasks..test_cover) ⇒ <code>through2</code>
+    * [`~write_coverage`](#module_tasks/testTasks..write_coverage) ⇒ <code>through2</code>
+    * [`~test`](#module_tasks/testTasks..test) ⇒ <code>through2</code>
+
+
+-
+
+<a name="module_tasks/testTasks..instrument"></a>
+
+#### `tasks/testTasks~instrument` ⇒ <code>through2</code>
+A gulp build task to instrument files.
+Istanbul will override the node require() function to redirect to the instrumented files.
+
+**Kind**: inner property of <code>[tasks/testTasks](#module_tasks/testTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/testTasks..test_cover"></a>
+
+#### `tasks/testTasks~test_cover` ⇒ <code>through2</code>
+A gulp build task to run test steps and calculate test coverage.
+Test steps results will be output using mocha-bamboo-reporter-bgo reporter.
+This task executes the Instrument task as a prerequisite.
+
+**Kind**: inner property of <code>[tasks/testTasks](#module_tasks/testTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/testTasks..test_cover"></a>
+
+#### `tasks/testTasks~test_cover` ⇒ <code>through2</code>
+A gulp build task to run test steps and calculate test coverage (but not output test coverage to prevent
+gulp-istanbul issues with webdriverIO).
+Test steps results will be output using mocha-bamboo-reporter-bgo reporter.
+This task executes the Instrument task as a prerequisite.
+
+**Kind**: inner property of <code>[tasks/testTasks](#module_tasks/testTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/testTasks..test_cover"></a>
+
+#### `tasks/testTasks~test_cover` ⇒ <code>through2</code>
+A gulp build task to run test steps and calculate test coverage (but not output test coverage to prevent
+gulp-istanbul issues with webdriverIO).
+Test steps results will be output using mocha-bamboo-reporter-bgo reporter.
+This task executes the Instrument task as a prerequisite.
+
+**Kind**: inner property of <code>[tasks/testTasks](#module_tasks/testTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/testTasks..write_coverage"></a>
+
+#### `tasks/testTasks~write_coverage` ⇒ <code>through2</code>
+A gulp build task to write coverage.
+
+**Kind**: inner property of <code>[tasks/testTasks](#module_tasks/testTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/testTasks..test"></a>
+
+#### `tasks/testTasks~test` ⇒ <code>through2</code>
+A gulp build task to run test steps and calculate test coverage.
+Test steps results will be output using spec reporter.
+
+**Kind**: inner property of <code>[tasks/testTasks](#module_tasks/testTasks)</code>  
+**Returns**: <code>through2</code> - stream  
 
 -
 
@@ -1555,103 +1657,6 @@ The sequence works by piping each task to the next.
 | --- | --- | --- |
 | cb | <code>function</code> | callback |
 
-
--
-
-<a name="module_tasks/testTasks"></a>
-
-### tasks/testTasks
-A module to add gulp tasks which run test steps.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| gulp | <code>Gulp</code> | The gulp module |
-| context | <code>Object</code> | An object containing the following properties: |
-| context.cwd | <code>String</code> | The current working directory |
-| context.package | <code>Object</code> | The package.json for the module |
-| context.argv | <code>Array</code> | The arguments past to the gulp task |
-| context.logger | <code>bunyan</code> | A logger matching the bunyan API |
-
-
-* [tasks/testTasks](#module_tasks/testTasks)
-    * [`~instrument`](#module_tasks/testTasks..instrument) ⇒ <code>through2</code>
-    * [`~test_cover`](#module_tasks/testTasks..test_cover) ⇒ <code>through2</code>
-    * [`~test_cover`](#module_tasks/testTasks..test_cover) ⇒ <code>through2</code>
-    * [`~test_cover`](#module_tasks/testTasks..test_cover) ⇒ <code>through2</code>
-    * [`~write_coverage`](#module_tasks/testTasks..write_coverage) ⇒ <code>through2</code>
-    * [`~test`](#module_tasks/testTasks..test) ⇒ <code>through2</code>
-
-
--
-
-<a name="module_tasks/testTasks..instrument"></a>
-
-#### `tasks/testTasks~instrument` ⇒ <code>through2</code>
-A gulp build task to instrument files.
-Istanbul will override the node require() function to redirect to the instrumented files.
-
-**Kind**: inner property of <code>[tasks/testTasks](#module_tasks/testTasks)</code>  
-**Returns**: <code>through2</code> - stream  
-
--
-
-<a name="module_tasks/testTasks..test_cover"></a>
-
-#### `tasks/testTasks~test_cover` ⇒ <code>through2</code>
-A gulp build task to run test steps and calculate test coverage.
-Test steps results will be output using mocha-bamboo-reporter-bgo reporter.
-This task executes the Instrument task as a prerequisite.
-
-**Kind**: inner property of <code>[tasks/testTasks](#module_tasks/testTasks)</code>  
-**Returns**: <code>through2</code> - stream  
-
--
-
-<a name="module_tasks/testTasks..test_cover"></a>
-
-#### `tasks/testTasks~test_cover` ⇒ <code>through2</code>
-A gulp build task to run test steps and calculate test coverage (but not output test coverage to prevent
-gulp-istanbul issues with webdriverIO).
-Test steps results will be output using mocha-bamboo-reporter-bgo reporter.
-This task executes the Instrument task as a prerequisite.
-
-**Kind**: inner property of <code>[tasks/testTasks](#module_tasks/testTasks)</code>  
-**Returns**: <code>through2</code> - stream  
-
--
-
-<a name="module_tasks/testTasks..test_cover"></a>
-
-#### `tasks/testTasks~test_cover` ⇒ <code>through2</code>
-A gulp build task to run test steps and calculate test coverage (but not output test coverage to prevent
-gulp-istanbul issues with webdriverIO).
-Test steps results will be output using mocha-bamboo-reporter-bgo reporter.
-This task executes the Instrument task as a prerequisite.
-
-**Kind**: inner property of <code>[tasks/testTasks](#module_tasks/testTasks)</code>  
-**Returns**: <code>through2</code> - stream  
-
--
-
-<a name="module_tasks/testTasks..write_coverage"></a>
-
-#### `tasks/testTasks~write_coverage` ⇒ <code>through2</code>
-A gulp build task to write coverage.
-
-**Kind**: inner property of <code>[tasks/testTasks](#module_tasks/testTasks)</code>  
-**Returns**: <code>through2</code> - stream  
-
--
-
-<a name="module_tasks/testTasks..test"></a>
-
-#### `tasks/testTasks~test` ⇒ <code>through2</code>
-A gulp build task to run test steps and calculate test coverage.
-Test steps results will be output using spec reporter.
-
-**Kind**: inner property of <code>[tasks/testTasks](#module_tasks/testTasks)</code>  
-**Returns**: <code>through2</code> - stream  
 
 -
 
@@ -1897,98 +1902,6 @@ The sequence works by piping each task to the next.
 
 -
 
-<a name="module_tasks/codeAnalysisTasks"></a>
-
-### tasks/codeAnalysisTasks
-A module to add gulp tasks which execute static code analysis.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| gulp | <code>Gulp</code> | The gulp module |
-| context | <code>Object</code> | An object containing the following properties: |
-| context.cwd | <code>String</code> | The current working directory |
-| context.package | <code>Object</code> | The package.json for the module |
-| context.argv | <code>Array</code> | The arguments past to the gulp task |
-| context.logger | <code>bunyan</code> | A logger matching the bunyan API |
-
-
-* [tasks/codeAnalysisTasks](#module_tasks/codeAnalysisTasks)
-    * [`~code_analysis`](#module_tasks/codeAnalysisTasks..code_analysis) ⇒ <code>through2</code>
-    * [`~code_analysis`](#module_tasks/codeAnalysisTasks..code_analysis) ⇒ <code>through2</code>
-
-
--
-
-<a name="module_tasks/codeAnalysisTasks..code_analysis"></a>
-
-#### `tasks/codeAnalysisTasks~code_analysis` ⇒ <code>through2</code>
-A gulp build task to execute static code analysis on the files at `package.json:directories.lib`.
-The report results are saved to `package.json:directories.reports`
-
-**Kind**: inner property of <code>[tasks/codeAnalysisTasks](#module_tasks/codeAnalysisTasks)</code>  
-**Returns**: <code>through2</code> - stream  
-
--
-
-<a name="module_tasks/codeAnalysisTasks..code_analysis"></a>
-
-#### `tasks/codeAnalysisTasks~code_analysis` ⇒ <code>through2</code>
-A gulp build task to execute static code analysis on the files at `package.json:directories.lib`.
-The report results are saved to `package.json:directories.reports`
-
-**Kind**: inner property of <code>[tasks/codeAnalysisTasks](#module_tasks/codeAnalysisTasks)</code>  
-**Returns**: <code>through2</code> - stream  
-
--
-
-<a name="module_tasks/coverageStatsTasks"></a>
-
-### tasks/coverageStatsTasks
-A module to add a gulp task which calculates coverage stats from the Istanbul reporter json-summary.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| gulp | <code>Gulp</code> | The gulp module |
-| context | <code>Object</code> | An object containing the following properties: |
-| context.cwd | <code>String</code> | The current working directory |
-| context.package | <code>json</code> | The package.json for the module |
-| context.argv | <code>Array</code> | The arguments past to the gulp task |
-| context.logger | <code>bunyan</code> | A logger matching the bunyan API |
-
-
-* [tasks/coverageStatsTasks](#module_tasks/coverageStatsTasks)
-    * [`~coverage_stats`](#module_tasks/coverageStatsTasks..coverage_stats) ⇒ <code>through2</code>
-    * [`~coverage_stats`](#module_tasks/coverageStatsTasks..coverage_stats) ⇒ <code>through2</code>
-
-
--
-
-<a name="module_tasks/coverageStatsTasks..coverage_stats"></a>
-
-#### `tasks/coverageStatsTasks~coverage_stats` ⇒ <code>through2</code>
-A gulp build task to calculate coverage stats from the Istanbul reporter json-summary.
-Coverage stats are appended to package.json config.coverage.stats property.
-The coverage stats include an overall coverage percentage and badge colour.
-
-**Kind**: inner property of <code>[tasks/coverageStatsTasks](#module_tasks/coverageStatsTasks)</code>  
-**Returns**: <code>through2</code> - stream  
-
--
-
-<a name="module_tasks/coverageStatsTasks..coverage_stats"></a>
-
-#### `tasks/coverageStatsTasks~coverage_stats` ⇒ <code>through2</code>
-A gulp build task to calculate coverage stats from the Istanbul reporter json-summary.
-Coverage stats are appended to package.json config.coverage.stats property.
-The coverage stats include an overall coverage percentage and badge colour.
-
-**Kind**: inner property of <code>[tasks/coverageStatsTasks](#module_tasks/coverageStatsTasks)</code>  
-**Returns**: <code>through2</code> - stream  
-
--
-
 <a name="module_tasks/davidTasks"></a>
 
 ### tasks/davidTasks
@@ -2085,112 +1998,6 @@ A gulp build task to run cpm update to update the package NPM dependencies to th
 
 -
 
-<a name="module_tasks/defaultTasks"></a>
-
-### tasks/defaultTasks
-A module to add a default gulp task which executes default build tasks.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| gulp | <code>Gulp</code> | The gulp module |
-
-
-* [tasks/defaultTasks](#module_tasks/defaultTasks)
-    * [`~default`](#module_tasks/defaultTasks..default) : <code>Gulp</code>
-    * [`~default`](#module_tasks/defaultTasks..default) : <code>Gulp</code>
-
-
--
-
-<a name="module_tasks/defaultTasks..default"></a>
-
-#### `tasks/defaultTasks~default` : <code>Gulp</code>
-A gulp build task to run the default tasks.
-The following tasks are executed in sequence: ["test"]
-The sequence works by piping each task to the next.
-
-**Kind**: inner property of <code>[tasks/defaultTasks](#module_tasks/defaultTasks)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| cb | <code>function</code> | callback |
-
-
--
-
-<a name="module_tasks/defaultTasks..default"></a>
-
-#### `tasks/defaultTasks~default` : <code>Gulp</code>
-The default private gulp build task to execute all tasks. The following tasks are executed in sequence:
-["code_analysis", "step_sync", "test_cover", "coverage_stats", "license", "docs", "metadata", "package"]
-This default task if present will override the default gulp task.
-The sequence works by piping each task to the next.
-
-**Kind**: inner property of <code>[tasks/defaultTasks](#module_tasks/defaultTasks)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| cb | <code>function</code> | callback |
-
-
--
-
-<a name="module_tasks/docsTasks"></a>
-
-### tasks/docsTasks
-A module to add gulp tasks which prepare readme documentation.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| gulp | <code>Gulp</code> | The gulp module |
-| context | <code>Object</code> | An object containing the following properties: |
-| context.cwd | <code>String</code> | The current working directory |
-| context.package | <code>Object</code> | The package.json for the module |
-| context.argv | <code>Array</code> | The arguments past to the gulp task |
-| context.logger | <code>bunyan</code> | A logger matching the bunyan API |
-
-
-* [tasks/docsTasks](#module_tasks/docsTasks)
-    * [`~docs`](#module_tasks/docsTasks..docs) ⇒ <code>through2</code>
-    * [`~docs`](#module_tasks/docsTasks..docs) ⇒ <code>through2</code>
-
-
--
-
-<a name="module_tasks/docsTasks..docs"></a>
-
-#### `tasks/docsTasks~docs` ⇒ <code>through2</code>
-A gulp build task to compile and render the `tasks/templates/readme.dust` document template.
-The document template readme.dust references four other templates:
-1) readme-api.md (this file is produced by the `docs_jsdocs` gulp task)
-2) readme-license.md (this file is produced by the `docs_license` gulp task)
-3) readme-usage.md (this file is updated manually with installation and usage information)
-4) readme-changelog.md (this file is produced by the `docs_changelog` gulp task)
-The result is saved to `README.md`.
-
-**Kind**: inner property of <code>[tasks/docsTasks](#module_tasks/docsTasks)</code>  
-**Returns**: <code>through2</code> - stream  
-
--
-
-<a name="module_tasks/docsTasks..docs"></a>
-
-#### `tasks/docsTasks~docs` ⇒ <code>through2</code>
-A gulp build task to compile and render the `tasks/templates/readme-product.dust` document template.
-The document template readme.dust references four other templates:
-1) readme-api.md (this file is produced by the `docs_jsdocs` gulp task)
-2) readme-license.md (this file is produced by the `docs_license` gulp task)
-3) readme-usage.md (this file is updated manually with installation and usage information)
-4) readme-changelog.md (this file is produced by the `docs_changelog` gulp task)
-The result is saved to `README.md`.
-
-**Kind**: inner property of <code>[tasks/docsTasks](#module_tasks/docsTasks)</code>  
-**Returns**: <code>through2</code> - stream  
-
--
-
 <a name="module_tasks/docsChangelogTasks"></a>
 
 ### tasks/docsChangelogTasks
@@ -2261,7 +2068,8 @@ A module to add gulp tasks which prepare code api readme documentation.
 <a name="module_tasks/docsJsdocsTasks..docs_jsdocs"></a>
 
 #### `tasks/docsJsdocsTasks~docs_jsdocs` ⇒ <code>through2</code>
-A gulp build task to generate JSDoc documentation.The result is saved to `doc/readme-api.md`.
+A gulp build task to generate JSDoc documentation.
+The result is saved to `doc/readme-api.md`.
 
 **Kind**: inner property of <code>[tasks/docsJsdocsTasks](#module_tasks/docsJsdocsTasks)</code>  
 **Returns**: <code>through2</code> - stream  
@@ -2315,6 +2123,61 @@ The result is saved to `doc/readme-license.md`.
 
 -
 
+<a name="module_tasks/docsTasks"></a>
+
+### tasks/docsTasks
+A module to add gulp tasks which prepare readme documentation.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| gulp | <code>Gulp</code> | The gulp module |
+| context | <code>Object</code> | An object containing the following properties: |
+| context.cwd | <code>String</code> | The current working directory |
+| context.package | <code>Object</code> | The package.json for the module |
+| context.argv | <code>Array</code> | The arguments past to the gulp task |
+| context.logger | <code>bunyan</code> | A logger matching the bunyan API |
+
+
+* [tasks/docsTasks](#module_tasks/docsTasks)
+    * [`~docs`](#module_tasks/docsTasks..docs) ⇒ <code>through2</code>
+    * [`~docs`](#module_tasks/docsTasks..docs) ⇒ <code>through2</code>
+
+
+-
+
+<a name="module_tasks/docsTasks..docs"></a>
+
+#### `tasks/docsTasks~docs` ⇒ <code>through2</code>
+A gulp build task to compile and render the `tasks/templates/readme.dust` document template.
+The document template readme.dust references four other templates:
+1) readme-api.md (this file is produced by the `docs_jsdocs` gulp task)
+2) readme-license.md (this file is produced by the `docs_license` gulp task)
+3) readme-usage.md (this file is updated manually with installation and usage information)
+4) readme-changelog.md (this file is produced by the `docs_changelog` gulp task)
+The result is saved to `README.md`.
+
+**Kind**: inner property of <code>[tasks/docsTasks](#module_tasks/docsTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/docsTasks..docs"></a>
+
+#### `tasks/docsTasks~docs` ⇒ <code>through2</code>
+A gulp build task to compile and render the `tasks/templates/readme-product.dust` document template.
+The document template readme.dust references four other templates:
+1) readme-api.md (this file is produced by the `docs_jsdocs` gulp task)
+2) readme-license.md (this file is produced by the `docs_license` gulp task)
+3) readme-usage.md (this file is updated manually with installation and usage information)
+4) readme-changelog.md (this file is produced by the `docs_changelog` gulp task)
+The result is saved to `README.md`.
+
+**Kind**: inner property of <code>[tasks/docsTasks](#module_tasks/docsTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
 <a name="module_tasks/metadataTasks"></a>
 
 ### tasks/metadataTasks
@@ -2337,6 +2200,236 @@ Also, all optionalDependencies are removed.
 
 **Kind**: inner property of <code>[tasks/metadataTasks](#module_tasks/metadataTasks)</code>  
 **Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/scaffoldTasks"></a>
+
+### tasks/scaffoldTasks
+A module to add gulp tasks which currently update development dependencies but in future could provide further
+scaffolding.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| gulp | <code>Gulp</code> | The gulp module |
+| context | <code>Object</code> | An object containing the following properties: |
+| context.cwd | <code>String</code> | The current working directory |
+| context.package | <code>Object</code> | The package.json for the module |
+| context.argv | <code>Array</code> | The arguments past to the gulp task |
+| context.logger | <code>bunyan</code> | A logger matching the bunyan API |
+
+
+* [tasks/scaffoldTasks](#module_tasks/scaffoldTasks)
+    * [`~scaffold`](#module_tasks/scaffoldTasks..scaffold) ⇒ <code>through2</code>
+    * [`~rebuild_scaffold`](#module_tasks/scaffoldTasks..rebuild_scaffold) : <code>Gulp</code>
+
+
+-
+
+<a name="module_tasks/scaffoldTasks..scaffold"></a>
+
+#### `tasks/scaffoldTasks~scaffold` ⇒ <code>through2</code>
+A gulp build task to scaffold an existing package.
+
+**Kind**: inner property of <code>[tasks/scaffoldTasks](#module_tasks/scaffoldTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| done | <code>function</code> | callback |
+
+
+-
+
+<a name="module_tasks/scaffoldTasks..rebuild_scaffold"></a>
+
+#### `tasks/scaffoldTasks~rebuild_scaffold` : <code>Gulp</code>
+A gulp build task to rebuild the source scaffold files for yeoman generators by copying default files from this
+package.
+
+**Kind**: inner property of <code>[tasks/scaffoldTasks](#module_tasks/scaffoldTasks)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| done | <code>function</code> | callback |
+
+
+-
+
+<a name="module_tasks/stepSyncTasks"></a>
+
+### tasks/stepSyncTasks
+A module to add gulp tasks which synchronise test steps from feature files with JIRA.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| gulp | <code>Gulp</code> | The gulp module |
+| context | <code>Object</code> | An object containing the following properties: |
+| context.cwd | <code>String</code> | The current working directory |
+| context.package | <code>Object</code> | The package.json for the module |
+| context.argv | <code>Array</code> | The arguments past to the gulp task |
+| context.logger | <code>bunyan</code> | A logger matching the bunyan API |
+
+
+-
+
+<a name="module_tasks/stepSyncTasks..step_sync"></a>
+
+#### `tasks/stepSyncTasks~step_sync` : <code>Gulp</code>
+A gulp build task to download new test features from JIRA and upload changes to existing
+feature files back to JIRA.
+
+**Kind**: inner property of <code>[tasks/stepSyncTasks](#module_tasks/stepSyncTasks)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| cb | <code>function</code> | callback |
+
+
+-
+
+<a name="module_tasks/codeAnalysisTasks"></a>
+
+### tasks/codeAnalysisTasks
+A module to add gulp tasks which execute static code analysis.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| gulp | <code>Gulp</code> | The gulp module |
+| context | <code>Object</code> | An object containing the following properties: |
+| context.cwd | <code>String</code> | The current working directory |
+| context.package | <code>Object</code> | The package.json for the module |
+| context.argv | <code>Array</code> | The arguments past to the gulp task |
+| context.logger | <code>bunyan</code> | A logger matching the bunyan API |
+
+
+* [tasks/codeAnalysisTasks](#module_tasks/codeAnalysisTasks)
+    * [`~code_analysis`](#module_tasks/codeAnalysisTasks..code_analysis) ⇒ <code>through2</code>
+    * [`~code_analysis`](#module_tasks/codeAnalysisTasks..code_analysis) ⇒ <code>through2</code>
+
+
+-
+
+<a name="module_tasks/codeAnalysisTasks..code_analysis"></a>
+
+#### `tasks/codeAnalysisTasks~code_analysis` ⇒ <code>through2</code>
+A gulp build task to execute static code analysis on the files at `package.json:directories.lib`.
+The report results are saved to `package.json:directories.reports`
+
+**Kind**: inner property of <code>[tasks/codeAnalysisTasks](#module_tasks/codeAnalysisTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/codeAnalysisTasks..code_analysis"></a>
+
+#### `tasks/codeAnalysisTasks~code_analysis` ⇒ <code>through2</code>
+A gulp build task to execute static code analysis on the files at `package.json:directories.lib`.
+The report results are saved to `package.json:directories.reports`
+
+**Kind**: inner property of <code>[tasks/codeAnalysisTasks](#module_tasks/codeAnalysisTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/coverageStatsTasks"></a>
+
+### tasks/coverageStatsTasks
+A module to add a gulp task which calculates coverage stats from the Istanbul reporter json-summary.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| gulp | <code>Gulp</code> | The gulp module |
+| context | <code>Object</code> | An object containing the following properties: |
+| context.cwd | <code>String</code> | The current working directory |
+| context.package | <code>json</code> | The package.json for the module |
+| context.argv | <code>Array</code> | The arguments past to the gulp task |
+| context.logger | <code>bunyan</code> | A logger matching the bunyan API |
+
+
+* [tasks/coverageStatsTasks](#module_tasks/coverageStatsTasks)
+    * [`~coverage_stats`](#module_tasks/coverageStatsTasks..coverage_stats) ⇒ <code>through2</code>
+    * [`~coverage_stats`](#module_tasks/coverageStatsTasks..coverage_stats) ⇒ <code>through2</code>
+
+
+-
+
+<a name="module_tasks/coverageStatsTasks..coverage_stats"></a>
+
+#### `tasks/coverageStatsTasks~coverage_stats` ⇒ <code>through2</code>
+A gulp build task to calculate coverage stats from the Istanbul reporter json-summary.
+Coverage stats are appended to package.json config.coverage.stats property.
+The coverage stats include an overall coverage percentage and badge colour.
+
+**Kind**: inner property of <code>[tasks/coverageStatsTasks](#module_tasks/coverageStatsTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/coverageStatsTasks..coverage_stats"></a>
+
+#### `tasks/coverageStatsTasks~coverage_stats` ⇒ <code>through2</code>
+A gulp build task to calculate coverage stats from the Istanbul reporter json-summary.
+Coverage stats are appended to package.json config.coverage.stats property.
+The coverage stats include an overall coverage percentage and badge colour.
+
+**Kind**: inner property of <code>[tasks/coverageStatsTasks](#module_tasks/coverageStatsTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/defaultTasks"></a>
+
+### tasks/defaultTasks
+A module to add a default gulp task which executes default build tasks.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| gulp | <code>Gulp</code> | The gulp module |
+
+
+* [tasks/defaultTasks](#module_tasks/defaultTasks)
+    * [`~default`](#module_tasks/defaultTasks..default) : <code>Gulp</code>
+    * [`~default`](#module_tasks/defaultTasks..default) : <code>Gulp</code>
+
+
+-
+
+<a name="module_tasks/defaultTasks..default"></a>
+
+#### `tasks/defaultTasks~default` : <code>Gulp</code>
+A gulp build task to run the default tasks.
+The following tasks are executed in sequence: ["test"]
+The sequence works by piping each task to the next.
+
+**Kind**: inner property of <code>[tasks/defaultTasks](#module_tasks/defaultTasks)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| cb | <code>function</code> | callback |
+
+
+-
+
+<a name="module_tasks/defaultTasks..default"></a>
+
+#### `tasks/defaultTasks~default` : <code>Gulp</code>
+The default private gulp build task to execute all tasks. The following tasks are executed in sequence:
+["code_analysis", "step_sync", "test_cover", "coverage_stats", "license", "docs", "metadata", "package"]
+This default task if present will override the default gulp task.
+The sequence works by piping each task to the next.
+
+**Kind**: inner property of <code>[tasks/defaultTasks](#module_tasks/defaultTasks)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| cb | <code>function</code> | callback |
+
 
 -
 
@@ -2470,60 +2563,6 @@ The sequence works by piping each task to the next.
 
 -
 
-<a name="module_tasks/scaffoldTasks"></a>
-
-### tasks/scaffoldTasks
-A module to add gulp tasks which currently update development dependencies but in future could provide further
-scaffolding.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| gulp | <code>Gulp</code> | The gulp module |
-| context | <code>Object</code> | An object containing the following properties: |
-| context.cwd | <code>String</code> | The current working directory |
-| context.package | <code>Object</code> | The package.json for the module |
-| context.argv | <code>Array</code> | The arguments past to the gulp task |
-| context.logger | <code>bunyan</code> | A logger matching the bunyan API |
-
-
-* [tasks/scaffoldTasks](#module_tasks/scaffoldTasks)
-    * [`~scaffold`](#module_tasks/scaffoldTasks..scaffold) ⇒ <code>through2</code>
-    * [`~rebuild_scaffold`](#module_tasks/scaffoldTasks..rebuild_scaffold) : <code>Gulp</code>
-
-
--
-
-<a name="module_tasks/scaffoldTasks..scaffold"></a>
-
-#### `tasks/scaffoldTasks~scaffold` ⇒ <code>through2</code>
-A gulp build task to scaffold an existing package.
-
-**Kind**: inner property of <code>[tasks/scaffoldTasks](#module_tasks/scaffoldTasks)</code>  
-**Returns**: <code>through2</code> - stream  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| done | <code>function</code> | callback |
-
-
--
-
-<a name="module_tasks/scaffoldTasks..rebuild_scaffold"></a>
-
-#### `tasks/scaffoldTasks~rebuild_scaffold` : <code>Gulp</code>
-A gulp build task to rebuild the source scaffold files for yeoman generators by copying default files from this
-package.
-
-**Kind**: inner property of <code>[tasks/scaffoldTasks](#module_tasks/scaffoldTasks)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| done | <code>function</code> | callback |
-
-
--
-
 <a name="module_tasks/serversTasks"></a>
 
 ### tasks/serversTasks
@@ -2538,39 +2577,6 @@ A module to add gulp tasks which run test steps.
 | context.package | <code>Object</code> | The package.json for the module |
 | context.argv | <code>Array</code> | The arguments past to the gulp task |
 | context.logger | <code>bunyan</code> | A logger matching the bunyan API |
-
-
--
-
-<a name="module_tasks/stepSyncTasks"></a>
-
-### tasks/stepSyncTasks
-A module to add gulp tasks which synchronise test steps from feature files with JIRA.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| gulp | <code>Gulp</code> | The gulp module |
-| context | <code>Object</code> | An object containing the following properties: |
-| context.cwd | <code>String</code> | The current working directory |
-| context.package | <code>Object</code> | The package.json for the module |
-| context.argv | <code>Array</code> | The arguments past to the gulp task |
-| context.logger | <code>bunyan</code> | A logger matching the bunyan API |
-
-
--
-
-<a name="module_tasks/stepSyncTasks..step_sync"></a>
-
-#### `tasks/stepSyncTasks~step_sync` : <code>Gulp</code>
-A gulp build task to download new test features from JIRA and upload changes to existing
-feature files back to JIRA.
-
-**Kind**: inner property of <code>[tasks/stepSyncTasks](#module_tasks/stepSyncTasks)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| cb | <code>function</code> | callback |
 
 
 -
@@ -2628,16 +2634,84 @@ A module to add gulp tasks for the webpack module bundler.
     * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
     * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
     * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
-    * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
+    * [`~webpackDevServer`](#module_tasks/webpackTasks..webpackDevServer) ⇒ <code>through2</code>
     * [`~webpackCompileTemplates`](#module_tasks/webpackTasks..webpackCompileTemplates) ⇒ <code>through2</code>
     * [`~webpackCompileTemplatesTestMode`](#module_tasks/webpackTasks..webpackCompileTemplatesTestMode) ⇒ <code>through2</code>
     * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
     * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
     * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
     * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
-    * [`~webpackDevServer`](#module_tasks/webpackTasks..webpackDevServer) ⇒ <code>through2</code>
+    * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
     * [`~webpackRunner(configPath, webpackOptions)`](#module_tasks/webpackTasks..webpackRunner) ⇒ <code>through2</code>
 
+
+-
+
+<a name="module_tasks/webpackTasks..webpack"></a>
+
+#### `tasks/webpackTasks~webpack` ⇒ <code>through2</code>
+**Kind**: inner property of <code>[tasks/webpackTasks](#module_tasks/webpackTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/webpackTasks..webpack"></a>
+
+#### `tasks/webpackTasks~webpack` ⇒ <code>through2</code>
+**Kind**: inner property of <code>[tasks/webpackTasks](#module_tasks/webpackTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/webpackTasks..webpack"></a>
+
+#### `tasks/webpackTasks~webpack` ⇒ <code>through2</code>
+**Kind**: inner property of <code>[tasks/webpackTasks](#module_tasks/webpackTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/webpackTasks..webpack"></a>
+
+#### `tasks/webpackTasks~webpack` ⇒ <code>through2</code>
+**Kind**: inner property of <code>[tasks/webpackTasks](#module_tasks/webpackTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/webpackTasks..webpackDevServer"></a>
+
+#### `tasks/webpackTasks~webpackDevServer` ⇒ <code>through2</code>
+A gulp build task to run the webpack dev server
+
+**Kind**: inner property of <code>[tasks/webpackTasks](#module_tasks/webpackTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/webpackTasks..webpackCompileTemplates"></a>
+
+#### `tasks/webpackTasks~webpackCompileTemplates` ⇒ <code>through2</code>
+A gulp build task to compile dust templates in directories.client.
+The dust templates will be provided one of the following package.json as context:
+ Build/package.json
+ package.json
+
+**Kind**: inner property of <code>[tasks/webpackTasks](#module_tasks/webpackTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/webpackTasks..webpackCompileTemplatesTestMode"></a>
+
+#### `tasks/webpackTasks~webpackCompileTemplatesTestMode` ⇒ <code>through2</code>
+A gulp build task to compile dust templates in directories.client with test flag set to true.
+The dust templates will be provided one of the following package.json as context:
+ Build/package.json
+ package.json
+
+**Kind**: inner property of <code>[tasks/webpackTasks](#module_tasks/webpackTasks)</code>  
+**Returns**: <code>through2</code> - stream  
 
 -
 
@@ -2691,29 +2765,51 @@ A gulp build task to run the webpack module bundler for production packaging.
 
 -
 
-<a name="module_tasks/webpackTasks..webpackCompileTemplates"></a>
+<a name="module_tasks/webpackTasks..webpackRunner"></a>
 
-#### `tasks/webpackTasks~webpackCompileTemplates` ⇒ <code>through2</code>
-A gulp build task to compile dust templates in directories.client.
-The dust templates will be provided one of the following package.json as context:
- Build/package.json
- package.json
-
-**Kind**: inner property of <code>[tasks/webpackTasks](#module_tasks/webpackTasks)</code>  
+#### `tasks/webpackTasks~webpackRunner(configPath, webpackOptions)` ⇒ <code>through2</code>
+**Kind**: inner method of <code>[tasks/webpackTasks](#module_tasks/webpackTasks)</code>  
 **Returns**: <code>through2</code> - stream  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| configPath | <code>String</code> | path to webpack config |
+| webpackOptions | <code>Object</code> | other options to merge with Webpack config to pass to Gulp Webpack |
+
 
 -
 
-<a name="module_tasks/webpackTasks..webpackCompileTemplatesTestMode"></a>
+<a name="module_tasks/webpackTasks"></a>
 
-#### `tasks/webpackTasks~webpackCompileTemplatesTestMode` ⇒ <code>through2</code>
-A gulp build task to compile dust templates in directories.client with test flag set to true.
-The dust templates will be provided one of the following package.json as context:
- Build/package.json
- package.json
+### tasks/webpackTasks
+A module to add gulp tasks for the webpack module bundler.
 
-**Kind**: inner property of <code>[tasks/webpackTasks](#module_tasks/webpackTasks)</code>  
-**Returns**: <code>through2</code> - stream  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| gulp | <code>Gulp</code> | The gulp module |
+| context | <code>Object</code> | An object containing the following properties: |
+| context.cwd | <code>String</code> | The current working directory |
+| context.package | <code>Object</code> | The package.json for the module |
+| context.argv | <code>Array</code> | The arguments past to the gulp task |
+| context.logger | <code>bunyan</code> | A logger matching the bunyan API |
+
+
+* [tasks/webpackTasks](#module_tasks/webpackTasks)
+    * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
+    * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
+    * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
+    * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
+    * [`~webpackDevServer`](#module_tasks/webpackTasks..webpackDevServer) ⇒ <code>through2</code>
+    * [`~webpackCompileTemplates`](#module_tasks/webpackTasks..webpackCompileTemplates) ⇒ <code>through2</code>
+    * [`~webpackCompileTemplatesTestMode`](#module_tasks/webpackTasks..webpackCompileTemplatesTestMode) ⇒ <code>through2</code>
+    * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
+    * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
+    * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
+    * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
+    * [`~webpack`](#module_tasks/webpackTasks..webpack) ⇒ <code>through2</code>
+    * [`~webpackRunner(configPath, webpackOptions)`](#module_tasks/webpackTasks..webpackRunner) ⇒ <code>through2</code>
+
 
 -
 
@@ -2753,6 +2849,82 @@ The dust templates will be provided one of the following package.json as context
 
 #### `tasks/webpackTasks~webpackDevServer` ⇒ <code>through2</code>
 A gulp build task to run the webpack dev server
+
+**Kind**: inner property of <code>[tasks/webpackTasks](#module_tasks/webpackTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/webpackTasks..webpackCompileTemplates"></a>
+
+#### `tasks/webpackTasks~webpackCompileTemplates` ⇒ <code>through2</code>
+A gulp build task to compile dust templates in directories.client.
+The dust templates will be provided one of the following package.json as context:
+ Build/package.json
+ package.json
+
+**Kind**: inner property of <code>[tasks/webpackTasks](#module_tasks/webpackTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/webpackTasks..webpackCompileTemplatesTestMode"></a>
+
+#### `tasks/webpackTasks~webpackCompileTemplatesTestMode` ⇒ <code>through2</code>
+A gulp build task to compile dust templates in directories.client with test flag set to true.
+The dust templates will be provided one of the following package.json as context:
+ Build/package.json
+ package.json
+
+**Kind**: inner property of <code>[tasks/webpackTasks](#module_tasks/webpackTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/webpackTasks..webpack"></a>
+
+#### `tasks/webpackTasks~webpack` ⇒ <code>through2</code>
+A gulp build task to run the webpack module bundler for development.
+
+**Kind**: inner property of <code>[tasks/webpackTasks](#module_tasks/webpackTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/webpackTasks..webpack"></a>
+
+#### `tasks/webpackTasks~webpack` ⇒ <code>through2</code>
+A gulp build task to continuously run the webpack module bundler for development in watch mode.
+
+**Kind**: inner property of <code>[tasks/webpackTasks](#module_tasks/webpackTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/webpackTasks..webpack"></a>
+
+#### `tasks/webpackTasks~webpack` ⇒ <code>through2</code>
+A gulp build task to run the webpack module bundler using the test config.
+
+**Kind**: inner property of <code>[tasks/webpackTasks](#module_tasks/webpackTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/webpackTasks..webpack"></a>
+
+#### `tasks/webpackTasks~webpack` ⇒ <code>through2</code>
+A gulp build task to run metadata and the webpack module bundler using the test config.
+
+**Kind**: inner property of <code>[tasks/webpackTasks](#module_tasks/webpackTasks)</code>  
+**Returns**: <code>through2</code> - stream  
+
+-
+
+<a name="module_tasks/webpackTasks..webpack"></a>
+
+#### `tasks/webpackTasks~webpack` ⇒ <code>through2</code>
+A gulp build task to run the webpack module bundler for production packaging.
 
 **Kind**: inner property of <code>[tasks/webpackTasks](#module_tasks/webpackTasks)</code>  
 **Returns**: <code>through2</code> - stream  

@@ -6,7 +6,6 @@
  * @param {Gulp} gulp - The gulp module
  */
 module.exports = function allTasks(gulp) {
-  var runSequence = require("run-sequence");
 
   /**
    * A gulp build task to run all build tasks for a module.
@@ -16,16 +15,14 @@ module.exports = function allTasks(gulp) {
    * @member {Gulp} all
    * @param {Function} cb - callback
    */
-  gulp.task("all", function all(cb) {
-    runSequence(
-      "code_analysis",
-      "step_sync",
-      "test_cover",
-      "coverage_stats",
-      "docs",
-      "metadata",
-      cb);
-  });
+  gulp.task("all", gulp.series(
+    "code_analysis",
+    "step_sync",
+    "test_cover",
+    "coverage_stats",
+    "docs",
+    "metadata"
+  ));
 
   /**
    * A gulp build task to run all build tasks for a product.
@@ -35,17 +32,15 @@ module.exports = function allTasks(gulp) {
    * @member {Gulp} all_product
    * @param {Function} cb - callback
    */
-  gulp.task("all_product", function allProduct(cb) {
-    runSequence(
-      "code_analysis",
-      "webpackTest",
-      "test_cover",
-      "coverage_stats",
-      "metadata",
-      "webpackPkg",
-      "package",
-      cb);
-  });
+  gulp.task("all_product", gulp.series(
+    "code_analysis",
+    "webpackTest",
+    "test_cover",
+    "coverage_stats",
+    "metadata",
+    "webpackPkg",
+    "package"
+  ));
 
   /**
    * A gulp build task to run all package tasks for a product.
@@ -55,21 +50,17 @@ module.exports = function allTasks(gulp) {
    * @member {Gulp} all_product
    * @param {Function} cb - callback
    */
-  gulp.task("package_product", function allProduct(cb) {
-    runSequence(
-      "coverage_stats",
-      "metadata",
-      "webpackPkg",
-      "package",
-      cb);
-  });
-  gulp.task("package_product_local", function allProduct(cb) {
-    runSequence(
-      "coverage_stats",
-      "metadata",
-      "webpackPkg",
-      cb);
-  });
+  gulp.task("package_product", gulp.series(
+    "coverage_stats",
+    "metadata",
+    "webpackPkg",
+    "package"
+  ));
+  gulp.task("package_product_local", gulp.series(
+    "coverage_stats",
+    "metadata",
+    "webpackPkg"
+  ));
 
   /**
    * A gulp build task to run all package tasks for a product api.
@@ -79,13 +70,11 @@ module.exports = function allTasks(gulp) {
    * @member {Gulp} all_product
    * @param {Function} cb - callback
    */
-  gulp.task("package_api", function allProduct(cb) {
-    runSequence(
-      "coverage_stats",
-      "metadata",
-      "package",
-      cb);
-  });
+  gulp.task("package_api", gulp.series(
+    "coverage_stats",
+    "metadata",
+    "package"
+  ));
 
   /**
    * A gulp build task to run selenium and test tasks
@@ -95,15 +84,13 @@ module.exports = function allTasks(gulp) {
    * @member {Gulp} all_product
    * @param {Function} cb - callback
    */
-  gulp.task("selenium_test", function seleniumTest(cb) {
-    runSequence(
-      "start-selenium",
-      "webpackCompileTemplatesTestMode",
-      "test_cover_save_cov",
-      "webpackCompileTemplates",
-      "kill-selenium",
-      cb);
-  });
+  gulp.task("selenium_test", gulp.series(
+    "start-selenium",
+    "webpackCompileTemplatesTestMode",
+    "test_cover_save_cov",
+    "webpackCompileTemplates",
+    "kill-selenium"
+  ));
 
 
   /**
@@ -114,17 +101,15 @@ module.exports = function allTasks(gulp) {
    * @member {Gulp} all_product
    * @param {Function} cb - callback
    */
-  gulp.task("selenium_loopback_test", function seleniumTest(cb) {
-    runSequence(
-      "start-loopback",
-      "start-selenium",
-      "webpackTest",
-      "test_cover_save_cov",
-      "webpackCompileTemplates",
-      "kill-selenium",
-      "kill-loopback",
-      cb);
-  });
+  gulp.task("selenium_loopback_test", gulp.series(
+    "start-loopback",
+    "start-selenium",
+    "webpackTest",
+    "test_cover_save_cov",
+    "webpackCompileTemplates",
+    "kill-selenium",
+    "kill-loopback"
+  ));
 
   /**
    * A gulp build task to run webpack and test tasks
@@ -134,13 +119,11 @@ module.exports = function allTasks(gulp) {
    * @member {Gulp} all_product
    * @param {Function} cb - callback
    */
-  gulp.task("webpack_test", function allProduct(cb) {
-    runSequence(
-      "webpackTest",
-      "test_cover_save_cov",
-      "webpackCompileTemplates",
-      cb);
-  });
+  gulp.task("webpack_test", gulp.series(
+    "webpackTest",
+    "test_cover_save_cov",
+    "webpackCompileTemplates"
+  ));
 
   /**
    * A gulp build task to run webpack and test_cover tasks
@@ -150,11 +133,9 @@ module.exports = function allTasks(gulp) {
    * @member {Gulp} all_product
    * @param {Function} cb - callback
    */
-  gulp.task("quick_test", function allProduct(cb) {
-    runSequence(
-      "webpackCompileTemplatesTestMode",
-      "test_cover_save_cov",
-      "webpackCompileTemplates",
-      cb);
-  });
+  gulp.task("quick_test", gulp.series(
+    "webpackCompileTemplatesTestMode",
+    "test_cover_save_cov",
+    "webpackCompileTemplates"
+  ));
 };

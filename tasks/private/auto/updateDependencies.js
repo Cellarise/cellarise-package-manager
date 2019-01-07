@@ -6,7 +6,6 @@
  * @param {Gulp} gulp - The gulp module
  */
 module.exports = function updateDependenciesTasks(gulp) {
-  var runSequence = require("run-sequence");
 
   /**
    * A gulp task to automatically update package dependencies.
@@ -15,11 +14,9 @@ module.exports = function updateDependenciesTasks(gulp) {
    * @member {Gulp} update_dependencies
    * @param {Function} cb - callback
    */
-  gulp.task("update_dependencies", function updateDependenciesTask(cb) {
-    runSequence(
-      "scaffold",
-      "david_update",
-      "david_cpm_update",
-      cb);
-  });
+  gulp.task("update_dependencies", gulp.series(
+    "scaffold",
+    "david_update",
+    "david_cpm_update"
+  ));
 };

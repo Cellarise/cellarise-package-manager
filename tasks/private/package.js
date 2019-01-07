@@ -92,7 +92,7 @@ module.exports = function packageTasks(gulp, context) {
     fs.writeFileSync(GITIGNOREPATH, gitIgnore + buildIgnore);
     return gulp.src([".gitignore"])
       .pipe(gulp.dest("Build"))
-      .pipe(gulp.dest(""));
+      .pipe(gulp.dest("."));
   });
   gulp.task("gitignoreDeployLocal", function metadataTask() {
     var BUILDIGNOREPATH = ".buildignore";
@@ -104,7 +104,7 @@ module.exports = function packageTasks(gulp, context) {
       .replace("/**/client/public/*.*\n", "");
     fs.writeFileSync(GITIGNOREPATH, gitIgnore + buildIgnore);
     return gulp.src([".gitignore"])
-      .pipe(gulp.dest(""));
+      .pipe(gulp.dest("."));
   });
 
   /**
@@ -120,6 +120,6 @@ module.exports = function packageTasks(gulp, context) {
     fs.writeFileSync(GITIGNOREPATH, gitIgnore.replace(buildIgnore, "") + "/client/index.html\n/**/client/public/*.*\n");
     return gulp.src([".gitignore"])
       .pipe(gulp.dest("Build"))
-      .pipe(gulp.dest(""));
+      .pipe(gulp.dest("."));
   });
 };

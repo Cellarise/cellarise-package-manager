@@ -26,22 +26,25 @@ module.exports = function docsTasks(gulp, context) {
    * @member {Gulp} docs
    * @return {through2} stream
    */
-  gulp.task("docs", ["docs_license", "docs_changelog", "docs_jsdocs"], function docsTask() {
-    var cwd = context.cwd;
-    var pkg = context.package;
-    var directories = pkg.directories;
-    var options = {
-      "partialsGlob": path.join(cwd, directories.doc) + "/**/*.*"
-    };
+  gulp.task("docs", gulp.series(
+    "docs_license", "docs_changelog", "docs_jsdocs",
+    function docsTask() {
+      var cwd = context.cwd;
+      var pkg = context.package;
+      var directories = pkg.directories;
+      var options = {
+        "partialsGlob": path.join(cwd, directories.doc) + "/**/*.*"
+      };
 
-    return gulp.src(path.join(__dirname, "../templates") + "/readme.dust")
-      .pipe(new GulpDustCompileRender(pkg, options))
-      .pipe(rename(function renameFile(renamePath) {
+      return gulp.src(path.join(__dirname, "../templates") + "/readme.dust")
+        .pipe(new GulpDustCompileRender(pkg, options))
+        .pipe(rename(function renameFile(renamePath) {
           renamePath.basename = "README";
           renamePath.extname = ".md";
-      }))
-      .pipe(gulp.dest(""));
-  });
+        }))
+        .pipe(gulp.dest("."));
+    }
+  ));
 
 
   /**
@@ -55,20 +58,25 @@ module.exports = function docsTasks(gulp, context) {
    * @member {Gulp} docs
    * @return {through2} stream
    */
-  gulp.task("docs_product", ["docs_licenseP", "docs_changelogMD"], function docsTask() {
-    var cwd = context.cwd;
-    var pkg = context.package;
-    var directories = pkg.directories;
-    var options = {
-      "partialsGlob": path.join(cwd, directories.doc) + "/**/*readme-*.*"
-    };
+  gulp.task("docs_product", function pre() {
+    gulp.series(
+      "docs_licenseP", "docs_changelogMD",
+      function docsTask() {
+        var cwd = context.cwd;
+        var pkg = context.package;
+        var directories = pkg.directories;
+        var options = {
+          "partialsGlob": path.join(cwd, directories.doc) + "/**/*readme-*.*"
+        };
 
-    return gulp.src(path.join(__dirname, "../templates") + "/readme-product.dust")
-      .pipe(new GulpDustCompileRender(pkg, options))
-      .pipe(rename(function renameFile(renamePath) {
-        renamePath.basename = "README";
-        renamePath.extname = ".md";
-      }))
-      .pipe(gulp.dest(""));
+        return gulp.src(path.join(__dirname, "../templates") + "/readme-product.dust")
+          .pipe(new GulpDustCompileRender(pkg, options))
+          .pipe(rename(function renameFile(renamePath) {
+            renamePath.basename = "README";
+            renamePath.extname = ".md";
+          }))
+          .pipe(gulp.dest("."));
+      }
+    );
   });
 };

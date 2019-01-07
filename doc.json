@@ -1,4 +1,10 @@
 {
   "source": "./lib",
-  "destination": "./doc/code"
+  "destination": "./doc/code",
+  "plugins": [
+    {
+      "name": "esdoc-standard-plugin"
+    },
+    {"name": "esdoc-jsx-plugin", "option": {"enable": true}}
+  ]
 }

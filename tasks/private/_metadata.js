@@ -38,6 +38,6 @@ module.exports = function metadataTasks(gulp) {
         return json;
       }))
       .pipe(gulp.dest("Build"))
-      .pipe(gulp.dest(""));
+      .pipe(gulp.dest("."));
   });
 };

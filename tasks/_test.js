@@ -188,21 +188,24 @@ module.exports = function testTasks(gulp, context) {
    * @member {Gulp} test_cover
    * @return {through2} stream
    */
-  gulp.task("test_cover", ["instrument"], function testCoverTask() {
-    var cwd = context.cwd;
-    var pkg = context.package;
-    var directories = pkg.directories;
-    var MOCHA_FILE_NAME = 'unit-mocha-tests' + (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : "");
+  gulp.task("test_cover", gulp.series(
+    "instrument",
+    function testCoverTask() {
+      var cwd = context.cwd;
+      var pkg = context.package;
+      var directories = pkg.directories;
+      var MOCHA_FILE_NAME = 'unit-mocha-tests' + (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : "");
 
-    //results file path for mocha-bamboo-reporter-bgo
-    process.env.MOCHA_FILE = path.join(cwd, directories.reports, MOCHA_FILE_NAME + ".json");
-    //make sure the Reports directory exists - required for mocha-bamboo-reporter-bgo
-    mkdirp.sync(path.join(cwd, directories.reports));
-    if (process.env.CI) {
-      return test("spec", true);
+      //results file path for mocha-bamboo-reporter-bgo
+      process.env.MOCHA_FILE = path.join(cwd, directories.reports, MOCHA_FILE_NAME + ".json");
+      //make sure the Reports directory exists - required for mocha-bamboo-reporter-bgo
+      mkdirp.sync(path.join(cwd, directories.reports));
+      if (process.env.CI) {
+        return test("spec", true);
+      }
+      return test("mocha-bamboo-reporter-bgo", true);
     }
-    return test("mocha-bamboo-reporter-bgo", true);
-  });
+  ));
 
   /**
    * A gulp build task to run test steps and calculate test coverage (but not output test coverage to prevent
@@ -236,28 +239,33 @@ module.exports = function testTasks(gulp, context) {
    * @member {Gulp} test_cover
    * @return {through2} stream
    */
-  gulp.task("test_cover_save_cov", ["test_cover_no_cov_report"], function testCoverTask(cb) {
-    var cwd = context.cwd;
-    var cwdForwardSlash = lowerCaseFirstLetter(cwd).replace("/", "\\");
-    var pkg = context.package;
-    var directories = pkg.directories;
-    var outputDir = path.join(cwd, directories.reports, "code-coverage");
-    var localPathCoverage = R.pipe(
-      R.toPairs,
-      R.map(function mapObjPair(objPair) {
-        var filePath = lowerCaseFirstLetter(objPair[0]);
-        return [filePath.replace(cwdForwardSlash, ""), objPair[1]];
-      }),
-      R.fromPairs
-    )(global[COVERAGE_VAR]);
-    //make sure outputDir exists and save the raw coverage file for future use
-    mkdirp.sync(outputDir);
-    fs.writeFile(
-      path.join(outputDir, 'coverage' + (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : "") + '.json'),
-      JSON.stringify(localPathCoverage), 'utf8',
-      cb
-    );
-  });
+  gulp.task("test_cover_save_cov", gulp.series(
+    "test_cover_no_cov_report",
+    function testCoverTask(cb) {
+      var cwd = context.cwd;
+      var cwdForwardSlash = lowerCaseFirstLetter(cwd).replace("/", "\\");
+      var pkg = context.package;
+      var directories = pkg.directories;
+      var outputDir = path.join(cwd, directories.reports, "code-coverage");
+      var localPathCoverage = R.pipe(
+        R.toPairs,
+        R.map(function mapObjPair(objPair) {
+          var filePath = lowerCaseFirstLetter(objPair[0]);
+          return [filePath.replace(cwdForwardSlash, ""), objPair[1]];
+        }),
+        R.fromPairs
+      )(global[COVERAGE_VAR]);
+      //make sure outputDir exists and save the raw coverage file for future use
+      mkdirp.sync(outputDir);
+      fs.writeFile(
+        path.join(
+          outputDir, 'coverage' + (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : "") + '.json'
+        ),
+        JSON.stringify(localPathCoverage), 'utf8',
+        cb
+      );
+    }
+  ));
 
   /**
    * A gulp build task to write coverage.
@@ -307,15 +315,27 @@ module.exports = function testTasks(gulp, context) {
               fileContents = fs.readFileSync(path.join(reportDir, fileName));
               logger.info("Loaded: " + reportDir + fileName);
               //add find and replace for bamboo build server remote agents
-              processCoverage(
-                JSON.parse(fileContents
-                  .toString('utf-8')
-                  .replace(
-                    /(C:|D:|E:|c:|d:|e:)\\\\bamboo.*?\\\\xml-data\\\\build-dir\\\\.*?NHVR.*?\\\\/g,
-                    cwd.replace(/\\/g, "\\\\") + "\\\\"
+              if (reportDir.indexOf("NHVR-REP") > -1) {
+                processCoverage(
+                  JSON.parse(fileContents
+                    .toString('utf-8')
+                    .replace(
+                      /(C:|D:|E:|c:|d:|e:)\\\\bamboo.*?\\\\xml-data\\\\build-dir\\\\.*?NHVR.*?\\\\/g,
+                      cwd.replace(/\\/g, "\\\\") + "\\\\"
+                    )
                   )
-                )
-              );
+                );
+              } else {
+                processCoverage(
+                  JSON.parse(fileContents
+                    .toString('utf-8')
+                    .replace(
+                      /(C:|D:|E:|c:|d:|e:)\\\\bamboo.*?\\\\xml-data\\\\build-dir\\\\.*?\\\\.*?\\\\/g,
+                      cwd.replace(/\\/g, "\\\\") + "\\\\"
+                    )
+                  )
+                );
+              }
             } catch (err) {
               logger.info("Write coverage failed for: " + reportDir + fileName);
               return false;

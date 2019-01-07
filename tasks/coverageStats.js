@@ -46,6 +46,6 @@ module.exports = function coverageStatsTasks(gulp, context) {
         context.package = packageJSON;
         return packageJSON;
       }))
-      .pipe(gulp.dest(""));
+      .pipe(gulp.dest("."));
   });
 };

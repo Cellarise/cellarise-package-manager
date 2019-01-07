@@ -6,7 +6,6 @@
  * @param {Gulp} gulp - The gulp module
  */
 module.exports = function publishTasks(gulp) {
-  var runSequence = require("run-sequence");
 
   /**
    * A gulp build task to run all build tasks for a module.
@@ -16,10 +15,8 @@ module.exports = function publishTasks(gulp) {
    * @member {Gulp} all
    * @param {Function} cb - callback
    */
-  gulp.task("publish", function publish(cb) {
-    runSequence(
-      "docs",
-      "metadata",
-      cb);
-  });
+  gulp.task("publish", gulp.series(
+    "docs",
+    "metadata"
+  ));
 };
