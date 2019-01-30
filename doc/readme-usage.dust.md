@@ -1,3 +1,13 @@
+### Pre-requisites
+
+  * Node packages (global):
+    * npm install --global node-gyp
+     * npm install --global --production windows-build-tools
+
+  * Git
+    * git for windows is recommended for Windows and use with Atlassian Bamboo.
+  * Atlassian suite - for build tasks integrating with Atlassian JIRA or Atlassian Bamboo.
+
 ## Installation
 
 Install as a local package.
@@ -11,19 +21,6 @@ Run npm link to enable commandline execution of `cpm`, `cgulp`, `cgitsh`, and `o
 ```cmd
 npm link
 ```
-
-### Pre-requisites
-
-  * [OpenSSL >v1.0.1g](http://slproweb.com/products/Win32OpenSSL.html).
-    * When installing OpenSSL, you must tell it to put DLLs in the Windows system directory
-  * Node packages (global):
-    * node-gyp
-        * Python ([windows-python-v2.7.3](http://www.python.org/download/releases/2.7.3#download) recommended, `v3.x.x` is __*not*__ supported)
-        * Microsoft Visual Studio 2015 with C++ packages installed (Community edition works well)
-  * Git
-    * git for windows is recommended for Windows and use with Atlassian Bamboo.
-  * Atlassian suite - for build tasks integrating with Atlassian JIRA or Atlassian Bamboo.
-
 Only 32bit versions of the following pre-requisites have been tested.
 
 ### Oauth config
