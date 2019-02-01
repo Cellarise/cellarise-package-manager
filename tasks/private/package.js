@@ -57,7 +57,7 @@ module.exports = function packageTasks(gulp, context) {
         "!Temp/**/*"
       ]);
     }
-    return gulp.src(sourcePaths)
+    return gulp.src(sourcePaths, {"dot": true, "allowEmpty": true})
       .pipe(gulp.dest(directories.build))
       .on("end", function onEnd() {
         //move files which need to exist in a Build folder within the Build package
@@ -103,7 +103,7 @@ module.exports = function packageTasks(gulp, context) {
       .replace("/client/index.html\n", "")
       .replace("/**/client/public/*.*\n", "");
     fs.writeFileSync(GITIGNOREPATH, gitIgnore + buildIgnore);
-    return gulp.src([".gitignore"])
+    return gulp.src([".gitignore"], {"dot": true})
       .pipe(gulp.dest("."));
   });
 
@@ -118,7 +118,7 @@ module.exports = function packageTasks(gulp, context) {
     var buildIgnore = fs.readFileSync(BUILDIGNOREPATH).toString();
     var gitIgnore = fs.readFileSync(GITIGNOREPATH).toString();
     fs.writeFileSync(GITIGNOREPATH, gitIgnore.replace(buildIgnore, "") + "/client/index.html\n/**/client/public/*.*\n");
-    return gulp.src([".gitignore"])
+    return gulp.src([".gitignore"], {"dot": true})
       .pipe(gulp.dest("Build"))
       .pipe(gulp.dest("."));
   });
