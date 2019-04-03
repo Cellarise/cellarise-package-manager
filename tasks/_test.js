@@ -10,6 +10,9 @@
  * @param {bunyan} context.logger - A logger matching the bunyan API
  */
 module.exports = function testTasks(gulp, context) {
+  const jiraConnector = require("jira-connector");
+  const jiraConfig = require("../lib/utils/config")("jira");
+  const vasync = require("vasync");
   var mocha = require("gulp-mocha");
   var mkdirp = require("mkdirp");
   var gutil = require("gulp-util");
@@ -99,11 +102,7 @@ module.exports = function testTasks(gulp, context) {
       }
     }, glob.sync(sourceGlobStr));
 
-    //set YADDA_FEATURE_GLOB if argv[2]
-    if (context.argv.length === 2) {
-      process.env.YADDA_FEATURE_GLOB = context.argv[1];
-      logger.info("Set process.env.YADDA_FEATURE_GLOB=" + process.env.YADDA_FEATURE_GLOB);
-    }
+
 
     if (outputCoverageReports) {
       return gulp.src(path.resolve(process.cwd(), directories.test + "/test.js"), {"read": false})
@@ -190,6 +189,7 @@ module.exports = function testTasks(gulp, context) {
    */
   gulp.task("test_cover", gulp.series(
     "instrument",
+    "determine_test_cases",
     function testCoverTask() {
       var cwd = context.cwd;
       var pkg = context.package;
@@ -215,21 +215,24 @@ module.exports = function testTasks(gulp, context) {
    * @member {Gulp} test_cover
    * @return {through2} stream
    */
-  gulp.task("test_cover_no_cov_report", function testCoverNoCovReportTask() {
-    var cwd = context.cwd;
-    var pkg = context.package;
-    var directories = pkg.directories;
-    var MOCHA_FILE_NAME = 'unit-mocha-tests' + (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : "");
+  gulp.task("test_cover_no_cov_report", gulp.series(
+    "determine_test_cases",
+    function testCoverNoCovReportTask() {
+      var cwd = context.cwd;
+      var pkg = context.package;
+      var directories = pkg.directories;
+      var MOCHA_FILE_NAME = 'unit-mocha-tests' + (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : "");
 
-    //results file path for mocha-bamboo-reporter-bgo
-    process.env.MOCHA_FILE = path.join(cwd, directories.reports, MOCHA_FILE_NAME + ".json");
-    //make sure the Reports directory exists - required for mocha-bamboo-reporter-bgo
-    mkdirp.sync(path.join(cwd, directories.reports));
-    if (process.env.CI) {
-      return test("spec", false);
-    }
-    return test("mocha-bamboo-reporter-bgo", false);
-  });
+      //results file path for mocha-bamboo-reporter-bgo
+      process.env.MOCHA_FILE = path.join(cwd, directories.reports, MOCHA_FILE_NAME + ".json");
+      //make sure the Reports directory exists - required for mocha-bamboo-reporter-bgo
+      mkdirp.sync(path.join(cwd, directories.reports));
+      if (process.env.CI) {
+        return test("spec", false);
+      }
+      return test("mocha-bamboo-reporter-bgo", false);
+    })
+  );
 
   /**
    * A gulp build task to run test steps and calculate test coverage (but not output test coverage to prevent
@@ -398,7 +401,106 @@ module.exports = function testTasks(gulp, context) {
    * @member {Gulp} test
    * @return {through2} stream
    */
-  gulp.task("test", function testTask() {
-    return test("spec", true);
+  gulp.task("test", gulp.series(
+    "determine_test_cases",
+    function testTask() {
+      return test("spec", true);
+    })
+  );
+
+  const getJiraTestCasesToRun = function(jiraOauthClient, callback) {
+    const JIRA_STORY_KEY = process.env.bamboo_repository_git_branch.match(new RegExp(jiraConfig.stories.regex, "g"));
+  
+    if (!R.isEmpty(JIRA_STORY_KEY) && !R.isNil(JIRA_STORY_KEY) && !R.isNil(jiraOauthClient)) {
+
+      jiraOauthClient.issue.getIssue({
+        issueKey: JIRA_STORY_KEY
+      
+      }, function(error, issue) {
+  
+        if (!R.isEmpty(error) && !R.isNil(error)) {
+          throw new Error(error);
+        }
+  
+        const components = issue.fields.components;
+        
+        if (!R.isEmpty(components)) {
+          let componentsNames = '';
+  
+          components.forEach((component) => {
+  
+            // Replace all spaces and words after last number. Any space before numbers replace with _.
+            let currentComponent = component.name.replace(/\s([a-zA-Z])+/g, '').replace(/[\s]+/g,'_');
+            
+            if (R.isEmpty(componentsNames)) {
+              componentsNames = currentComponent;
+            
+            } else {
+              componentsNames += ':' + currentComponent;
+            }
+          });
+  
+          callback(null, jiraOauthClient, componentsNames);
+  
+        } else {
+          callback(null, jiraOauthClient, null);
+        }
+      });
+
+    } else {
+      callback(null, jiraOauthClient, null);
+    }
+  };
+  
+  /**
+   * A gulp build task to determine test cases to run. 
+   * First it will try to find a JIRA issue key in a branch name. 
+   * If found, it will search for its components and use them as test cases identifiers.
+   * Otherwise, it will search for provided parameters in the context.
+   * Test steps results will be output using spec reporter.
+   * @member {Gulp} determine_test_cases
+   * @return {through2} stream
+   */  
+  gulp.task("determine_test_cases", () => {
+    vasync.waterfall([
+      function(callback) {
+  
+        callback(null, 
+          new jiraConnector({
+            host: jiraConfig.host,
+            oauth: {
+              consumer_key: jiraConfig.oauth.consumer_key,
+              private_key: jiraConfig.oauth.consumer_secret.replace(new RegExp("\\\\n", "\g"), "\n"),
+              token: jiraConfig.oauth.access_token,
+              token_secret: jiraConfig.oauth.access_token_secret
+            }
+          })
+        ); 
+      },
+      function(jiraOauthClient, callback) {
+        getJiraTestCasesToRun(jiraOauthClient, callback);
+      },
+      function getTestCasesToRun(jiraOauthClient, jiraTestCases, callback) {
+        process.env.YADDA_FEATURE_GLOB = jiraTestCases;
+  
+        if (R.isEmpty(jiraTestCases) || R.isNil(jiraTestCases)) {
+          logger.info('Could not find an issue key. Applying defaults.');
+  
+          if (context.argv.length === 2) {
+            process.env.YADDA_FEATURE_GLOB = context.argv[1];
+            logger.info("Set process.env.YADDA_FEATURE_GLOB=" + process.env.YADDA_FEATURE_GLOB);
+          }
+        }
+  
+        callback();
+      }
+  
+    ], function (error, result) {
+  
+      if (!R.isEmpty(error) && !R.isNil(error)) {
+        throw new Error(error);
+      }
+    });
   });
 };
+

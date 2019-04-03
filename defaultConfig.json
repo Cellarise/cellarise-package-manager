@@ -26,6 +26,9 @@
         "request-token": "/plugins/servlet/oauth/request-token",
         "access-token": "/plugins/servlet/oauth/access-token",
         "authorize": "/plugins/servlet/oauth/authorize"
+      },
+      "stories": {
+        "regex": ""
       }
     },
     "bamboo": {
