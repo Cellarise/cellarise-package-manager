@@ -519,7 +519,7 @@ module.exports = function testTasks(gulp, context) {
     });
   });
 
-  gulp.task('clean_envs_when_story_is_done', () => {
+  gulp.task('destroy_env_when_issue_is_done', () => {
     vasync.waterfall([
       function(callback) {
         getJiraOauthClient(callback);      
