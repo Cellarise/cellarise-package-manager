@@ -189,7 +189,9 @@ module.exports = function testTasks(gulp, context) {
    */
   gulp.task("test_cover", gulp.series(
     "instrument",
-    "determine_test_cases",
+    function() {
+      return applyContextTestCases(null);
+    },
     function testCoverTask() {
       var cwd = context.cwd;
       var pkg = context.package;
@@ -216,7 +218,9 @@ module.exports = function testTasks(gulp, context) {
    * @return {through2} stream
    */
   gulp.task("test_cover_no_cov_report", gulp.series(
-    "determine_test_cases",
+    function() {
+      return applyContextTestCases(null);
+    },
     function testCoverNoCovReportTask() {
       var cwd = context.cwd;
       var pkg = context.package;
@@ -402,7 +406,9 @@ module.exports = function testTasks(gulp, context) {
    * @return {through2} stream
    */
   gulp.task("test", gulp.series(
-    "determine_test_cases",
+    function() {
+      return applyContextTestCases(null);
+    },
     function testTask() {
       return test("spec", true);
     })
@@ -475,6 +481,18 @@ module.exports = function testTasks(gulp, context) {
   
     callback(null, componentsNames);
   };
+
+  const applyContextTestCases = (jiraTestCases) => {
+
+    if (R.isEmpty(jiraTestCases) || R.isNil(jiraTestCases)) {
+      logger.info('No Jira issue key has been provided. Applying context parameters.');
+
+      if (context.argv.length === 2) {
+        process.env.YADDA_FEATURE_GLOB = context.argv[1];
+        logger.info("Set process.env.YADDA_FEATURE_GLOB=" + process.env.YADDA_FEATURE_GLOB);
+      }
+    }
+  };
   
   /**
    * A gulp build task to determine test cases to run. 
@@ -482,10 +500,10 @@ module.exports = function testTasks(gulp, context) {
    * If found, it will search for its components and use them as test cases identifiers.
    * Otherwise, it will search for provided parameters in the context.
    * Test steps results will be output using spec reporter.
-   * @member {Gulp} determine_test_cases
+   * @member {Gulp} test_cover_jira_integration
    * @return {through2} stream
    */  
-  gulp.task("determine_test_cases", () => {
+  gulp.task("test_cover_jira_integration", () => {
     vasync.waterfall([
       function(callback) {
         getJiraOauthClient(callback);      
@@ -498,16 +516,7 @@ module.exports = function testTasks(gulp, context) {
       },
       function getTestCasesToRun(jiraTestCases, callback) {
         process.env.YADDA_FEATURE_GLOB = jiraTestCases;
-  
-        if (R.isEmpty(jiraTestCases) || R.isNil(jiraTestCases)) {
-          logger.info('Could not find an issue key. Applying defaults.');
-  
-          if (context.argv.length === 2) {
-            process.env.YADDA_FEATURE_GLOB = context.argv[1];
-            logger.info("Set process.env.YADDA_FEATURE_GLOB=" + process.env.YADDA_FEATURE_GLOB);
-          }
-        }
-  
+        applyContextTestCases(jiraTestCases);
         callback();
       }
   
@@ -518,33 +527,4 @@ module.exports = function testTasks(gulp, context) {
       }
     });
   });
-
-  gulp.task('destroy_env_when_issue_is_done', () => {
-    vasync.waterfall([
-      function(callback) {
-        getJiraOauthClient(callback);      
-      },
-      function(jiraOauthClient, callback) {
-        getJiraIssue(jiraOauthClient, callback);
-      },
-      function(issue, callback) {
-  
-        if (R.isNil(issue)) {
-          callback('Issue must not be null!');
-          return;
-        }
-  
-        if (issue.fields.status.name === 'Done') {
-          console.log('Done');
-        }
-      },
-      
-    ], function (error, result) {
-  
-      if (!R.isEmpty(error) && !R.isNil(error)) {
-        throw new Error(error);
-      }
-    });
-  });
 };
-
