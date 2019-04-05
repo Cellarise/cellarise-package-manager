@@ -10,8 +10,7 @@
  * @param {bunyan} context.logger - A logger matching the bunyan API
  */
 module.exports = function testTasks(gulp, context) {
-  const jiraConnector = require("jira-connector");
-  const jiraConfig = require("../lib/utils/config")("jira");
+  const jiraIssueManager = require("./lib/jiraIssueManager");
   const vasync = require("vasync");
   var mocha = require("gulp-mocha");
   var mkdirp = require("mkdirp");
@@ -414,74 +413,6 @@ module.exports = function testTasks(gulp, context) {
     })
   );
 
-  const getJiraOauthClient = (callback) => {
-    callback(null, 
-      new jiraConnector({
-        host: jiraConfig.host,
-        oauth: {
-          consumer_key: jiraConfig.oauth.consumer_key,
-          private_key: jiraConfig.oauth.consumer_secret.replace(new RegExp("\\\\n", "\g"), "\n"),
-          token: jiraConfig.oauth.access_token,
-          token_secret: jiraConfig.oauth.access_token_secret
-        }
-      })
-    ); 
-  };
-
-  const getJiraIssue = (jiraOauthClient, callback) => {
-    const JIRA_STORY_KEY = process.env.bamboo_repository_git_branch.match(new RegExp(jiraConfig.stories.regex, "g"));
-  
-    if (R.isEmpty(JIRA_STORY_KEY) || R.isNil(JIRA_STORY_KEY) || R.isNil(jiraOauthClient)) {
-      callback(null, null);
-      return;
-    }
-  
-    jiraOauthClient.issue.getIssue({
-      issueKey: JIRA_STORY_KEY
-    
-    }, function(error, issue) {
-  
-      if (!R.isEmpty(error) && !R.isNil(error)) {
-        callback(error);
-        return;
-      }
-  
-      callback(null, issue);
-    });
-  };
-
-  const getJiraTestCasesToRun = (issue, callback) => {
-
-    if (R.isNil(issue)) {
-      callback(null, null);
-      return;
-    }
-  
-    const components = issue.fields.components; 
-  
-    if (R.isEmpty(components)) {
-      callback(null, null);
-      return;
-    }
-  
-    let componentsNames = '';
-  
-    components.forEach((component) => {
-  
-      // Replace all spaces and words after last number. Any space before numbers replace with _.
-      let currentComponent = component.name.replace(/\s([a-zA-Z])+/g, '').replace(/[\s]+/g,'_');
-      
-      if (R.isEmpty(componentsNames)) {
-        componentsNames = currentComponent;
-      
-      } else {
-        componentsNames += ':' + currentComponent;
-      }
-    });
-  
-    callback(null, componentsNames);
-  };
-
   const applyContextTestCases = (jiraTestCases) => {
 
     if (R.isEmpty(jiraTestCases) || R.isNil(jiraTestCases)) {
@@ -506,24 +437,28 @@ module.exports = function testTasks(gulp, context) {
   gulp.task("test_cover_jira_integration", () => {
     vasync.waterfall([
       function(callback) {
-        getJiraOauthClient(callback);      
+        jiraIssueManager.getJiraOauthClient(callback);      
       },
       function(jiraOauthClient, callback) {
-        getJiraIssue(jiraOauthClient, callback);
+        jiraIssueManager.getJiraIssue(jiraOauthClient, callback);
       },
       function(issue, callback) {
-        getJiraTestCasesToRun(issue, callback);
+        jiraIssueManager.getJiraTestCasesToRun(issue, callback);
       },
       function getTestCasesToRun(jiraTestCases, callback) {
         process.env.YADDA_FEATURE_GLOB = jiraTestCases;
         applyContextTestCases(jiraTestCases);
-        callback();
+        callback(null, "Sucessfully finished test cases selection");
       }
   
     ], function (error, result) {
   
       if (!R.isEmpty(error) && !R.isNil(error)) {
         throw new Error(error);
+      }
+
+      if (!R.isEmpty(result) && !R.isNil(result)) {
+        logger.info(result);
       }
     });
   });
