@@ -31,15 +31,15 @@ const getJiraOauthClient = function(callback) {
  * @returns {Object} Jira Issue.
  */
 const getJiraIssue = function(jiraOauthClient, callback) {
-    const JIRA_ISSUE_KEY = process.env.bamboo_repository_git_branch.match(new RegExp(jiraConfig.stories.regex, "g"));
+    const jiraIssueKey = process.env.bamboo_repository_git_branch.match(new RegExp(jiraConfig.stories.regex, "g"));
     
-    if (R.isEmpty(JIRA_ISSUE_KEY) || R.isNil(JIRA_ISSUE_KEY) || R.isNil(jiraOauthClient)) {
+    if (R.isEmpty(jiraIssueKey) || R.isNil(jiraIssueKey) || R.isNil(jiraOauthClient)) {
         callback(null, null);
         return;
     }
     
     jiraOauthClient.issue.getIssue({
-        issueKey: JIRA_ISSUE_KEY
+        issueKey: jiraIssueKey
     
     }, function(error, issue) {
     

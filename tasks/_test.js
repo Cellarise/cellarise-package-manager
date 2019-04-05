@@ -11,6 +11,8 @@
  */
 module.exports = function testTasks(gulp, context) {
   const jiraIssueManager = require("./lib/jiraIssueManager");
+  const azureEnvironmentManager = require("./private/azureEnvironmentManagement");
+  const webSiteManagement = require('azure-arm-website');
   const vasync = require("vasync");
   var mocha = require("gulp-mocha");
   var mkdirp = require("mkdirp");
@@ -459,6 +461,125 @@ module.exports = function testTasks(gulp, context) {
 
       if (!R.isEmpty(result) && !R.isNil(result)) {
         logger.info(result);
+      }
+    });
+  });
+
+  gulp.task('create_azure_env_for_jira_issue', () => {
+    async.waterfall([
+  
+      function(callback) {
+        azureEnvironmentManager.authenticateAzure(callback);
+  
+      }, function(credentials, callback) {
+        azureEnvironmentManager.getSubscriptionId(credentials, callback);
+  
+      }, function (credentials, subscription_id, callback) {
+        azureEnvironmentManager.validateGroupAccess(credentials, subscription_id, callback);
+  
+      }, function(credentials, subscription_id, callback) {
+        azureEnvironmentManager.getEnvironmentName(credentials, subscription_id, callback);
+  
+      }, function (credentials, subscription_id, envName, callback) {
+        const webSiteClient = new webSiteManagement(credentials, subscription_id);
+      
+        webSiteClient.checkNameAvailability(envName, azureConfig.resource_type).then((res) => {
+  
+          if (!res.nameAvailable) {
+            callback(null, "An environment with this name already exists.");
+            return;
+          }
+  
+          webSiteClient.webApps.createOrUpdate(azureConfig.resource_group, envName, {
+            "location": azureConfig.location,
+            "siteConfig": {
+              "numberOfWorkers": 1,
+              "defaultDocuments": [
+                  "Default.htm",
+                  "Default.html",
+                  "Default.asp",
+                  "index.htm",
+                  "index.html",
+                  "iisstart.htm",
+                  "default.aspx",
+                  "index.php",
+                  "hostingstart.html"
+              ],
+              "netFrameworkVersion": "v4.0",
+              "phpVersion": "5.6",
+              "requestTracingEnabled": false,
+              "remoteDebuggingEnabled": false,
+              "remoteDebuggingVersion": "VS2017",
+              "httpLoggingEnabled": false,
+              "logsDirectorySizeLimit": 35,
+              "detailedErrorLoggingEnabled": false,
+              "publishingUsername": "$" + envName,
+              "alwaysOn": false
+            }
+  
+          }).then((res) => {
+            callback();
+          });
+        });
+  
+      }
+      
+    ], function (error, result) {
+  
+      if (!R.isEmpty(error) && !R.isNil(error)) {
+        throw new Error(error);
+      }
+  
+      if (!R.isEmpty(result) && !R.isNil(result)) {
+        console.log(result);
+      }
+    });
+  });
+  
+  gulp.task('delete_azure_env_for_jira_issue', () => {
+    async.waterfall([
+  
+      function(callback) {
+        azureEnvironmentManager.authenticateAzure(callback);
+  
+      }, function(credentials, callback) {
+        azureEnvironmentManager.getSubscriptionId(credentials, callback);
+  
+      }, function (credentials, subscription_id, callback) {
+        azureEnvironmentManager.validateGroupAccess(credentials, subscription_id, callback);
+  
+      }, function(credentials, subscription_id, callback) {
+        azureEnvironmentManager.getEnvironmentName(credentials, subscription_id, callback);
+  
+      }, function (credentials, subscription_id, envName, callback) {
+        const webSiteClient = new webSiteManagement(credentials, subscription_id);
+  
+        webSiteClient.checkNameAvailability(envName, azureConfig.resource_type).then((res) => {
+  
+          if (res.nameAvailable) {
+            callback(null, "This environment has previously been deleted.");
+            return;
+          }
+  
+          webSiteClient.webApps.deleteMethod(azureConfig.resource_group, envName, {
+            deleteMetrics: true
+  
+          }).then((res) => {  
+            callback(null, "The environment has been deleted.");
+            return;
+          });
+        });
+  
+      }
+      
+    ], function (error, result) {
+  
+      if (!R.isEmpty(error) && !R.isNil(error)) {
+        throw new Error(error);
+      }
+  
+      if (!R.isEmpty(result) && !R.isNil(result)) {
+        console.log(result);
       }
     });
   });

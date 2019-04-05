@@ -46,6 +46,15 @@
         "access-token": "/plugins/servlet/oauth/access-token",
         "authorize": "/plugins/servlet/oauth/authorize"
       }
+    },
+    "azure": {
+      "client_id": "",
+      "user": "",
+      "password": "",
+      "resource_group": "",
+      "resource_type": "",
+      "env_prefix": "",
+      "location": ""
     }
   }
 }
