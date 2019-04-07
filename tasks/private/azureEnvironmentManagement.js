@@ -7,6 +7,7 @@ const jiraConfig = require("./config")("jira");
 const msRestAzure = require("ms-rest-azure");
 const resourceManagementClient = require('azure-arm-resource').ResourceManagementClient;
 const subscriptionManagementClient = require('azure-arm-resource').SubscriptionClient;
+const webSiteManagement = require('azure-arm-website');
 
 /**
  * Creates a new authenticated azure client.
