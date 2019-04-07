@@ -465,6 +465,11 @@ module.exports = function testTasks(gulp, context) {
     });
   });
 
+  /**
+   * Create an Azure environment (if it does not exist) for a feature branch.
+   * @member {Gulp} create_azure_env_for_jira_issue
+   * @return {through2} stream
+   */
   gulp.task('create_azure_env_for_jira_issue', () => {
     async.waterfall([
   
@@ -536,6 +541,11 @@ module.exports = function testTasks(gulp, context) {
     });
   });
   
+  /**
+   * Distroy an Azure environment (if it exists) for a feature branch.
+   * @member {Gulp} delete_azure_env_for_jira_issue
+   * @return {through2} stream
+   */
   gulp.task('delete_azure_env_for_jira_issue', () => {
     async.waterfall([
   
