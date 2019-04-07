@@ -504,7 +504,7 @@ module.exports = function testTasks(gulp, context) {
       }
   
       if (!R.isEmpty(result) && !R.isNil(result)) {
-        console.log(result);
+        logger.info(result);
       }
     });
   });
@@ -549,7 +549,7 @@ module.exports = function testTasks(gulp, context) {
       }
   
       if (!R.isEmpty(result) && !R.isNil(result)) {
-        console.log(result);
+        logger.info(result);
       }
     });
   });

@@ -54,7 +54,8 @@
       "resource_group": "",
       "resource_type": "",
       "env_prefix": "",
-      "location": ""
+      "location": "",
+      "server_farm_id": ""
     }
   }
 }

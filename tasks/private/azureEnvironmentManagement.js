@@ -69,14 +69,9 @@ const getEnvironmentName = function(credentials, subscription_id, callback) {
         callback(null, credentials, subscription_id);
         return;
     }
-  
-    callback(null, 
-      credentials,
-      subscription_id,
-      R.isEmpty(azureConfig.env_prefix) 
-        ? jiraIssueKey 
-        : azureConfig.env_prefix + '-' + jiraIssueKey
-    );
+
+    const name = R.isEmpty(azureConfig.env_prefix) ? jiraIssueKey : azureConfig.env_prefix + '-' + jiraIssueKey;
+    callback(null, credentials, subscription_id, name.toLowerCase());
   };
   
 /**
@@ -133,6 +128,7 @@ const checkWebsiteExists = function(credentials, subscription_id, envName, callb
 
 /**
  * Creates an Azure environment with a provided name.
+ * This is V1: Template is hard-coded.
  * @param {Object} credentials 
  * @param {String} subscription_id 
  * @param {String} envName 
@@ -156,6 +152,7 @@ const createEnvironment = function(credentials, subscription_id, envName, callba
           "index.php",
           "hostingstart.html"
       ],
+      "serverFarmId": azureConfig.server_farm_id,
       "netFrameworkVersion": "v4.0",
       "phpVersion": "5.6",
       "requestTracingEnabled": false,
@@ -194,10 +191,10 @@ const deleteEnvironment = function(credentials, subscription_id, envName, callba
 
 module.exports = {
   authenticateAzure: authenticateAzure,
-  getSubscriptionId: getSubscriptionId,
-  getEnvironmentName: getEnvironmentName,
-  validateGroupAccess: validateGroupAccess,
   checkWebsiteExists: checkWebsiteExists,
   createEnvironment: createEnvironment,
-  deleteEnvironment: deleteEnvironment
+  deleteEnvironment: deleteEnvironment,
+  getSubscriptionId: getSubscriptionId,
+  getEnvironmentName: getEnvironmentName,
+  validateGroupAccess: validateGroupAccess
 };
