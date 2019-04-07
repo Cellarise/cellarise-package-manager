@@ -114,9 +114,89 @@ const validateGroupAccess = function(credentials, subscription_id, callback) {
     });
   };
 
+  /**
+   * Checks if an environment already exists.
+   * @param {Object} credentials 
+   * @param {String} subscription_id 
+   * @param {String} envName 
+   * @param {Function} callback 
+   * @returns {Boolean} True or False value that indicates if an environment already exists.
+   */
+const checkWebsiteExists = function(credentials, subscription_id, envName, callback) {
+  const webSiteClient = new webSiteManagement(credentials, subscription_id);
+  
+  webSiteClient.checkNameAvailability(envName, azureConfig.resource_type).then((res) => {
+    callback(null, credentials, subscription_id, envName, !res.nameAvailable);
+  });
+};
+
+/**
+ * Creates an Azure environment with a provided name.
+ * @param {Object} credentials 
+ * @param {String} subscription_id 
+ * @param {String} envName 
+ * @param {Function} callback 
+ */
+const createEnvironment = function(credentials, subscription_id, envName, callback) {
+  const webSiteClient = new webSiteManagement(credentials, subscription_id);
+
+  webSiteClient.webApps.createOrUpdate(azureConfig.resource_group, envName, {
+    "location": azureConfig.location,
+    "siteConfig": {
+      "numberOfWorkers": 1,
+      "defaultDocuments": [
+          "Default.htm",
+          "Default.html",
+          "Default.asp",
+          "index.htm",
+          "index.html",
+          "iisstart.htm",
+          "default.aspx",
+          "index.php",
+          "hostingstart.html"
+      ],
+      "netFrameworkVersion": "v4.0",
+      "phpVersion": "5.6",
+      "requestTracingEnabled": false,
+      "remoteDebuggingEnabled": false,
+      "remoteDebuggingVersion": "VS2017",
+      "httpLoggingEnabled": false,
+      "logsDirectorySizeLimit": 35,
+      "detailedErrorLoggingEnabled": false,
+      "publishingUsername": "$" + envName,
+      "scmType": "LocalGit",
+      "alwaysOn": false
+    }
+
+  }).then((res) => {
+    callback();
+  });
+}; 
+
+/**
+ * Deletes an Azure environment that matches a provided name.
+ * @param {Object} credentials 
+ * @param {String} subscription_id 
+ * @param {String} envName 
+ * @param {Function} callback 
+ */
+const deleteEnvironment = function(credentials, subscription_id, envName, callback) {
+  const webSiteClient = new webSiteManagement(credentials, subscription_id);
+
+  webSiteClient.webApps.deleteMethod(azureConfig.resource_group, envName, {
+    deleteMetrics: true
+
+  }).then((res) => {  
+    callback();
+  });
+}; 
+
 module.exports = {
   authenticateAzure: authenticateAzure,
   getSubscriptionId: getSubscriptionId,
   getEnvironmentName: getEnvironmentName,
-  validateGroupAccess: validateGroupAccess
+  validateGroupAccess: validateGroupAccess,
+  checkWebsiteExists: checkWebsiteExists,
+  createEnvironment: createEnvironment,
+  deleteEnvironment: deleteEnvironment
 };

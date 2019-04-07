@@ -12,7 +12,6 @@
 module.exports = function testTasks(gulp, context) {
   const jiraIssueManager = require("./lib/jiraIssueManager");
   const azureEnvironmentManager = require("./private/azureEnvironmentManagement");
-  const webSiteManagement = require('azure-arm-website');
   const vasync = require("vasync");
   var mocha = require("gulp-mocha");
   var mkdirp = require("mkdirp");
@@ -486,47 +485,16 @@ module.exports = function testTasks(gulp, context) {
         azureEnvironmentManager.getEnvironmentName(credentials, subscription_id, callback);
   
       }, function (credentials, subscription_id, envName, callback) {
-        const webSiteClient = new webSiteManagement(credentials, subscription_id);
-      
-        webSiteClient.checkNameAvailability(envName, azureConfig.resource_type).then((res) => {
+        azureEnvironmentManager.checkWebsiteExists(credentials, subscription_id, envName, callback);
   
-          if (!res.nameAvailable) {
-            callback(null, "An environment with this name already exists.");
-            return;
-          }
-  
-          webSiteClient.webApps.createOrUpdate(azureConfig.resource_group, envName, {
-            "location": azureConfig.location,
-            "siteConfig": {
-              "numberOfWorkers": 1,
-              "defaultDocuments": [
-                  "Default.htm",
-                  "Default.html",
-                  "Default.asp",
-                  "index.htm",
-                  "index.html",
-                  "iisstart.htm",
-                  "default.aspx",
-                  "index.php",
-                  "hostingstart.html"
-              ],
-              "netFrameworkVersion": "v4.0",
-              "phpVersion": "5.6",
-              "requestTracingEnabled": false,
-              "remoteDebuggingEnabled": false,
-              "remoteDebuggingVersion": "VS2017",
-              "httpLoggingEnabled": false,
-              "logsDirectorySizeLimit": 35,
-              "detailedErrorLoggingEnabled": false,
-              "publishingUsername": "$" + envName,
-              "alwaysOn": false
-            }
-  
-          }).then((res) => {
-            callback();
-          });
-        });
-  
+      }, function (credentials, subscription_id, envName, isExists, callback) {
+
+        if (isExists) {
+          callback(null, "An environment with this name already exists.");
+          return;
+        }
+        
+        azureEnvironmentManager.createEnvironment(credentials, subscription_id, envName, callback);
       }
       
     ], function (error, result) {
@@ -562,24 +530,16 @@ module.exports = function testTasks(gulp, context) {
         azureEnvironmentManager.getEnvironmentName(credentials, subscription_id, callback);
   
       }, function (credentials, subscription_id, envName, callback) {
-        const webSiteClient = new webSiteManagement(credentials, subscription_id);
+        azureEnvironmentManager.checkWebsiteExists(credentials, subscription_id, envName, callback);
   
-        webSiteClient.checkNameAvailability(envName, azureConfig.resource_type).then((res) => {
-  
-          if (res.nameAvailable) {
-            callback(null, "This environment has previously been deleted.");
-            return;
-          }
-  
-          webSiteClient.webApps.deleteMethod(azureConfig.resource_group, envName, {
-            deleteMetrics: true
-  
-          }).then((res) => {  
-            callback(null, "The environment has been deleted.");
-            return;
-          });
-        });
-  
+      }, function (credentials, subscription_id, envName, isExists, callback) {
+
+        if (!isExists) {
+          callback(null, "This environment has previously been deleted.");
+          return;
+        }
+
+        azureEnvironmentManager.deleteEnvironment(credentials, subscription_id, envName, callback);
       }
       
     ], function (error, result) {
