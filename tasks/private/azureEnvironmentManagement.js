@@ -8,6 +8,14 @@ const msRestAzure = require("ms-rest-azure");
 const resourceManagementClient = require('azure-arm-resource').ResourceManagementClient;
 const subscriptionManagementClient = require('azure-arm-resource').SubscriptionClient;
 
+/**
+ * Creates a new authenticated azure client.
+ * This is v1: user and password.
+ * V2: Use Service Principle. 
+ * @param {Function} callback 
+ * @returns {Object} User Credentials.
+ * @throws {Error} Any error that occures during authentication to Azure. 
+ */
 const authenticateAzure = function(callback) { 
     msRestAzure.loginWithUsernamePassword(azureConfig.user, azureConfig.password, (error, credentials) => {
   
@@ -20,6 +28,14 @@ const authenticateAzure = function(callback) {
     });
   };
   
+/**
+ * Retrieves a subscription id (if any) for provided credentials.
+ * @param {Object} credentials 
+ * @param {Function} callback 
+ * @returns {Object} User Credentials.
+ * @returns {String} Subscription Id.
+ * @throws {Error} If a user does not have an assigned subscription.
+ */
 const getSubscriptionId = function(credentials, callback) {
     const subscriptionClient = new subscriptionManagementClient(credentials);
 
@@ -35,6 +51,16 @@ const getSubscriptionId = function(credentials, callback) {
     });
   };
 
+  /**
+   * Extracts a Jira issue key from a current bamboo branch 
+   * and prepends a prefix, specified in the config file. 
+   * @param {Object} credentials 
+   * @param {String} subscription_id 
+   * @param {Function} callback 
+   * @returns {Object} User Credentials.
+   * @returns {String} Subscription Id.
+   * @returns {String} Environment Name.
+   */
 const getEnvironmentName = function(credentials, subscription_id, callback) {
     const jiraIssueKey = process.env.bamboo_repository_git_branch.match(new RegExp(jiraConfig.stories.regex, "g"));
     
@@ -52,6 +78,15 @@ const getEnvironmentName = function(credentials, subscription_id, callback) {
     );
   };
   
+/**
+ * Validates if a user has access to a resource group, specified in the config file.
+ * @param {Object} credentials 
+ * @param {String} subscription_id 
+ * @param {Function} callback
+ * @throws {Error} If there no resource group has been specified in the config file.
+ * @throws {Error} If a provided user is not a part of any resource group.
+ * @throws {Error} If a provided user does not have permissions to access a specified group.
+ */
 const validateGroupAccess = function(credentials, subscription_id, callback) {
     const resourceClient = new resourceManagementClient(credentials, subscription_id);
   
@@ -59,10 +94,7 @@ const validateGroupAccess = function(credentials, subscription_id, callback) {
       callback("No resource_group has been specified in your config file.");
       return;
     }
-  
-    /**
-     * Validate that a current user has access to a configured group.
-     */
+
     resourceClient.resourceGroups.list().then((groups) => {
       let group_id = null;
   
