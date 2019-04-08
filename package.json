@@ -80,7 +80,6 @@
     "baconjs": "^2.0.5",
     "chalk": "^2.4.2",
     "chokidar": "^2.0.4",
-    "jira-connector": "^2.10.0",
     "minimist": "^1.1.1",
     "pretty-hrtime": "^1.0.0",
     "ramda": "^0.26.1"
@@ -138,6 +137,7 @@
     "istanbul-instrumenter-loader": "^0.2.0",
     "istanbul-reporter-clover-limits": "^0.1.14",
     "j-pdfjson": "^1.1.9",
+    "jira-connector": "^2.10.0",
     "jsdoc-to-markdown": "^1.2.0",
     "json-loader": "^0.5.4",
     "leadfoot": "^1.6.4",
