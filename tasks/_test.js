@@ -468,7 +468,7 @@ module.exports = function testTasks(gulp, context) {
         return test({
           "reporter": "spec",
           "outputCoverageReports": false,
-          "applyContextTestCases": true
+          "applyContextTestCases": false
         });
       }
       return test({
