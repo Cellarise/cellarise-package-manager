@@ -10,6 +10,8 @@
  * @param {bunyan} context.logger - A logger matching the bunyan API
  */
 module.exports = function testTasks(gulp, context) {
+  const jiraIssueManager = require("./lib/jiraIssueManager");
+  const vasync = require("vasync");
   var mocha = require("gulp-mocha");
   var mkdirp = require("mkdirp");
   var gutil = require("gulp-util");
@@ -99,11 +101,7 @@ module.exports = function testTasks(gulp, context) {
       }
     }, glob.sync(sourceGlobStr));
 
-    //set YADDA_FEATURE_GLOB if argv[2]
-    if (context.argv.length === 2) {
-      process.env.YADDA_FEATURE_GLOB = context.argv[1];
-      logger.info("Set process.env.YADDA_FEATURE_GLOB=" + process.env.YADDA_FEATURE_GLOB);
-    }
+
 
     if (outputCoverageReports) {
       return gulp.src(path.resolve(process.cwd(), directories.test + "/test.js"), {"read": false})
@@ -190,6 +188,9 @@ module.exports = function testTasks(gulp, context) {
    */
   gulp.task("test_cover", gulp.series(
     "instrument",
+    function() {
+      return applyContextTestCases(null);
+    },
     function testCoverTask() {
       var cwd = context.cwd;
       var pkg = context.package;
@@ -215,21 +216,26 @@ module.exports = function testTasks(gulp, context) {
    * @member {Gulp} test_cover
    * @return {through2} stream
    */
-  gulp.task("test_cover_no_cov_report", function testCoverNoCovReportTask() {
-    var cwd = context.cwd;
-    var pkg = context.package;
-    var directories = pkg.directories;
-    var MOCHA_FILE_NAME = 'unit-mocha-tests' + (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : "");
+  gulp.task("test_cover_no_cov_report", gulp.series(
+    function() {
+      return applyContextTestCases(null);
+    },
+    function testCoverNoCovReportTask() {
+      var cwd = context.cwd;
+      var pkg = context.package;
+      var directories = pkg.directories;
+      var MOCHA_FILE_NAME = 'unit-mocha-tests' + (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : "");
 
-    //results file path for mocha-bamboo-reporter-bgo
-    process.env.MOCHA_FILE = path.join(cwd, directories.reports, MOCHA_FILE_NAME + ".json");
-    //make sure the Reports directory exists - required for mocha-bamboo-reporter-bgo
-    mkdirp.sync(path.join(cwd, directories.reports));
-    if (process.env.CI) {
-      return test("spec", false);
-    }
-    return test("mocha-bamboo-reporter-bgo", false);
-  });
+      //results file path for mocha-bamboo-reporter-bgo
+      process.env.MOCHA_FILE = path.join(cwd, directories.reports, MOCHA_FILE_NAME + ".json");
+      //make sure the Reports directory exists - required for mocha-bamboo-reporter-bgo
+      mkdirp.sync(path.join(cwd, directories.reports));
+      if (process.env.CI) {
+        return test("spec", false);
+      }
+      return test("mocha-bamboo-reporter-bgo", false);
+    })
+  );
 
   /**
    * A gulp build task to run test steps and calculate test coverage (but not output test coverage to prevent
@@ -398,7 +404,62 @@ module.exports = function testTasks(gulp, context) {
    * @member {Gulp} test
    * @return {through2} stream
    */
-  gulp.task("test", function testTask() {
-    return test("spec", true);
+  gulp.task("test", gulp.series(
+    function() {
+      return applyContextTestCases(null);
+    },
+    function testTask() {
+      return test("spec", true);
+    })
+  );
+
+  const applyContextTestCases = (jiraTestCases) => {
+
+    if (R.isEmpty(jiraTestCases) || R.isNil(jiraTestCases)) {
+      logger.info('No Jira issue key has been provided. Applying context parameters.');
+
+      if (context.argv.length === 2) {
+        process.env.YADDA_FEATURE_GLOB = context.argv[1];
+        logger.info("Set process.env.YADDA_FEATURE_GLOB=" + process.env.YADDA_FEATURE_GLOB);
+      }
+    }
+  };
+  
+  /**
+   * A gulp build task to determine test cases to run. 
+   * First it will try to find a JIRA issue key in a branch name. 
+   * If found, it will search for its components and use them as test cases identifiers.
+   * Otherwise, it will search for provided parameters in the context.
+   * Test steps results will be output using spec reporter.
+   * @member {Gulp} test_cover_jira_integration
+   * @return {through2} stream
+   */  
+  gulp.task("test_cover_jira_integration", () => {
+    vasync.waterfall([
+      function(callback) {
+        jiraIssueManager.getJiraOauthClient(callback);      
+      },
+      function(jiraOauthClient, callback) {
+        jiraIssueManager.getJiraIssue(jiraOauthClient, callback);
+      },
+      function(issue, callback) {
+        jiraIssueManager.getJiraTestCasesToRun(issue, callback);
+      },
+      function getTestCasesToRun(jiraTestCases, callback) {
+        process.env.YADDA_FEATURE_GLOB = jiraTestCases;
+        applyContextTestCases(jiraTestCases);
+        callback(null, "Sucessfully finished test cases selection");
+      }
+  
+    ], function (error, result) {
+  
+      if (!R.isEmpty(error) && !R.isNil(error)) {
+        throw new Error(error);
+      }
+
+      if (!R.isEmpty(result) && !R.isNil(result)) {
+        logger.info(result);
+      }
+    });
   });
 };
