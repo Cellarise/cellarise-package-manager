@@ -111,14 +111,14 @@ const validateGroupAccess = function(credentials, subscription_id, callback) {
     });
   };
 
-  /**
-   * Checks if an environment already exists.
-   * @param {Object} credentials 
-   * @param {String} subscription_id 
-   * @param {String} envName 
-   * @param {Function} callback 
-   * @returns {Boolean} True or False value that indicates if an environment already exists.
-   */
+/**
+ * Checks if an environment already exists.
+ * @param {Object} credentials 
+ * @param {String} subscription_id 
+ * @param {String} envName 
+ * @param {Function} callback 
+ * @returns {Boolean} True or False value that indicates if an environment already exists.
+ */
 const checkWebsiteExists = function(credentials, subscription_id, envName, callback) {
   const webSiteClient = new webSiteManagement(credentials, subscription_id);
   

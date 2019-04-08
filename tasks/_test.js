@@ -11,7 +11,7 @@
  */
 module.exports = function testTasks(gulp, context) {
   const jiraIssueManager = require("./lib/jiraIssueManager");
-  const azureEnvironmentManager = require("./private/azureEnvironmentManagement");
+  const azureEnvironmentManager = require("./lib/azureEnvironmentManager");
   const vasync = require("vasync");
   var mocha = require("gulp-mocha");
   var mkdirp = require("mkdirp");
