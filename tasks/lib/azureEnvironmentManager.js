@@ -1,8 +1,8 @@
 "use strict";
 
 const R = require("ramda");
-const azureConfig = require("./config")("azure");
-const jiraConfig = require("./config")("jira");
+const azureConfig = require("../../lib/utils/config")("azure");
+const jiraConfig = require("../../lib/utils/config")("jira");
 const azureEnvTemplate = require("../../azureEnvTemplate");
 
 const msRestAzure = require("ms-rest-azure");
