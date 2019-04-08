@@ -3,6 +3,7 @@
 const R = require("ramda");
 const azureConfig = require("./config")("azure");
 const jiraConfig = require("./config")("jira");
+const azureEnvTemplate = require("../../azureEnvTemplate");
 
 const msRestAzure = require("ms-rest-azure");
 const resourceManagementClient = require('azure-arm-resource').ResourceManagementClient;
@@ -137,36 +138,7 @@ const checkWebsiteExists = function(credentials, subscription_id, envName, callb
 const createEnvironment = function(credentials, subscription_id, envName, callback) {
   const webSiteClient = new webSiteManagement(credentials, subscription_id);
 
-  webSiteClient.webApps.createOrUpdate(azureConfig.resource_group, envName, {
-    "location": azureConfig.location,
-    "siteConfig": {
-      "numberOfWorkers": 1,
-      "defaultDocuments": [
-          "Default.htm",
-          "Default.html",
-          "Default.asp",
-          "index.htm",
-          "index.html",
-          "iisstart.htm",
-          "default.aspx",
-          "index.php",
-          "hostingstart.html"
-      ],
-      "serverFarmId": azureConfig.server_farm_id,
-      "netFrameworkVersion": "v4.0",
-      "phpVersion": "5.6",
-      "requestTracingEnabled": false,
-      "remoteDebuggingEnabled": false,
-      "remoteDebuggingVersion": "VS2017",
-      "httpLoggingEnabled": false,
-      "logsDirectorySizeLimit": 35,
-      "detailedErrorLoggingEnabled": false,
-      "publishingUsername": "$" + envName,
-      "scmType": "LocalGit",
-      "alwaysOn": false
-    }
-
-  }).then((res) => {
+  webSiteClient.webApps.createOrUpdate(azureConfig.resource_group, envName, azureEnvTemplate).then((res) => {
     callback();
   });
 }; 
