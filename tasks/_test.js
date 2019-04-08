@@ -425,20 +425,20 @@ module.exports = function testTasks(gulp, context) {
       }
     }
   };
-  
+
   /**
-   * A gulp build task to determine test cases to run. 
-   * First it will try to find a JIRA issue key in a branch name. 
+   * A gulp build task to determine test cases to run.
+   * First it will try to find a JIRA issue key in a branch name.
    * If found, it will search for its components and use them as test cases identifiers.
    * Otherwise, it will search for provided parameters in the context.
    * Test steps results will be output using spec reporter.
    * @member {Gulp} test_cover_jira_integration
    * @return {through2} stream
-   */  
+   */
   gulp.task("test_cover_jira_integration", () => {
     vasync.waterfall([
       function(callback) {
-        jiraIssueManager.getJiraOauthClient(callback);      
+        jiraIssueManager.getJiraOauthClient(callback);
       },
       function(jiraOauthClient, callback) {
         jiraIssueManager.getJiraIssue(jiraOauthClient, callback);
@@ -451,9 +451,9 @@ module.exports = function testTasks(gulp, context) {
         applyContextTestCases(jiraTestCases);
         callback(null, "Sucessfully finished test cases selection");
       }
-  
+
     ], function (error, result) {
-  
+
       if (!R.isEmpty(error) && !R.isNil(error)) {
         throw new Error(error);
       }
@@ -470,84 +470,75 @@ module.exports = function testTasks(gulp, context) {
    * @return {through2} stream
    */
   gulp.task('create_azure_env_for_jira_issue', () => {
-    async.waterfall([
-  
+    vasync.waterfall([
       function(callback) {
         azureEnvironmentManager.authenticateAzure(callback);
-  
+
       }, function(credentials, callback) {
         azureEnvironmentManager.getSubscriptionId(credentials, callback);
-  
-      }, function (credentials, subscription_id, callback) {
-        azureEnvironmentManager.validateGroupAccess(credentials, subscription_id, callback);
-  
-      }, function(credentials, subscription_id, callback) {
-        azureEnvironmentManager.getEnvironmentName(credentials, subscription_id, callback);
-  
-      }, function (credentials, subscription_id, envName, callback) {
-        azureEnvironmentManager.checkWebsiteExists(credentials, subscription_id, envName, callback);
-  
-      }, function (credentials, subscription_id, envName, isExists, callback) {
 
+      }, function (credentials, subscriptionId, callback) {
+        azureEnvironmentManager.validateGroupAccess(credentials, subscriptionId, callback);
+
+      }, function(credentials, subscriptionId, callback) {
+        azureEnvironmentManager.getEnvironmentName(credentials, subscriptionId, callback);
+
+      }, function (credentials, subscriptionId, envName, callback) {
+        azureEnvironmentManager.checkWebsiteExists(credentials, subscriptionId, envName, callback);
+
+      }, function (credentials, subscriptionId, envName, isExists, callback) {
         if (isExists) {
           callback(null, "An environment with this name already exists.");
           return;
         }
-        
-        azureEnvironmentManager.createEnvironment(credentials, subscription_id, envName, callback);
+        azureEnvironmentManager.createEnvironment(credentials, subscriptionId, envName, callback);
       }
-      
+
     ], function (error, result) {
-  
+
       if (!R.isEmpty(error) && !R.isNil(error)) {
         throw new Error(error);
       }
-  
+
       if (!R.isEmpty(result) && !R.isNil(result)) {
         logger.info(result);
       }
     });
   });
-  
+
   /**
    * Destroy an Azure environment (if it exists) for a feature branch.
    * @member {Gulp} delete_azure_env_for_jira_issue
    * @return {through2} stream
    */
   gulp.task('delete_azure_env_for_jira_issue', () => {
-    async.waterfall([
-  
+    vasync.waterfall([
       function(callback) {
         azureEnvironmentManager.authenticateAzure(callback);
-  
+
       }, function(credentials, callback) {
         azureEnvironmentManager.getSubscriptionId(credentials, callback);
-  
-      }, function (credentials, subscription_id, callback) {
-        azureEnvironmentManager.validateGroupAccess(credentials, subscription_id, callback);
-  
-      }, function(credentials, subscription_id, callback) {
-        azureEnvironmentManager.getEnvironmentName(credentials, subscription_id, callback);
-  
-      }, function (credentials, subscription_id, envName, callback) {
-        azureEnvironmentManager.checkWebsiteExists(credentials, subscription_id, envName, callback);
-  
-      }, function (credentials, subscription_id, envName, isExists, callback) {
 
+      }, function (credentials, subscriptionId, callback) {
+        azureEnvironmentManager.validateGroupAccess(credentials, subscriptionId, callback);
+
+      }, function(credentials, subscriptionId, callback) {
+        azureEnvironmentManager.getEnvironmentName(credentials, subscriptionId, callback);
+
+      }, function (credentials, subscriptionId, envName, callback) {
+        azureEnvironmentManager.checkWebsiteExists(credentials, subscriptionId, envName, callback);
+
+      }, function (credentials, subscriptionId, envName, isExists, callback) {
         if (!isExists) {
           callback(null, "This environment has previously been deleted.");
           return;
         }
-
-        azureEnvironmentManager.deleteEnvironment(credentials, subscription_id, envName, callback);
+        azureEnvironmentManager.deleteEnvironment(credentials, subscriptionId, envName, callback);
       }
-      
     ], function (error, result) {
-  
       if (!R.isEmpty(error) && !R.isNil(error)) {
         throw new Error(error);
       }
-  
       if (!R.isEmpty(result) && !R.isNil(result)) {
         logger.info(result);
       }
