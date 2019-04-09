@@ -162,6 +162,49 @@ module.exports = function testTasks(gulp, context) {
       });
   };
 
+  var writeTestPackageCoverage = function writeTestPackageCoverage(cb) {
+    var cwd = context.cwd;
+    var cwdForwardSlash = lowerCaseFirstLetter(cwd).replace("/", "\\");
+    var pkg = context.package;
+    var directories = pkg.directories;
+    var outputDir = path.join(cwd, directories.reports, "code-coverage");
+    var localPathCoverage = R.pipe(
+      R.toPairs,
+      R.map(function mapObjPair(objPair) {
+        var filePath = lowerCaseFirstLetter(objPair[0]);
+        return [filePath.replace(cwdForwardSlash, ""), objPair[1]];
+      }),
+      R.fromPairs
+    )(global[COVERAGE_VAR]);
+    //make sure outputDir exists and save the raw coverage file for future use
+    mkdirp.sync(outputDir);
+    fs.writeFile(
+      path.join(
+        outputDir, 'coverage' + (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : "") + '.json'
+      ),
+      JSON.stringify(localPathCoverage), 'utf8',
+      cb
+    );
+  };
+
+  var writeSkippedReport = function writeSkippedReport(cb) {
+    var cwd = context.cwd;
+    var pkg = context.package;
+    var directories = pkg.directories;
+    var outputDir = path.join(cwd, directories.reports);
+    logger.info("Skipping tests");
+
+    //make sure the Reports directory exists - required for mocha-bamboo-reporter-bgo
+    mkdirp.sync(path.join(cwd, directories.reports));
+    fs.writeFile(
+      path.join(
+        outputDir, 'skipped.json'
+      ),
+      JSON.stringify({}), 'utf8',
+      cb
+    );
+  };
+
   /**
    * A gulp build task to instrument files.
    * Istanbul will override the node require() function to redirect to the instrumented files.
@@ -265,28 +308,7 @@ module.exports = function testTasks(gulp, context) {
   gulp.task("test_cover_save_cov", gulp.series(
     "test_cover_no_cov_report",
     function testCoverTask(cb) {
-      var cwd = context.cwd;
-      var cwdForwardSlash = lowerCaseFirstLetter(cwd).replace("/", "\\");
-      var pkg = context.package;
-      var directories = pkg.directories;
-      var outputDir = path.join(cwd, directories.reports, "code-coverage");
-      var localPathCoverage = R.pipe(
-        R.toPairs,
-        R.map(function mapObjPair(objPair) {
-          var filePath = lowerCaseFirstLetter(objPair[0]);
-          return [filePath.replace(cwdForwardSlash, ""), objPair[1]];
-        }),
-        R.fromPairs
-      )(global[COVERAGE_VAR]);
-      //make sure outputDir exists and save the raw coverage file for future use
-      mkdirp.sync(outputDir);
-      fs.writeFile(
-        path.join(
-          outputDir, 'coverage' + (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : "") + '.json'
-        ),
-        JSON.stringify(localPathCoverage), 'utf8',
-        cb
-      );
+      writeTestPackageCoverage(cb);
     }
   ));
 
@@ -302,25 +324,25 @@ module.exports = function testTasks(gulp, context) {
     var outputDir = path.join(cwd, directories.reports, "code-coverage");
     var outputDirs = [
       path.join(cwd, directories.reports, "1", "code-coverage"),
-      path.join(cwd, directories.reports, "2",  "code-coverage"),
-      path.join(cwd, directories.reports, "3",  "code-coverage"),
-      path.join(cwd, directories.reports, "4",  "code-coverage"),
-      path.join(cwd, directories.reports, "5",  "code-coverage"),
-      path.join(cwd, directories.reports, "6",  "code-coverage"),
-      path.join(cwd, directories.reports, "7",  "code-coverage"),
-      path.join(cwd, directories.reports, "8",  "code-coverage"),
-      path.join(cwd, directories.reports, "9",  "code-coverage"),
-      path.join(cwd, directories.reports, "10",  "code-coverage"),
-      path.join(cwd, directories.reports, "11",  "code-coverage"),
-      path.join(cwd, directories.reports, "12",  "code-coverage"),
-      path.join(cwd, directories.reports, "13",  "code-coverage"),
-      path.join(cwd, directories.reports, "14",  "code-coverage"),
-      path.join(cwd, directories.reports, "15",  "code-coverage"),
-      path.join(cwd, directories.reports, "16",  "code-coverage"),
-      path.join(cwd, directories.reports, "17",  "code-coverage"),
-      path.join(cwd, directories.reports, "18",  "code-coverage"),
-      path.join(cwd, directories.reports, "19",  "code-coverage"),
-      path.join(cwd, directories.reports, "20",  "code-coverage"),
+      path.join(cwd, directories.reports, "2", "code-coverage"),
+      path.join(cwd, directories.reports, "3", "code-coverage"),
+      path.join(cwd, directories.reports, "4", "code-coverage"),
+      path.join(cwd, directories.reports, "5", "code-coverage"),
+      path.join(cwd, directories.reports, "6", "code-coverage"),
+      path.join(cwd, directories.reports, "7", "code-coverage"),
+      path.join(cwd, directories.reports, "8", "code-coverage"),
+      path.join(cwd, directories.reports, "9", "code-coverage"),
+      path.join(cwd, directories.reports, "10", "code-coverage"),
+      path.join(cwd, directories.reports, "11", "code-coverage"),
+      path.join(cwd, directories.reports, "12", "code-coverage"),
+      path.join(cwd, directories.reports, "13", "code-coverage"),
+      path.join(cwd, directories.reports, "14", "code-coverage"),
+      path.join(cwd, directories.reports, "15", "code-coverage"),
+      path.join(cwd, directories.reports, "16", "code-coverage"),
+      path.join(cwd, directories.reports, "17", "code-coverage"),
+      path.join(cwd, directories.reports, "18", "code-coverage"),
+      path.join(cwd, directories.reports, "19", "code-coverage"),
+      path.join(cwd, directories.reports, "20", "code-coverage"),
       path.join(cwd, directories.reports, "NFR", "code-coverage")
     ];
     var coverageFileNames = [
@@ -440,42 +462,83 @@ module.exports = function testTasks(gulp, context) {
    */
   gulp.task("test_cover_jira_integration", () => {
     const jiraIssueManager = require("../lib/utils/jiraIssueManager");
+
+    const skipTests = process.env.bamboo_SKIP_FUNCTIONAL_TESTS === "TRUE";
+    const isFeatureOrBugBranch = !R.isNil(process.env.bamboo_repository_git_branch)
+      && process.env.bamboo_repository_git_branch.match(new RegExp("(feature/|bug/)", "g"));
+
+    //if skip tests then write empty skipped report
+    if (skipTests) {
+      writeSkippedReport(() => {});
+      return;
+    }
+    //if not a bamboo feature/bug branch then run test_cover_no_cov_report and writeTestPackageCoverage
+    if (!isFeatureOrBugBranch) {
+      logger.info("Did not find a feature branch or bug branch");
+      gulp.series(
+        "test_cover_no_cov_report",
+        function testCoverTask(cb) {
+          writeTestPackageCoverage(cb);
+        }
+      )();
+      return;
+    }
+    logger.info("Found a feature branch or bug branch");
+
     vasync.waterfall([
-      function(callback) {
-        jiraIssueManager.getJiraOauthClient(callback);
-      },
-      function(jiraOauthClient, callback) {
-        jiraIssueManager.getJiraIssue(jiraOauthClient, callback);
-      },
-      function(issue, callback) {
-        jiraIssueManager.getJiraTestCasesToRun(issue, callback);
-      },
-      function getTestCasesToRun(jiraTestCases, callback) {
+        function (callback) {
+          jiraIssueManager.getJiraOauthClient(callback);
+        },
+        function (jiraOauthClient, callback) {
+          jiraIssueManager.getJiraIssue(jiraOauthClient, callback);
+        },
+        function (issue, callback) {
+          jiraIssueManager.getJiraTestCasesToRun(issue, callback);
+        }
+      ],
+      function (error, jiraTestCases, issue) {
+        if (!R.isEmpty(error) && !R.isNil(error)) {
+          throw new Error(error);
+        }
+        if (R.isNil(issue)) {
+          logger.info("Jira issue not found from branch name");
+        } else {
+          logger.info("Jira issue found from branch name: " + issue.key);
+        }
+        if (R.isNil(jiraTestCases)) {
+          logger.info("No test cases found from Jira issue");
+        } else {
+          logger.info("Test cases found from Jira issue: " + jiraTestCases);
+        }
+        const testPackagesFromContext = context.argv.length === 2 ? context.argv[1] : null;
+        //if no jiraTestCases or jiraTestCases not in test packages from context then skip
+        if (R.isNil(jiraTestCases) || R.isNil(testPackagesFromContext)) {
+          writeSkippedReport(() => {});
+          return;
+        } else if (jiraTestCases.indexOf(testPackagesFromContext) === -1) {
+          logger.info("Test cases found from Jira issue did not match text cases found from context");
+          writeSkippedReport(() => {});
+          return;
+        }
+
         process.env.YADDA_FEATURE_GLOB = jiraTestCases;
-        callback(null, "Sucessfully finished test cases selection");
-      }
 
-    ], function (error, result) {
+        const cwd = context.cwd;
+        const pkg = context.package;
+        const directories = pkg.directories;
+        const MOCHA_FILE_NAME = 'unit-mocha-tests' + (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : "");
 
-      if (!R.isEmpty(error) && !R.isNil(error)) {
-        throw new Error(error);
-      }
+        //results file path for mocha-bamboo-reporter-bgo
+        process.env.MOCHA_FILE = path.join(cwd, directories.reports, MOCHA_FILE_NAME + ".json");
+        //make sure the Reports directory exists - required for mocha-bamboo-reporter-bgo
+        mkdirp.sync(path.join(cwd, directories.reports));
 
-      if (!R.isEmpty(result) && !R.isNil(result)) {
-        logger.info(result);
-      }
-      if (process.env.CI) {
-        return test({
-          "reporter": "spec",
-          "outputCoverageReports": false,
+        test({
+          "reporter": "mocha-bamboo-reporter-bgo",
+          "outputCoverageReports": true,
           "applyContextTestCases": false
         });
-      }
-      return test({
-        "reporter": "mocha-bamboo-reporter-bgo",
-        "outputCoverageReports": true,
-        "applyContextTestCases": false
+        return;
       });
-    });
   });
 };
