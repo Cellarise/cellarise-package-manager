@@ -431,6 +431,28 @@ module.exports = function testTasks(gulp, context) {
     });
   });
 
+  const resultResolver = function(error, result, applyContextTestCases) {
+    if (!R.isEmpty(error) && !R.isNil(error)) {
+      throw new Error(error);
+    }
+
+    if (!R.isEmpty(result) && !R.isNil(result)) {
+      logger.info(result);
+    }
+    if (process.env.CI) {
+      return test({
+        "reporter": "spec",
+        "outputCoverageReports": false,
+        "applyContextTestCases": applyContextTestCases
+      });
+    }
+    return test({
+      "reporter": "mocha-bamboo-reporter-bgo",
+      "outputCoverageReports": true,
+      "applyContextTestCases": applyContextTestCases
+    });
+  };
+
   /**
    * A gulp build task to determine test cases to run.
    * First it will try to find a JIRA issue key in a branch name.
@@ -457,26 +479,7 @@ module.exports = function testTasks(gulp, context) {
       }
 
     ], function (error, result) {
-
-      if (!R.isEmpty(error) && !R.isNil(error)) {
-        throw new Error(error);
-      }
-
-      if (!R.isEmpty(result) && !R.isNil(result)) {
-        logger.info(result);
-      }
-      if (process.env.CI) {
-        return test({
-          "reporter": "spec",
-          "outputCoverageReports": false,
-          "applyContextTestCases": false
-        });
-      }
-      return test({
-        "reporter": "mocha-bamboo-reporter-bgo",
-        "outputCoverageReports": true,
-        "applyContextTestCases": false
-      });
+      resultResolver(error, result, false);
     });
   });
 
@@ -511,14 +514,7 @@ module.exports = function testTasks(gulp, context) {
       }
 
     ], function (error, result) {
-
-      if (!R.isEmpty(error) && !R.isNil(error)) {
-        throw new Error(error);
-      }
-
-      if (!R.isEmpty(result) && !R.isNil(result)) {
-        logger.info(result);
-      }
+      resultResolver(error, result, true);
     });
   });
 
@@ -552,12 +548,7 @@ module.exports = function testTasks(gulp, context) {
         azureEnvironmentManager.deleteEnvironment(credentials, subscriptionId, envName, callback);
       }
     ], function (error, result) {
-      if (!R.isEmpty(error) && !R.isNil(error)) {
-        throw new Error(error);
-      }
-      if (!R.isEmpty(result) && !R.isNil(result)) {
-        logger.info(result);
-      }
+      resultResolver(error, result, true);
     });
   });
 };
