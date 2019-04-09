@@ -79,7 +79,14 @@ module.exports = function testTasks(gulp, context) {
   };
 
 
-  var test = function test(reporter, outputCoverageReports) {
+  var test = function test(options = {
+    "reporter": "spec",
+    "outputCoverageReports": false,
+    "applyContextTestCases": true
+  }) {
+    var reporter = options.reporter;
+    var outputCoverageReports = options.outputCoverageReports;
+    var applyContextTestCases = options.applyContextTestCases;
     var cwd = context.cwd;
     var pkg = context.package;
     var directories = pkg.directories;
@@ -102,7 +109,10 @@ module.exports = function testTasks(gulp, context) {
       }
     }, glob.sync(sourceGlobStr));
 
-
+    if (applyContextTestCases && context.argv.length === 2) {
+      process.env.YADDA_FEATURE_GLOB = context.argv[1];
+      logger.info("Set process.env.YADDA_FEATURE_GLOB=" + process.env.YADDA_FEATURE_GLOB);
+    }
 
     if (outputCoverageReports) {
       return gulp.src(path.resolve(process.cwd(), directories.test + "/test.js"), {"read": false})
@@ -189,9 +199,6 @@ module.exports = function testTasks(gulp, context) {
    */
   gulp.task("test_cover", gulp.series(
     "instrument",
-    function() {
-      return applyContextTestCases(null);
-    },
     function testCoverTask() {
       var cwd = context.cwd;
       var pkg = context.package;
@@ -203,9 +210,17 @@ module.exports = function testTasks(gulp, context) {
       //make sure the Reports directory exists - required for mocha-bamboo-reporter-bgo
       mkdirp.sync(path.join(cwd, directories.reports));
       if (process.env.CI) {
-        return test("spec", true);
+        return test({
+          "reporter": "spec",
+          "outputCoverageReports": true,
+          "applyContextTestCases": true
+        });
       }
-      return test("mocha-bamboo-reporter-bgo", true);
+      return test({
+        "reporter": "mocha-bamboo-reporter-bgo",
+        "outputCoverageReports": true,
+        "applyContextTestCases": true
+      });
     }
   ));
 
@@ -217,26 +232,29 @@ module.exports = function testTasks(gulp, context) {
    * @member {Gulp} test_cover
    * @return {through2} stream
    */
-  gulp.task("test_cover_no_cov_report", gulp.series(
-    function() {
-      return applyContextTestCases(null);
-    },
-    function testCoverNoCovReportTask() {
-      var cwd = context.cwd;
-      var pkg = context.package;
-      var directories = pkg.directories;
-      var MOCHA_FILE_NAME = 'unit-mocha-tests' + (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : "");
+  gulp.task("test_cover_no_cov_report", function testCoverNoCovReportTask() {
+    var cwd = context.cwd;
+    var pkg = context.package;
+    var directories = pkg.directories;
+    var MOCHA_FILE_NAME = 'unit-mocha-tests' + (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : "");
 
-      //results file path for mocha-bamboo-reporter-bgo
-      process.env.MOCHA_FILE = path.join(cwd, directories.reports, MOCHA_FILE_NAME + ".json");
-      //make sure the Reports directory exists - required for mocha-bamboo-reporter-bgo
-      mkdirp.sync(path.join(cwd, directories.reports));
-      if (process.env.CI) {
-        return test("spec", false);
-      }
-      return test("mocha-bamboo-reporter-bgo", false);
-    })
-  );
+    //results file path for mocha-bamboo-reporter-bgo
+    process.env.MOCHA_FILE = path.join(cwd, directories.reports, MOCHA_FILE_NAME + ".json");
+    //make sure the Reports directory exists - required for mocha-bamboo-reporter-bgo
+    mkdirp.sync(path.join(cwd, directories.reports));
+    if (process.env.CI) {
+      return test({
+        "reporter": "spec",
+        "outputCoverageReports": false,
+        "applyContextTestCases": true
+      });
+    }
+    return test({
+      "reporter": "mocha-bamboo-reporter-bgo",
+      "outputCoverageReports": false,
+      "applyContextTestCases": true
+    });
+  });
 
   /**
    * A gulp build task to run test steps and calculate test coverage (but not output test coverage to prevent
@@ -405,26 +423,13 @@ module.exports = function testTasks(gulp, context) {
    * @member {Gulp} test
    * @return {through2} stream
    */
-  gulp.task("test", gulp.series(
-    function() {
-      return applyContextTestCases(null);
-    },
-    function testTask() {
-      return test("spec", true);
-    })
-  );
-
-  const applyContextTestCases = (jiraTestCases) => {
-
-    if (R.isEmpty(jiraTestCases) || R.isNil(jiraTestCases)) {
-      logger.info('No Jira issue key has been provided. Applying context parameters.');
-
-      if (context.argv.length === 2) {
-        process.env.YADDA_FEATURE_GLOB = context.argv[1];
-        logger.info("Set process.env.YADDA_FEATURE_GLOB=" + process.env.YADDA_FEATURE_GLOB);
-      }
-    }
-  };
+  gulp.task("test", function testTask() {
+    return test({
+      "reporter": "spec",
+      "outputCoverageReports": true,
+      "applyContextTestCases": true
+    });
+  });
 
   /**
    * A gulp build task to determine test cases to run.
@@ -448,7 +453,6 @@ module.exports = function testTasks(gulp, context) {
       },
       function getTestCasesToRun(jiraTestCases, callback) {
         process.env.YADDA_FEATURE_GLOB = jiraTestCases;
-        applyContextTestCases(jiraTestCases);
         callback(null, "Sucessfully finished test cases selection");
       }
 
@@ -461,6 +465,18 @@ module.exports = function testTasks(gulp, context) {
       if (!R.isEmpty(result) && !R.isNil(result)) {
         logger.info(result);
       }
+      if (process.env.CI) {
+        return test({
+          "reporter": "spec",
+          "outputCoverageReports": false,
+          "applyContextTestCases": false
+        });
+      }
+      return test({
+        "reporter": "mocha-bamboo-reporter-bgo",
+        "outputCoverageReports": true,
+        "applyContextTestCases": false
+      });
     });
   });
 
