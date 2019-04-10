@@ -510,7 +510,12 @@ module.exports = function testTasks(gulp, context) {
           callback(null, "An environment with this name already exists.");
           return;
         }
-        azureEnvironmentManager.createEnvironment(credentials, subscriptionId, envName, callback);
+
+        const cwd = context.cwd;
+        const directories = context.package.directories;
+        const azureEnvTemplate = path.join(cwd, directories.templates,
+          process.env.AZURE_DEPLOY_TEMPLATE_FILE_NAME + ".json");
+        azureEnvironmentManager.createEnvironment(credentials, subscriptionId, envName, azureEnvTemplate, callback);
       }
 
     ], function (error, result) {

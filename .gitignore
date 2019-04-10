@@ -10,3 +10,4 @@
 /*.log
 /Auto_Build/
 /node_modules
+package-lock.json

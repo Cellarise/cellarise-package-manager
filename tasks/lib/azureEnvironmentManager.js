@@ -3,7 +3,6 @@
 const R = require("ramda");
 const azureConfig = require("../../lib/utils/config")("azure");
 const jiraConfig = require("../../lib/utils/config")("jira");
-const azureEnvTemplate = require("../../azureEnvTemplate");
 
 const msRestAzure = require("ms-rest-azure");
 const ResourceManagementClient = require('azure-arm-resource').ResourceManagementClient;
@@ -127,9 +126,10 @@ const checkWebsiteExists = function(credentials, subscriptionId, envName, callba
  * @param {Object} credentials - User Credentials
  * @param {String} subscriptionId - Azure subscription id
  * @param {String} envName - environment name
+ * @param {String} azureEnvTemplate - Deployment template for WebApps
  * @param {Function} callback - nothing
  */
-const createEnvironment = function(credentials, subscriptionId, envName, callback) {
+const createEnvironment = function(credentials, subscriptionId, envName, azureEnvTemplate, callback) {
   const webSiteClient = new WebSiteManagement(credentials, subscriptionId);
 
   webSiteClient.webApps.createOrUpdate(azureConfig.resource_group, envName, azureEnvTemplate).then(() => {
