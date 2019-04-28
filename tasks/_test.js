@@ -490,7 +490,7 @@ module.exports = function testTasks(gulp, context) {
           jiraIssueManager.getJiraOauthClient(callback);
         },
         function (jiraOauthClient, callback) {
-          jiraIssueManager.getJiraIssue(jiraOauthClient, callback);
+          jiraIssueManager.getJiraIssue(context, jiraOauthClient, callback);
         },
         function (issue, callback) {
           jiraIssueManager.getJiraTestCasesToRun(issue, callback);
