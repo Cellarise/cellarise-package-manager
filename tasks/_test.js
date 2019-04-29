@@ -599,19 +599,22 @@ module.exports = function testTasks(gulp, context) {
     const azureEnvironmentManager = require("../lib/utils/azureEnvironmentManager");
     vasync.waterfall([
       function(callback) {
-        azureEnvironmentManager.authenticateAzure(callback);
+        azureEnvironmentManager.authenticateAzure(context, callback);
 
       }, function(credentials, callback) {
-        azureEnvironmentManager.getSubscriptionId(credentials, callback);
+        logger.info("Authenticated with Azure");
+        azureEnvironmentManager.getSubscriptionId(context, credentials, callback);
 
       }, function (credentials, subscriptionId, callback) {
-        azureEnvironmentManager.validateGroupAccess(credentials, subscriptionId, callback);
+        logger.info("Obtained Azure subscription id");
+        azureEnvironmentManager.validateGroupAccess(context, credentials, subscriptionId, callback);
 
       }, function(credentials, subscriptionId, callback) {
+        logger.info("Validated user access to resources in subscription");
         azureEnvironmentManager.getEnvironmentName(context, credentials, subscriptionId, callback);
 
       }, function (credentials, subscriptionId, envName, callback) {
-        azureEnvironmentManager.checkWebsiteExists(credentials, subscriptionId, envName, callback);
+        azureEnvironmentManager.checkWebsiteExists(context, credentials, subscriptionId, envName, callback);
 
       }, function (credentials, subscriptionId, envName, isExists, callback) {
         if (R.isNil(envName)) {
@@ -619,15 +622,17 @@ module.exports = function testTasks(gulp, context) {
           return;
         }
         if (isExists) {
-          callback(null, "An environment with this name already exists.");
+          callback(null, "Environment with this name already exists: " + envName);
           return;
         }
+        logger.info("Creating environment: " + envName);
         azureEnvironmentManager.createEnvironment(context, credentials, subscriptionId, envName, callback);
       }
 
     ], function (error, result) {
 
       if (!R.isNil(error)) {
+        logger.error(error);
         throw new Error(error);
       }
 
@@ -646,19 +651,22 @@ module.exports = function testTasks(gulp, context) {
     const azureEnvironmentManager = require("../lib/utils/azureEnvironmentManager");
     vasync.waterfall([
       function(callback) {
-        azureEnvironmentManager.authenticateAzure(callback);
+        azureEnvironmentManager.authenticateAzure(context, callback);
 
       }, function(credentials, callback) {
-        azureEnvironmentManager.getSubscriptionId(credentials, callback);
+        logger.info("Authenticated with Azure");
+        azureEnvironmentManager.getSubscriptionId(context, credentials, callback);
 
       }, function (credentials, subscriptionId, callback) {
-        azureEnvironmentManager.validateGroupAccess(credentials, subscriptionId, callback);
+        logger.info("Obtained Azure subscription id");
+        azureEnvironmentManager.validateGroupAccess(context, credentials, subscriptionId, callback);
 
       }, function(credentials, subscriptionId, callback) {
+        logger.info("Validated user access to resources in subscription");
         azureEnvironmentManager.getEnvironmentName(context, credentials, subscriptionId, callback);
 
       }, function (credentials, subscriptionId, envName, callback) {
-        azureEnvironmentManager.checkWebsiteExists(credentials, subscriptionId, envName, callback);
+        azureEnvironmentManager.checkWebsiteExists(context, credentials, subscriptionId, envName, callback);
 
       }, function (credentials, subscriptionId, envName, isExists, callback) {
         if (R.isNil(envName)) {
@@ -666,10 +674,11 @@ module.exports = function testTasks(gulp, context) {
           return;
         }
         if (!isExists) {
-          callback(null, "This environment has previously been deleted.");
+          callback(null, "Environment has previously been deleted: " + envName);
           return;
         }
-        azureEnvironmentManager.deleteEnvironment(credentials, subscriptionId, envName, callback);
+        logger.info("Deleting environment: " + envName);
+        azureEnvironmentManager.deleteEnvironment(context, credentials, subscriptionId, envName, callback);
       }
     ], function (error, result) {
       if (!R.isEmpty(error) && !R.isNil(error)) {

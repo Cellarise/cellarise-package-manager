@@ -7,7 +7,6 @@
 /rsa-cert.*
 /rsa-key.*
 /config.json
-/azureEnvTemplate.json
 /*.log
 /Auto_Build/
 /node_modules
