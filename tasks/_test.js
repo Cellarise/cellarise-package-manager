@@ -622,7 +622,7 @@ module.exports = function testTasks(gulp, context) {
           callback(null, "An environment with this name already exists.");
           return;
         }
-        azureEnvironmentManager.createEnvironment(credentials, subscriptionId, envName, callback);
+        azureEnvironmentManager.createEnvironment(context, credentials, subscriptionId, envName, callback);
       }
 
     ], function (error, result) {
