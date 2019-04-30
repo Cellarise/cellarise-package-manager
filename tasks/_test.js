@@ -638,18 +638,15 @@ module.exports = function testTasks(gulp, context) {
         azureEnvironmentManager.createEnvironment(context, credentials, subscriptionId, envName, callback);
       }
 
-    ], function (error, result) {
+    ], function (error, envName) {
 
       if (!R.isNil(error)) {
         logger.error(error);
         throw new Error(error);
       }
 
-      if (!R.isNil(result)) {
-        logger.info(result);
-      }
       azureEnvironmentManager.createAzureWebAppVariablesFile(context);
-      logger.info("Successfully configured environment");
+      logger.info("Successfully configured environment: " + envName);
     });
   });
 
