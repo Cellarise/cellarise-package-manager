@@ -22,11 +22,11 @@ module.exports = function serversTasks(gulp, context) {
    * @alias tasks:startSelenium
    */
   gulp.task('start-selenium', function startSelenium(cb) {
-    var SELENIUM_PORT = process.env.SELENIUM_PORT || '4444';
+    var SELENIUM_PORT = process.env.bamboo_capability_Selenium || process.env.SELENIUM_PORT || '4444';
     var out, err, server, serverPid;
     mkdirp.sync("Temp");
-    out = fs.openSync('./Temp/selenium-' + SELENIUM_PORT + '.log', 'a');
-    err = fs.openSync('./Temp/selenium-' + SELENIUM_PORT + '.log', 'a');
+    // out = fs.openSync('./Temp/selenium-' + SELENIUM_PORT + '.log', 'a');
+    // err = fs.openSync('./Temp/selenium-' + SELENIUM_PORT + '.log', 'a');
     server = childProcess.spawn(
       path.join(__dirname, "../../bin", 'selenium.bat'),
       [SELENIUM_PORT], {
@@ -86,7 +86,7 @@ module.exports = function serversTasks(gulp, context) {
    * @alias tasks:killSelenium
    */
   gulp.task('kill-selenium', function killSelenium(cb) {
-    var SELENIUM_PORT = process.env.SELENIUM_PORT || '4444';
+    var SELENIUM_PORT = process.env.bamboo_capability_Selenium || process.env.SELENIUM_PORT || '4444';
     fs.readFile(path.join(cwd, "Temp", 'selenium-' + SELENIUM_PORT + '.json'), 'utf8', function cbRF(err, data) {
       if (err || !data) {
         return cb(); //do not throw error if fail

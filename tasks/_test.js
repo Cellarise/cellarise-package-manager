@@ -597,6 +597,14 @@ module.exports = function testTasks(gulp, context) {
    */
   gulp.task('create_azure_env_for_jira_issue', () => {
     const azureEnvironmentManager = require("../lib/utils/azureEnvironmentManager");
+    const isFeatureOrBugBranch = !R.isNil(process.env.bamboo_repository_git_branch)
+      && process.env.bamboo_repository_git_branch.match(new RegExp("(feature/|bug/)", "g"));
+    //get deploymentUrl and websiteUrl
+    if (!isFeatureOrBugBranch) {
+      logger.info("Skipped environment configuration - not a feature or bug branch");
+      azureEnvironmentManager.createAzureWebAppVariablesFile(context);
+      return;
+    }
     vasync.waterfall([
       function(callback) {
         azureEnvironmentManager.authenticateAzure(context, callback);
@@ -622,7 +630,8 @@ module.exports = function testTasks(gulp, context) {
           return;
         }
         if (isExists) {
-          callback(null, "Environment with this name already exists: " + envName);
+          logger.info("Updating environment: " + envName);
+          azureEnvironmentManager.updateEnvironment(context, credentials, subscriptionId, envName, callback);
           return;
         }
         logger.info("Creating environment: " + envName);
@@ -639,6 +648,8 @@ module.exports = function testTasks(gulp, context) {
       if (!R.isNil(result)) {
         logger.info(result);
       }
+      azureEnvironmentManager.createAzureWebAppVariablesFile(context);
+      logger.info("Successfully configured environment");
     });
   });
 
