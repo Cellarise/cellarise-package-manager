@@ -597,14 +597,6 @@ module.exports = function testTasks(gulp, context) {
    */
   gulp.task('create_azure_env_for_jira_issue', () => {
     const azureEnvironmentManager = require("../lib/utils/azureEnvironmentManager");
-    const isFeatureOrBugBranch = !R.isNil(process.env.bamboo_repository_git_branch)
-      && process.env.bamboo_repository_git_branch.match(new RegExp("(feature/|bug/)", "g"));
-    //get deploymentUrl and websiteUrl
-    if (!isFeatureOrBugBranch) {
-      logger.info("Skipped environment configuration - not a feature or bug branch");
-      azureEnvironmentManager.createAzureWebAppVariablesFile(context);
-      return;
-    }
     vasync.waterfall([
       function(callback) {
         azureEnvironmentManager.authenticateAzure(context, callback);
@@ -621,24 +613,24 @@ module.exports = function testTasks(gulp, context) {
         logger.info("Validated user access to resources in subscription");
         azureEnvironmentManager.getEnvironmentName(context, credentials, subscriptionId, callback);
 
-      }, function (credentials, subscriptionId, envName, callback) {
-        azureEnvironmentManager.checkWebsiteExists(context, credentials, subscriptionId, envName, callback);
+      }, function (credentials, subscriptionId, websiteName, callback) {
+        azureEnvironmentManager.checkWebsiteExists(context, credentials, subscriptionId, websiteName, callback);
 
-      }, function (credentials, subscriptionId, envName, isExists, callback) {
-        if (R.isNil(envName)) {
-          callback(null, "Could not determine environment name.");
+      }, function (credentials, subscriptionId, websiteName, isExists, callback) {
+        if (R.isNil(websiteName)) {
+          callback(null, "Could not determine webapp environment name.");
           return;
         }
         if (isExists) {
-          logger.info("Updating environment: " + envName);
-          azureEnvironmentManager.updateEnvironment(context, credentials, subscriptionId, envName, callback);
+          logger.info("Updating webapp environment: " + websiteName);
+          azureEnvironmentManager.updateEnvironment(context, credentials, subscriptionId, websiteName, callback);
           return;
         }
-        logger.info("Creating environment: " + envName);
-        azureEnvironmentManager.createEnvironment(context, credentials, subscriptionId, envName, callback);
+        logger.info("Creating webapp environment: " + websiteName);
+        azureEnvironmentManager.createEnvironment(context, credentials, subscriptionId, websiteName, callback);
       }
 
-    ], function (error, envName) {
+    ], function (error, websiteName) {
 
       if (!R.isNil(error)) {
         logger.error(error);
@@ -646,7 +638,7 @@ module.exports = function testTasks(gulp, context) {
       }
 
       azureEnvironmentManager.createAzureWebAppVariablesFile(context);
-      logger.info("Successfully configured environment: " + envName);
+      logger.info("Successfully configured webapp environment: " + websiteName);
     });
   });
 
@@ -673,20 +665,20 @@ module.exports = function testTasks(gulp, context) {
         logger.info("Validated user access to resources in subscription");
         azureEnvironmentManager.getEnvironmentName(context, credentials, subscriptionId, callback);
 
-      }, function (credentials, subscriptionId, envName, callback) {
-        azureEnvironmentManager.checkWebsiteExists(context, credentials, subscriptionId, envName, callback);
+      }, function (credentials, subscriptionId, websiteName, callback) {
+        azureEnvironmentManager.checkWebsiteExists(context, credentials, subscriptionId, websiteName, callback);
 
-      }, function (credentials, subscriptionId, envName, isExists, callback) {
-        if (R.isNil(envName)) {
-          callback(null, "Could not determine environment name.");
+      }, function (credentials, subscriptionId, websiteName, isExists, callback) {
+        if (R.isNil(websiteName)) {
+          callback(null, "Could not determine webapp environment name.");
           return;
         }
         if (!isExists) {
-          callback(null, "Environment has previously been deleted: " + envName);
+          callback(null, "Webapp environment has previously been deleted: " + websiteName);
           return;
         }
-        logger.info("Deleting environment: " + envName);
-        azureEnvironmentManager.deleteEnvironment(context, credentials, subscriptionId, envName, callback);
+        logger.info("Deleting webapp environment: " + websiteName);
+        azureEnvironmentManager.deleteEnvironment(context, credentials, subscriptionId, websiteName, callback);
       }
     ], function (error, result) {
       if (!R.isEmpty(error) && !R.isNil(error)) {
