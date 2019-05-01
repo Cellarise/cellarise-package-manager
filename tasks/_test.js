@@ -90,8 +90,8 @@ module.exports = function testTasks(gulp, context) {
     var directories = pkg.directories;
     var sourceGlobStr = directories.lib + "/**/*.js";
     var scriptPath;
-    var outputDir = path.join(cwd, directories.reports, "code-coverage"
-      + (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : ""));
+    const SELENIUM_PORT = process.env.bamboo_capability_Selenium || process.env.SELENIUM_PORT || 4444;
+    var outputDir = path.join(cwd, directories.reports, "code-coverage" + (SELENIUM_PORT ? "-" + SELENIUM_PORT : ""));
 
     //make sure Temp folder exists before test
     mkdirp.sync(path.join(cwd, "Temp"));
@@ -176,11 +176,12 @@ module.exports = function testTasks(gulp, context) {
       }),
       R.fromPairs
     )(global[COVERAGE_VAR]);
+    const SELENIUM_PORT = process.env.bamboo_capability_Selenium || process.env.SELENIUM_PORT || 4444;
     //make sure outputDir exists and save the raw coverage file for future use
     mkdirp.sync(outputDir);
     fs.writeFile(
       path.join(
-        outputDir, 'coverage' + (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : "") + '.json'
+        outputDir, 'coverage' + (SELENIUM_PORT ? "-" + SELENIUM_PORT : "") + '.json'
       ),
       JSON.stringify(localPathCoverage), 'utf8',
       cb
@@ -292,7 +293,8 @@ module.exports = function testTasks(gulp, context) {
       var cwd = context.cwd;
       var pkg = context.package;
       var directories = pkg.directories;
-      var MOCHA_FILE_NAME = 'unit-mocha-tests' + (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : "");
+      const SELENIUM_PORT = process.env.bamboo_capability_Selenium || process.env.SELENIUM_PORT || 4444;
+      var MOCHA_FILE_NAME = 'unit-mocha-tests' + (SELENIUM_PORT ? "-" + SELENIUM_PORT : "");
 
       //results file path for mocha-bamboo-reporter-bgo
       process.env.MOCHA_FILE = path.join(cwd, directories.reports, MOCHA_FILE_NAME + ".json");
@@ -325,7 +327,8 @@ module.exports = function testTasks(gulp, context) {
     var cwd = context.cwd;
     var pkg = context.package;
     var directories = pkg.directories;
-    var MOCHA_FILE_NAME = 'unit-mocha-tests' + (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : "");
+    const SELENIUM_PORT = process.env.bamboo_capability_Selenium || process.env.SELENIUM_PORT || 4444;
+    var MOCHA_FILE_NAME = 'unit-mocha-tests' + (SELENIUM_PORT ? "-" + SELENIUM_PORT : "");
 
     //results file path for mocha-bamboo-reporter-bgo
     process.env.MOCHA_FILE = path.join(cwd, directories.reports, MOCHA_FILE_NAME + ".json");
@@ -378,6 +381,12 @@ module.exports = function testTasks(gulp, context) {
       path.join(cwd, directories.reports, "5", "code-coverage"),
       path.join(cwd, directories.reports, "6", "code-coverage"),
       path.join(cwd, directories.reports, "7", "code-coverage"),
+      path.join(cwd, directories.reports, "7_1", "code-coverage"),
+      path.join(cwd, directories.reports, "7_2", "code-coverage"),
+      path.join(cwd, directories.reports, "7_3", "code-coverage"),
+      path.join(cwd, directories.reports, "7_4", "code-coverage"),
+      path.join(cwd, directories.reports, "7_5", "code-coverage"),
+      path.join(cwd, directories.reports, "7_6", "code-coverage"),
       path.join(cwd, directories.reports, "8", "code-coverage"),
       path.join(cwd, directories.reports, "9", "code-coverage"),
       path.join(cwd, directories.reports, "10", "code-coverage"),
@@ -391,12 +400,19 @@ module.exports = function testTasks(gulp, context) {
       path.join(cwd, directories.reports, "18", "code-coverage"),
       path.join(cwd, directories.reports, "19", "code-coverage"),
       path.join(cwd, directories.reports, "20", "code-coverage"),
+      path.join(cwd, directories.reports, "21", "code-coverage"),
+      path.join(cwd, directories.reports, "22", "code-coverage"),
+      path.join(cwd, directories.reports, "23", "code-coverage"),
+      path.join(cwd, directories.reports, "24", "code-coverage"),
+      path.join(cwd, directories.reports, "25", "code-coverage"),
       path.join(cwd, directories.reports, "NFR", "code-coverage")
     ];
     var coverageFileNames = [
       'coverage-4441.json',
       'coverage-4442.json',
-      'coverage-4443.json'
+      'coverage-4443.json',
+      'coverage-4444.json',
+      'coverage-4445.json'
     ];
     var fileContents;
     //read all coverage files and add to global[COVERAGE_VAR]
@@ -528,6 +544,7 @@ module.exports = function testTasks(gulp, context) {
     const skipTests = process.env.bamboo_SKIP_FUNCTIONAL_TESTS === "TRUE";
     const isFeatureOrBugBranch = !R.isNil(process.env.bamboo_repository_git_branch)
       && process.env.bamboo_repository_git_branch.match(new RegExp("(feature/|bug/)", "g"));
+    const SELENIUM_PORT = process.env.bamboo_capability_Selenium || process.env.SELENIUM_PORT || 4444;
 
     //if skip tests then write empty skipped report
     if (skipTests) {
@@ -588,7 +605,7 @@ module.exports = function testTasks(gulp, context) {
         const cwd = context.cwd;
         const pkg = context.package;
         const directories = pkg.directories;
-        const MOCHA_FILE_NAME = 'unit-mocha-tests' + (process.env.SELENIUM_PORT ? "-" + process.env.SELENIUM_PORT : "");
+        const MOCHA_FILE_NAME = 'unit-mocha-tests' + (SELENIUM_PORT ? "-" + SELENIUM_PORT : "");
 
         //results file path for mocha-bamboo-reporter-bgo
         process.env.MOCHA_FILE = path.join(cwd, directories.reports, MOCHA_FILE_NAME + ".json");
