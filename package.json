@@ -148,6 +148,7 @@
     "mkdirp": "^0.5.1",
     "mocha-bamboo-reporter-bgo": "git://github.com/Cellarise/mocha-bamboo-reporter-bgo.git#master",
     "ms-rest-azure": "^2.6.0",
+    "mssql": "^5.1.0",
     "npm-license": "^0.3.1",
     "oauth-rest-atlassian": "^0.4.25",
     "pdfreader": "^0.2.5",

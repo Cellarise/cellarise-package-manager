@@ -680,13 +680,30 @@ module.exports = function testTasks(gulp, context) {
         logger.info("Deleting webapp environment: " + websiteName);
         azureEnvironmentManager.deleteEnvironment(context, credentials, subscriptionId, websiteName, callback);
       }
-    ], function (error, result) {
-      if (!R.isEmpty(error) && !R.isNil(error)) {
+    ], function (error) {
+
+      if (!R.isNil(error)) {
+        logger.error(error);
         throw new Error(error);
       }
-      if (!R.isEmpty(result) && !R.isNil(result)) {
-        logger.info(result);
+      logger.info("Successfully deleted webapp environment");
+    });
+  });
+
+  /**
+   * Destroy an Azure environment (if it exists) for a feature branch.
+   * @member {Gulp} delete_azure_env_for_jira_issue
+   * @return {through2} stream
+   */
+  gulp.task('delete_azure_mssql_for_jira_issue', () => {
+    const mssqlDatabaseManager = require("../lib/utils/mssqlDatabaseManager");
+    mssqlDatabaseManager.deleteAllWebappDatabaseSchemaAndData(context, function (error) {
+
+      if (!R.isNil(error)) {
+        logger.error(error);
+        throw new Error(error);
       }
+      logger.info("Successfully deleted data and schema for webapp environment");
     });
   });
 };
