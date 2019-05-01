@@ -500,6 +500,20 @@ module.exports = function testTasks(gulp, context) {
   });
 
   /**
+   * A gulp build task to run test steps based on jira component and no calculation of test coverage.
+   * Test steps results will be output using mocha-bamboo-reporter-bgo reporter.
+   * @member {Gulp} test
+   * @return {through2} stream
+   */
+  gulp.task("test_jira", function testTask() {
+    return test({
+      "reporter": "mocha-bamboo-reporter-bgo",
+      "outputCoverageReports": false,
+      "applyContextTestCases": false
+    });
+  });
+
+  /**
    * A gulp build task to determine test cases to run.
    * First it will try to find a JIRA issue key in a branch name.
    * If found, it will search for its components and use them as test cases identifiers.
@@ -581,11 +595,12 @@ module.exports = function testTasks(gulp, context) {
         //make sure the Reports directory exists - required for mocha-bamboo-reporter-bgo
         mkdirp.sync(path.join(cwd, directories.reports));
 
-        test({
-          "reporter": "mocha-bamboo-reporter-bgo",
-          "outputCoverageReports": true,
-          "applyContextTestCases": false
-        });
+        gulp.series(
+          "test_jira",
+          function testCoverTask(cb) {
+            writeTestPackageCoverage(cb);
+          }
+        )();
         return;
       });
   });
