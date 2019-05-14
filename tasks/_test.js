@@ -387,6 +387,8 @@ module.exports = function testTasks(gulp, context) {
       path.join(cwd, directories.reports, "7_4", "code-coverage"),
       path.join(cwd, directories.reports, "7_5", "code-coverage"),
       path.join(cwd, directories.reports, "7_6", "code-coverage"),
+      path.join(cwd, directories.reports, "7_8", "code-coverage"),
+      path.join(cwd, directories.reports, "7_9", "code-coverage"),
       path.join(cwd, directories.reports, "8", "code-coverage"),
       path.join(cwd, directories.reports, "9", "code-coverage"),
       path.join(cwd, directories.reports, "10", "code-coverage"),
@@ -398,14 +400,23 @@ module.exports = function testTasks(gulp, context) {
       path.join(cwd, directories.reports, "16", "code-coverage"),
       path.join(cwd, directories.reports, "17", "code-coverage"),
       path.join(cwd, directories.reports, "18", "code-coverage"),
+      path.join(cwd, directories.reports, "18_1", "code-coverage"),
+      path.join(cwd, directories.reports, "18_2", "code-coverage"),
+      path.join(cwd, directories.reports, "18_3", "code-coverage"),
+      path.join(cwd, directories.reports, "18_4", "code-coverage"),
+      path.join(cwd, directories.reports, "18_5", "code-coverage"),
+      path.join(cwd, directories.reports, "18_6", "code-coverage"),
       path.join(cwd, directories.reports, "19", "code-coverage"),
+      path.join(cwd, directories.reports, "19_1", "code-coverage"),
+      path.join(cwd, directories.reports, "19_2", "code-coverage"),
+      path.join(cwd, directories.reports, "19_3", "code-coverage"),
       path.join(cwd, directories.reports, "20", "code-coverage"),
       path.join(cwd, directories.reports, "21", "code-coverage"),
       path.join(cwd, directories.reports, "22", "code-coverage"),
       path.join(cwd, directories.reports, "23", "code-coverage"),
       path.join(cwd, directories.reports, "24", "code-coverage"),
       path.join(cwd, directories.reports, "25", "code-coverage"),
-      path.join(cwd, directories.reports, "NFR", "code-coverage")
+      path.join(cwd, directories.reports, "NF", "code-coverage")
     ];
     var coverageFileNames = [
       'coverage-4441.json',
@@ -542,8 +553,8 @@ module.exports = function testTasks(gulp, context) {
     const jiraIssueManager = require("../lib/utils/jiraIssueManager");
 
     const skipTests = process.env.bamboo_SKIP_FUNCTIONAL_TESTS === "TRUE";
-    const isFeatureOrBugBranch = !R.isNil(process.env.bamboo_repository_git_branch)
-      && process.env.bamboo_repository_git_branch.match(new RegExp("(feature/|bug/)", "g"));
+    const isAutoBuildBranch = !R.isNil(process.env.bamboo_repository_git_branch)
+      && process.env.bamboo_repository_git_branch.match(new RegExp("(feature/|bugfix/|hotfix/)", "g"));
     const SELENIUM_PORT = process.env.bamboo_capability_Selenium || process.env.SELENIUM_PORT || 4444;
 
     //if skip tests then write empty skipped report
@@ -552,8 +563,8 @@ module.exports = function testTasks(gulp, context) {
       return;
     }
     //if not a bamboo feature/bug branch then run test_cover_no_cov_report and writeTestPackageCoverage
-    if (!isFeatureOrBugBranch) {
-      logger.info("Did not find a feature branch or bug branch");
+    if (!isAutoBuildBranch) {
+      logger.info("Did not find a feature branch, bug branch, hotfix branch");
       gulp.series(
         "test_cover_no_cov_report",
         function testCoverTask(cb) {
@@ -562,7 +573,7 @@ module.exports = function testTasks(gulp, context) {
       )();
       return;
     }
-    logger.info("Found a feature branch or bug branch");
+    logger.info("Found a feature branch, bug branch, hotfix branch");
 
     vasync.waterfall([
         function (callback) {
