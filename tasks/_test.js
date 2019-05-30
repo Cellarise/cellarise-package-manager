@@ -489,7 +489,7 @@ module.exports = function testTasks(gulp, context) {
     )(global[COVERAGE_VAR]);
 
 
-    return gulp.src(outputDir, {"read": false})
+    return gulp.src(outputDir, {"read": false, 'allowEmpty': true})
       .pipe(istanbul.writeReports({
         "dir": outputDir,
         "coverageVariable": COVERAGE_VAR,
@@ -605,7 +605,9 @@ module.exports = function testTasks(gulp, context) {
         if (R.isNil(jiraTestCases) || R.isNil(testPackagesFromContext)) {
           writeSkippedReport(() => {});
           return;
-        } else if (jiraTestCases.indexOf(testPackagesFromContext) === -1) {
+        }
+        const individualJiraTestCases = R.split(":", jiraTestCases);
+        if (!R.find((indTestCase) => testPackagesFromContext.indexOf(indTestCase) > -1, individualJiraTestCases)) {
           logger.info("Test cases found from Jira issue did not match text cases found from context");
           writeSkippedReport(() => {});
           return;
