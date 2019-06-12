@@ -613,6 +613,13 @@ module.exports = function testTasks(gulp, context) {
           return;
         }
 
+        individualJiraTestCases.forEach((testCase) => {
+          logger.info(testPackagesFromContext);
+          if (testPackagesFromContext.startsWith(testCase)) {
+            logger.info("This is a debug message that means that jira cases found in the context");
+          }
+        });
+
         process.env.YADDA_FEATURE_GLOB = jiraTestCases;
 
         const cwd = context.cwd;
