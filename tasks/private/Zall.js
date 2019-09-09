@@ -17,7 +17,6 @@ module.exports = function allTasks(gulp) {
    */
   gulp.task("all", gulp.series(
     "code_analysis",
-    "step_sync",
     "test_cover",
     "coverage_stats",
     "docs",

@@ -663,6 +663,7 @@ module.exports = function testTasks(gulp, context) {
 
       }, function (credentials, subscriptionId, websiteName, isExists, callback) {
         if (R.isNil(websiteName)) {
+          logger.info("Could not determine webapp environment name.");
           callback(null, "Could not determine webapp environment name.");
           return;
         }
@@ -693,6 +694,9 @@ module.exports = function testTasks(gulp, context) {
    * @return {through2} stream
    */
   gulp.task('delete_azure_env_for_jira_issue', () => {
+    if (process.env.bamboo_override === 'true') {
+      process.env.bamboo_repository_git_branch = "feature/..";
+    }
     const azureEnvironmentManager = require("../lib/utils/azureEnvironmentManager");
     vasync.waterfall([
       function(callback) {
@@ -715,10 +719,12 @@ module.exports = function testTasks(gulp, context) {
 
       }, function (credentials, subscriptionId, websiteName, isExists, callback) {
         if (R.isNil(websiteName)) {
+          logger.info("Could not determine webapp environment name.");
           callback(null, "Could not determine webapp environment name.");
           return;
         }
         if (!isExists) {
+          logger.info("Webapp environment has previously been deleted: " + websiteName);
           callback(null, "Webapp environment has previously been deleted: " + websiteName);
           return;
         }

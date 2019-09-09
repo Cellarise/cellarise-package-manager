@@ -1,4 +1,5 @@
 "use strict";
+var R = require('ramda');
 
 /**
  * A module to add gulp tasks which prepare the build package.
@@ -23,11 +24,13 @@ module.exports = function packageTasks(gulp, context) {
   gulp.task("package", function packageTask() {
     var pkg = context.package;
     var directories = pkg.directories;
-    var buildIgnoreArr;
+    var buildIgnoreArr, buildNodeModulesIgnoreArr;
     var BUILDIGNOREPATH = ".buildignore";
+    var BUILDNODEMODULESIGNOREPATH = ".buildnodemodulesignore";
     var sourcePaths = [
       //include all files and explicitly include '.' files
       "**/*",
+      ".npmrc",
       ".gitignore",
       ".eslintrc",
       ".eslintignore",
@@ -57,6 +60,14 @@ module.exports = function packageTasks(gulp, context) {
         "!Temp/**/*"
       ]);
     }
+    if (fs.existsSync(BUILDNODEMODULESIGNOREPATH)) {
+      buildNodeModulesIgnoreArr = fs.readFileSync(BUILDNODEMODULESIGNOREPATH).toString().split("\n");
+      buildNodeModulesIgnoreArr = _.map(buildNodeModulesIgnoreArr, function mapLine(line){ return "" + line; });
+      if (buildNodeModulesIgnoreArr.length > 0
+        && buildNodeModulesIgnoreArr[buildNodeModulesIgnoreArr.length - 1] === "") {
+        buildNodeModulesIgnoreArr = R.init(buildNodeModulesIgnoreArr);
+      }
+    }
     return gulp.src(sourcePaths, {"dot": true, "allowEmpty": true})
       .pipe(gulp.dest(directories.build))
       .on("end", function onEnd() {
@@ -67,6 +78,9 @@ module.exports = function packageTasks(gulp, context) {
             ".azurefunctions/swagger/swagger.json"
           ])
             .pipe(gulp.dest("Build/.azurefunctions/swagger"));
+        } else if (buildNodeModulesIgnoreArr) {
+          gulp.src(buildNodeModulesIgnoreArr, {"dot": true, "allowEmpty": false})
+            .pipe(gulp.dest(directories.build + "/node_modules"));
         } else {
           gulp.src([
             "pub-build/**/*.*"
