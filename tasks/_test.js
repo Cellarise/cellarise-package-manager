@@ -19,7 +19,7 @@ module.exports = function testTasks(gulp, context) {
   var fs = require("fs");
   var R = require("ramda");
   var istanbul = require("gulp-istanbul");
-  var babel = require("babel-core/register");
+  var babel = require("@babel/register");
   var logger = context.logger;
   var COVERAGE_VAR = "__cpmCoverage__";
 

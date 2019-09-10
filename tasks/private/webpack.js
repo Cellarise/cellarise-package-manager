@@ -133,22 +133,18 @@ module.exports = function webpackTasks(gulp, context) {
    * @return {through2} stream
    */
   gulp.task("webpackDevServer", function webpackDevServerTask() {
-    var NODE_MODULES_DIR = path.join(__dirname, "../../node_modules");
+    var NODE_MODULES_DIR = path.resolve(path.join(__dirname, "../../node_modules"));
     var logger = context.logger;
     var pkg = context.package;
     var cwd = context.cwd;
     var directories = pkg.directories;
     var webpackDevServer = require(path.join(cwd, directories.client + "/config/webpack.dev.server.js"));
     var webpackConfig = require(path.join(cwd, directories.client + "/config/webpack.config.dev.js"));
-    webpackConfig.resolveLoader = {"modulesDirectories": [NODE_MODULES_DIR]};
+    webpackConfig.resolve.modules = R.concat(webpackConfig.resolve.modules, [NODE_MODULES_DIR]);
+    webpackConfig.resolveLoader = {"modules": [NODE_MODULES_DIR, "node_modules"]};
     if (R.isNil(webpackConfig.entry.main)) {
       logger.error("Was expecting a 'main' entry point in the Webpack config");
     }
-    webpackConfig.entry.main = [
-      NODE_MODULES_DIR + '/webpack-dev-server/client?http://localhost:2999',
-      NODE_MODULES_DIR + '/webpack/hot/only-dev-server',
-      webpackConfig.entry.main
-    ];
 
     return webpackDevServer(webpackConfig).listen(2999, "localhost", function server(err) {
       if (err) {

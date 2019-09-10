@@ -26,6 +26,7 @@ module.exports = function webpackTasks(gulp, context) {
    * @return {through2} stream
    */
   var webpackRunner = function webpackRunner(configPath, webpackOptions) {
+    var NODE_MODULES_DIR = path.resolve(path.join(__dirname, "../../node_modules"));
     var logger = context.logger;
     var pkg = context.package;
     var cwd = context.cwd;
@@ -39,7 +40,7 @@ module.exports = function webpackTasks(gulp, context) {
       dest = webpackConfig.output.path;
     }
     //direct modules to this package node_modules
-    webpackConfig.resolveLoader = {"modulesDirectories": [path.join(__dirname, "../../node_modules")]};
+    webpackConfig.resolveLoader = {"modules": [NODE_MODULES_DIR]};
     webpackConfig = R.merge(webpackConfig, webpackOptions || {});
     return gulp
       .src(directories.client)

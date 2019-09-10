@@ -1,13 +1,17 @@
 #!/usr/bin/env node
 // /*eslint no-process-exit:0*/
 "use strict";
+var packageJSON;
+var context;
+var failed;
+var task;
 
 const argv = require("minimist")(process.argv.slice(2));
 const gulp = require("gulp");
 const path = require("path");
 const prettyTime = require("pretty-hrtime");
 const fs = require("fs");
-
+const v8 = require('v8');
 /**
  * Setup logger
  */
@@ -17,10 +21,9 @@ const logger = require("bunyan").createLogger({"name": "CGULP", "stream": format
 const chalk = require("chalk");
 
 const cwd = process.cwd();
-var packageJSON;
-var context;
-var failed;
-var task;
+const totalHeapSize = v8.getHeapStatistics().total_available_size;
+const totalHeapSizaInMB = (totalHeapSize / 1024 / 1024).toFixed(2);
+logger.info("Node Total Heap Size", totalHeapSizaInMB, "MB");
 
 /**
  * Format orchestrator errors
