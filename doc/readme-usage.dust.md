@@ -23,6 +23,13 @@ npm link
 ```
 Only 32bit versions of the following pre-requisites have been tested.
 
+### Override @babel/core
+To enable running babel from this package manager without requiring the local repository to install babel - 
+add the following code to line 99 in \node_modules\@babel\core\lib\config\files\plugins.js
+```
+  dirname = _path().default.resolve(_path().default.join(__dirname, "../../../../../.."));
+```
+
 ### Oauth config
 
 The `oauth` command runs the `oauth-rest-atlassian` package -an OAuth wrapper to authenticate and use the Atlassian REST API. The initial authorisation dance is managed through a local web page.  Follow the instructions from the [package readme](https://www.npmjs.org/package/oauth-rest-atlassian) to create a config.json and private key.  Save these files to the root of this package.

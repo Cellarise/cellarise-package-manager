@@ -9,4 +9,5 @@
 /config.json
 /*.log
 /Auto_Build/
-/node_modules
+/node_modules/*
+!/node_modules/@babel/core
