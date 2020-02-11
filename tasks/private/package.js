@@ -101,8 +101,8 @@ module.exports = function packageTasks(gulp, context) {
     var buildIgnore = fs.readFileSync(BUILDIGNOREPATH).toString();
     var gitIgnore = fs.readFileSync(GITIGNOREPATH)
       .toString()
-      .replace("/client/index.html\n", "")
-      .replace("/**/client/public/*.*\n", "");
+      .replace("/client/index.html", "")
+      .replace("/**/client/public/*.*", "");
     fs.writeFileSync(GITIGNOREPATH, gitIgnore + buildIgnore);
     return gulp.src([".gitignore"])
       .pipe(gulp.dest("Build"))
@@ -114,8 +114,8 @@ module.exports = function packageTasks(gulp, context) {
     var buildIgnore = fs.readFileSync(BUILDIGNOREPATH).toString();
     var gitIgnore = fs.readFileSync(GITIGNOREPATH)
       .toString()
-      .replace("/client/index.html\n", "")
-      .replace("/**/client/public/*.*\n", "");
+      .replace("/client/index.html", "")
+      .replace("/**/client/public/*.*", "");
     fs.writeFileSync(GITIGNOREPATH, gitIgnore + buildIgnore);
     return gulp.src([".gitignore"], {"dot": true})
       .pipe(gulp.dest("."));
