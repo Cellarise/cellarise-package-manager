@@ -100,7 +100,7 @@
     "azure-arm-datafactory": "^5.2.0",
     "azure-arm-resource": "^7.3.0",
     "azure-arm-website": "^5.7.0",
-    "azure-functions-core-tools": "^1.0.12",
+    "azure-functions-core-tools": "^2.7.3188",
     "babel-eslint": "^10.0.1",
     "babel-istanbul": "^0.8.0",
     "babel-loader": "^8.0.6",
